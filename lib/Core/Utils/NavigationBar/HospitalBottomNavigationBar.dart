@@ -49,10 +49,10 @@ class _HospitalBottomNavigationBarState
 
   // Using SVG asset names instead of Material Icons
   final List<Map<String, dynamic>> _navItems = [
-    {'icon': 'home', 'label': 'Home'},
-    {'icon': 'op', 'label': 'OP Workbench'},
-    {'icon': 'ip', 'label': 'IP Workbench'},
-    {'icon': 'notific', 'label': 'Notifications', 'badge': true},
+    {'icon': 'dashmenu', 'label': 'Dashboard'},
+    {'icon': 'onlinepaymenu', 'label': 'Online Payment'},
+    {'icon': 'investigationsmenu', 'label': 'Investigation'},
+    {'icon': 'emrmenu', 'label': 'EMR'},
   ];
 
   @override

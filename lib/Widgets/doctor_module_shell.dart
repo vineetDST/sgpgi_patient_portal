@@ -10,7 +10,7 @@ import 'package:qc_hospital/Screens/OP_IP_Workbench/workbench.dart'; // Tab 0: H
 import 'package:qc_hospital/Screens/OP/op_workbench.dart'; // Tab 1: OP Root
 import 'package:qc_hospital/Screens/IP/in_patient_screen.dart'; // Tab 2: IP Root
 // --- UPDATED: Import the actual notifications screen ---
-import 'package:qc_hospital/Screens/Notifications/notifications_screen.dart'; // Tab 3
+import 'package:qc_hospital/Screens/OP/q_actions/emr_screen.dart'; // Tab 3
 
 // Global key to allow cross-tab routing inside the Doctor module
 final GlobalKey<DoctorModuleShellState> doctorShellKey =
@@ -43,7 +43,11 @@ class DoctorModuleShellState extends State<DoctorModuleShell> {
     const Workbench(),
     const OpWorkbench(patientName: "", crn: ""), // Default empty OP root
     const InPatientScreen(),
-    const NotificationsScreen(), // --- UPDATED: Replaced placeholder ---
+    const EmrScreen(
+      patientName: "Anil",
+      crn: "2025000783",
+      mode: 'op',
+    ), // --- UPDATED: Replaced placeholder ---
   ];
 
   // Call this to switch tabs programmatically
@@ -81,8 +85,7 @@ class DoctorModuleShellState extends State<DoctorModuleShell> {
   Widget _getActiveDrawer() {
     if (_currentIndex == 1) {
       return const OpDrawer();
-    }
-    else if(_currentIndex == 2) {
+    } else if (_currentIndex == 2) {
       return const OpDrawer();
     }
     return AppWidgets.commonDrawer(context);

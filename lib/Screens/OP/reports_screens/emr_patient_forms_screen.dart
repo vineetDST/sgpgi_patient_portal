@@ -60,24 +60,24 @@ class _EmrPatientFormsScreenState extends State<EmrPatientFormsScreen> {
                     );
                   },
                 ),
-                const SizedBox(width: 8),
-                widget.mode == "op"
-                    ? _buildBlackButton(
-                        "Action",
-                        onTap: () {
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            useRootNavigator: true,
-                            backgroundColor: Colors.transparent,
-                            builder: (context) => OpActionBottomSheet(
-                              patientName: widget.patientName,
-                              crn: widget.crn,
-                            ),
-                          );
-                        },
-                      )
-                    : IPActionButton(),
+                // const SizedBox(width: 8),
+                // widget.mode == "op"
+                //     ? _buildBlackButton(
+                //         "Action",
+                //         onTap: () {
+                //           showModalBottomSheet(
+                //             context: context,
+                //             isScrollControlled: true,
+                //             useRootNavigator: true,
+                //             backgroundColor: Colors.transparent,
+                //             builder: (context) => OpActionBottomSheet(
+                //               patientName: widget.patientName,
+                //               crn: widget.crn,
+                //             ),
+                //           );
+                //         },
+                //       )
+                //     : IPActionButton(),
               ],
             ),
           ],

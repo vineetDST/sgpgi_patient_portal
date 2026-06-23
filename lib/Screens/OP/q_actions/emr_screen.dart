@@ -34,7 +34,6 @@ class EmrScreen extends StatefulWidget {
 }
 
 class _EmrScreenState extends State<EmrScreen> {
-
   int _activeTabIndex = 0;
 
   @override
@@ -44,7 +43,6 @@ class _EmrScreenState extends State<EmrScreen> {
     Widget content = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -94,24 +92,24 @@ class _EmrScreenState extends State<EmrScreen> {
                     // -------------------------------------------------------
                   },
                 ),
-                const SizedBox(width: 8),
-                widget.mode == "op"
-                    ? _buildBlackButton(
-                        "Action",
-                        onTap: () {
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            useRootNavigator: true,
-                            backgroundColor: Colors.transparent,
-                            builder: (context) => OpActionBottomSheet(
-                              patientName: widget.patientName,
-                              crn: widget.crn,
-                            ),
-                          );
-                        },
-                      )
-                    : IPActionButton(),
+                // const SizedBox(width: 8),
+                // widget.mode == "op"
+                //     ? _buildBlackButton(
+                //         "Action",
+                //         onTap: () {
+                //           showModalBottomSheet(
+                //             context: context,
+                //             isScrollControlled: true,
+                //             useRootNavigator: true,
+                //             backgroundColor: Colors.transparent,
+                //             builder: (context) => OpActionBottomSheet(
+                //               patientName: widget.patientName,
+                //               crn: widget.crn,
+                //             ),
+                //           );
+                //         },
+                //       )
+                //     : IPActionButton(),
               ],
             ),
           ],
@@ -129,8 +127,6 @@ class _EmrScreenState extends State<EmrScreen> {
       ],
     );
 
-
-
     if (widget.mode == "ip") {
       return IpBaseScaffold(
         title: "EMR",
@@ -144,7 +140,7 @@ class _EmrScreenState extends State<EmrScreen> {
     } else {
       return ClinicalBaseScaffold(
         title: "EMR",
-        showDrawer: false,
+        showDrawer: true,
         patientName: widget.patientName,
         crn: widget.crn,
         activeQuickAction: 'EMR',
@@ -283,7 +279,7 @@ class _EmrScreenState extends State<EmrScreen> {
             height: 14,
             color: Colors.grey.shade400,
           ),
-        )
+        ),
       ],
     );
   }

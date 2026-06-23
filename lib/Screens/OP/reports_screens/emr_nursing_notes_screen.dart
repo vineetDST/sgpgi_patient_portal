@@ -60,40 +60,43 @@ class _EmrNursingNotesScreenState extends State<EmrNursingNotesScreen> {
                     );
                   },
                 ),
-                const SizedBox(width: 8),
-                widget.mode == "op"
-                    ? _buildBlackButton(
-                        "Action",
-                        onTap: () {
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            useRootNavigator: true,
-                            backgroundColor: Colors.transparent,
-                            builder: (context) => OpActionBottomSheet(
-                              patientName: widget.patientName,
-                              crn: widget.crn,
-                            ),
-                          );
-                        },
-                      )
-                    : IPActionButton(),
+                // const SizedBox(width: 8),
+                // widget.mode == "op"
+                //     ? _buildBlackButton(
+                //         "Action",
+                //         onTap: () {
+                //           showModalBottomSheet(
+                //             context: context,
+                //             isScrollControlled: true,
+                //             useRootNavigator: true,
+                //             backgroundColor: Colors.transparent,
+                //             builder: (context) => OpActionBottomSheet(
+                //               patientName: widget.patientName,
+                //               crn: widget.crn,
+                //             ),
+                //           );
+                //         },
+                //       )
+                //     : IPActionButton(),
               ],
             ),
           ],
         ),
-        const SizedBox(height: 60),
+        const SizedBox(height: 20),
 
-        const Center(
-          child: Text(
-            "No Record for Current visit",
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.black87,
-              fontWeight: FontWeight.w500,
-            ),
+        SharedComponents.buildFormLabel("Nursing Notes"),
+        const SizedBox(height: 8),
+        _buildGreyTextArea("Patient Admitted", 100),
+        const SizedBox(height: 8),
+
+        Text(
+          "Post By : Admin on: 08-Jun-2026 12:00AM",
+          style: AppTextStyles.RegH3.copyWith(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
           ),
         ),
+
         const SizedBox(height: 20),
       ],
     );
@@ -137,6 +140,37 @@ class _EmrNursingNotesScreenState extends State<EmrNursingNotesScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildGreyTextArea(String text, double height) {
+    return Stack(
+      children: [
+        Container(
+          height: height,
+          width: double.infinity,
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: const Color(0xFFF8F9FA),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: Colors.grey.shade200),
+          ),
+          child: Text(
+            text,
+            style: const TextStyle(color: Colors.black54, fontSize: 13),
+          ),
+        ),
+        Positioned(
+          bottom: 12,
+          right: 12,
+          child: Image.asset(
+            'assets/txtarea.png',
+            width: 14,
+            height: 14,
+            color: Colors.grey.shade400,
+          ),
+        ),
+      ],
     );
   }
 }

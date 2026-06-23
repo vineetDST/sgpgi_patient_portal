@@ -4,7 +4,7 @@ import 'package:qc_hospital/Core/Utils/Appbar/op_appbar.dart';
 import 'package:qc_hospital/Widgets/doctor_module_shell.dart';
 import 'package:qc_hospital/Screens/OP/clinical_histories/shared_clinical_components.dart';
 
-class ClinicalBaseScaffold extends StatelessWidget {
+class ProfileBaseScaffold extends StatelessWidget {
   final String title;
   final bool showDrawer;
   final String patientName;
@@ -12,7 +12,7 @@ class ClinicalBaseScaffold extends StatelessWidget {
   final String activeQuickAction; // e.g., 'Op Consultant', 'Allergy', etc.
   final Widget child; // The specific content for the screen (SOAP, Forms, etc.)
 
-  const ClinicalBaseScaffold({
+  const ProfileBaseScaffold({
     super.key,
     required this.title,
     required this.showDrawer,
@@ -53,7 +53,7 @@ class ClinicalBaseScaffold extends StatelessWidget {
                 padding: EdgeInsets.only(
                   top:
                       appBarHeight +
-                      70, // Safely clears the AppBar and the Card
+                      100, // Safely clears the AppBar and the Card
                   left: 16,
                   right: 16,
                   bottom: 140, // Space for the bottom nav bar
@@ -105,11 +105,25 @@ class ClinicalBaseScaffold extends StatelessWidget {
                   80, // Adjust this single value to move it across all screens!
               left: 16,
               right: 16,
-              child: SharedComponents.buildPatientCard(
-                context,
-                screenWidth,
-                patientName,
-                crn,
+              child: Center(
+                child: Container(
+                  width: 130,
+                  height: 130,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.08),
+                        blurRadius: 15,
+                        offset: const Offset(0, 5),
+                      ),
+                    ],
+                    image: const DecorationImage(
+                      image: AssetImage("assets/a.png"), // Uses same asset
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
               ),
             ),
           ],

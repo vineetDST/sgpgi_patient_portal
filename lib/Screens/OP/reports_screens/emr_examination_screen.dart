@@ -166,24 +166,24 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                     );
                   },
                 ),
-                const SizedBox(width: 8),
-                widget.mode == "op"
-                    ? _buildBlackButton(
-                        "Action",
-                        onTap: () {
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            useRootNavigator: true,
-                            backgroundColor: Colors.transparent,
-                            builder: (context) => OpActionBottomSheet(
-                              patientName: widget.patientName,
-                              crn: widget.crn,
-                            ),
-                          );
-                        },
-                      )
-                    : IPActionButton(),
+                // const SizedBox(width: 8),
+                // widget.mode == "op"
+                //     ? _buildBlackButton(
+                //         "Action",
+                //         onTap: () {
+                //           showModalBottomSheet(
+                //             context: context,
+                //             isScrollControlled: true,
+                //             useRootNavigator: true,
+                //             backgroundColor: Colors.transparent,
+                //             builder: (context) => OpActionBottomSheet(
+                //               patientName: widget.patientName,
+                //               crn: widget.crn,
+                //             ),
+                //           );
+                //         },
+                //       )
+                //     : IPActionButton(),
               ],
             ),
           ],
@@ -467,28 +467,73 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
   // 2. LOCAL EXAMINATION TABLE (Constraint 2 & local.png)
   // =========================================================================
   Widget _buildLocalExamTable() {
-
-
-     return CustomExpansionFrame(
-         title: 'Local Examinaton', children: [
-              DetailTableWrapper(
-
-                  children: [
-                     DetailRow(label: 'Skip Examination',customWidget: SharedComponents.buildTextField(controller: TextEditingController(text: 'No'),isDense: true),),
-                    DetailRow(label: 'Vision',customWidget: SharedComponents.buildTextField(controller: TextEditingController(text: 'No'),isDense: true),),
-                    DetailRow(label: 'ENT/Oral Cravity',customWidget: SharedComponents.buildTextField(controller: TextEditingController(text: 'No'),isDense: true),),
-                    DetailRow(label: 'Breats',customWidget: SharedComponents.buildTextField(controller: TextEditingController(text: 'No'),isDense: true),),
-                    DetailRow(label: 'Axilla',customWidget: SharedComponents.buildTextField(controller: TextEditingController(text: 'No'),isDense: true),),
-                    DetailRow(label: 'Thyroid',customWidget: SharedComponents.buildTextField(controller: TextEditingController(text: 'No'),isDense: true),),
-                    DetailRow(label: 'Spin',customWidget: SharedComponents.buildTextField(controller: TextEditingController(text: 'No'),isDense: true),),
-                    DetailRow(label: 'Rip Cage',isLast: true,customWidget: SharedComponents.buildTextField(controller: TextEditingController(text: 'No'),isDense: true),),
-                  ]
+    return CustomExpansionFrame(
+      title: 'Local Examinaton',
+      children: [
+        DetailTableWrapper(
+          children: [
+            DetailRow(
+              label: 'Skip Examination',
+              customWidget: SharedComponents.buildTextField(
+                controller: TextEditingController(text: 'No'),
+                isDense: true,
               ),
-       const SizedBox(height: 16,)
-
-         ]
-
-     );
+            ),
+            DetailRow(
+              label: 'Vision',
+              customWidget: SharedComponents.buildTextField(
+                controller: TextEditingController(text: 'No'),
+                isDense: true,
+              ),
+            ),
+            DetailRow(
+              label: 'ENT/Oral Cravity',
+              customWidget: SharedComponents.buildTextField(
+                controller: TextEditingController(text: 'No'),
+                isDense: true,
+              ),
+            ),
+            DetailRow(
+              label: 'Breats',
+              customWidget: SharedComponents.buildTextField(
+                controller: TextEditingController(text: 'No'),
+                isDense: true,
+              ),
+            ),
+            DetailRow(
+              label: 'Axilla',
+              customWidget: SharedComponents.buildTextField(
+                controller: TextEditingController(text: 'No'),
+                isDense: true,
+              ),
+            ),
+            DetailRow(
+              label: 'Thyroid',
+              customWidget: SharedComponents.buildTextField(
+                controller: TextEditingController(text: 'No'),
+                isDense: true,
+              ),
+            ),
+            DetailRow(
+              label: 'Spin',
+              customWidget: SharedComponents.buildTextField(
+                controller: TextEditingController(text: 'No'),
+                isDense: true,
+              ),
+            ),
+            DetailRow(
+              label: 'Rip Cage',
+              isLast: true,
+              customWidget: SharedComponents.buildTextField(
+                controller: TextEditingController(text: 'No'),
+                isDense: true,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+      ],
+    );
   }
 
   // =========================================================================

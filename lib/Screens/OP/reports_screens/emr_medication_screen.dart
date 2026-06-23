@@ -11,6 +11,8 @@ import 'package:qc_hospital/Core/Utils/Sub_Screen/OP/op_action.dart';
 
 import 'package:qc_hospital/Screens/OP/clinical_histories/shared_clinical_components.dart';
 import 'package:qc_hospital/Screens/OP/reports_screens/emr_list_screen.dart';
+import 'package:qc_hospital/Core/Utils/Table/detail_row.dart';
+import 'package:qc_hospital/Core/Utils/Table/detail_row_wrapper.dart';
 
 class EmrMedicationScreen extends StatefulWidget {
   final String patientName;
@@ -66,41 +68,91 @@ class _EmrMedicationScreenState extends State<EmrMedicationScreen> {
                     );
                   },
                 ),
-                const SizedBox(width: 8),
-                widget.mode == "op"
-                    ? _buildBlackButton(
-                        "Action",
-                        onTap: () {
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            useRootNavigator: true,
-                            backgroundColor: Colors.transparent,
-                            builder: (context) => OpActionBottomSheet(
-                              patientName: widget.patientName,
-                              crn: widget.crn,
-                            ),
-                          );
-                        },
-                      )
-                    : IPActionButton(),
+                // const SizedBox(width: 8),
+                // widget.mode == "op"
+                //     ? _buildBlackButton(
+                //         "Action",
+                //         onTap: () {
+                //           showModalBottomSheet(
+                //             context: context,
+                //             isScrollControlled: true,
+                //             useRootNavigator: true,
+                //             backgroundColor: Colors.transparent,
+                //             builder: (context) => OpActionBottomSheet(
+                //               patientName: widget.patientName,
+                //               crn: widget.crn,
+                //             ),
+                //           );
+                //         },
+                //       )
+                //     : IPActionButton(),
               ],
             ),
           ],
         ),
-        const SizedBox(height: 60),
+        const SizedBox(height: 20),
 
-        const Center(
-          child: Text(
-            "No Record for Current visit",
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.black87,
-              fontWeight: FontWeight.w500,
+        const DetailTableWrapper(
+          children: [
+            DetailRow(
+              label: "Drug Name",
+              customWidget: Text(
+                "Aldopam 25 mg Inj 1 Drop for 0 Days",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
-          ),
+            DetailRow(
+              label: "In Take",
+              customWidget: Text(
+                "1",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            DetailRow(
+              label: "Total Qty",
+              customWidget: Text(
+                "0",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            DetailRow(
+              isLast: true,
+              label: "Ordered On",
+              customWidget: Text(
+                "08-Jun-2026",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            DetailRow(
+              isLast: true,
+              label: "Instruction",
+              customWidget: Text(
+                "08-10-2025",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ],
         ),
-
         const SizedBox(height: 20),
       ],
     );

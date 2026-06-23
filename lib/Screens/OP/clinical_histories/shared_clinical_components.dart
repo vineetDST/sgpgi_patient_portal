@@ -97,16 +97,21 @@ class SharedComponents {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     _rowInfo(
-                      "Patient Name",
-                      "Visit ID",
                       patientName,
+                      "Visit ID",
+                      crn,
                       "OP - 001",
                       isName: true,
                     ),
                     const Divider(height: 20, color: Color(0xFFF0F0F0)),
-                    _rowInfo("Patient ID", "Age / Gender", crn, "24 / Male"),
-                    const Divider(height: 20, color: Color(0xFFF0F0F0)),
-                    _rowInfo("Validity", "", "10-10-2026", ""),
+                    _rowInfo(
+                      "Mobile Number",
+                      "Age / Gender",
+                      "+91 67557 56787",
+                      "24 / Male",
+                    ),
+                    // const Divider(height: 20, color: Color(0xFFF0F0F0)),
+                    // _rowInfo("Validity", "", "10-10-2026", ""),
                   ],
                 ),
               ),
@@ -134,18 +139,20 @@ class SharedComponents {
                 label1,
                 style: const TextStyle(color: Colors.grey, fontSize: 11),
               ),
-              const SizedBox(height: 2),
+              const SizedBox(height: 10),
               Text(
                 val1,
                 style: TextStyle(
                   color: isName ? const Color(0xFF117A7A) : Colors.black,
                   fontWeight: FontWeight.bold,
-                  fontSize: 13,
+                  fontSize: 12,
                 ),
               ),
             ],
           ),
         ),
+        const SizedBox(width: 10),
+
         if (label2.isNotEmpty)
           Expanded(
             child: Column(
@@ -155,12 +162,12 @@ class SharedComponents {
                   label2,
                   style: const TextStyle(color: Colors.grey, fontSize: 11),
                 ),
-                const SizedBox(height: 2),
+                const SizedBox(height: 10),
                 Text(
                   val2,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 13,
+                    fontSize: 12,
                   ),
                 ),
               ],
@@ -371,6 +378,7 @@ class SharedComponents {
     bool enabled = true,
     Widget? suffix,
     bool isDense = false,
+    bool obscureText = false,
   }) {
     return Container(
       height: height,
@@ -385,6 +393,8 @@ class SharedComponents {
             controller: controller,
             maxLines: maxLines,
             keyboardType: keyboardType,
+            obscureText: obscureText,
+
             onChanged: (text) {
               // Agar maxLines set hai aur text ki lines maxLines se zyada ho rahi hain
               if (maxLines != 1 && '\n'.allMatches(text).length >= maxLines) {
@@ -421,15 +431,15 @@ class SharedComponents {
           ),
           maxLines >= 5
               ? Positioned(
-            bottom: 12,
-            right: 12,
-            child: Image.asset(
-              'assets/txtarea.png',
-              width: 14,
-              height: 14,
-              color: Colors.grey.shade400,
-            ),
-          )
+                  bottom: 12,
+                  right: 12,
+                  child: Image.asset(
+                    'assets/txtarea.png',
+                    width: 14,
+                    height: 14,
+                    color: Colors.grey.shade400,
+                  ),
+                )
               : const SizedBox.shrink(),
         ],
       ),
@@ -542,6 +552,39 @@ class SharedComponents {
               "Cancel",
               style: TextStyle(
                 color: Colors.black87,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  static Widget buildButtons(
+    BuildContext context, {
+    String title = "",
+    VoidCallback? onPressed,
+  }) {
+    return Column(
+      children: [
+        SizedBox(
+          width: double.infinity,
+          height: 48,
+          child: ElevatedButton(
+            onPressed: onPressed ?? () {},
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF117A7A),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
+              ),
+              elevation: 0,
+            ),
+            child: Text(
+              title != "" ? title : "Save",
+              style: const TextStyle(
+                color: Colors.white,
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),

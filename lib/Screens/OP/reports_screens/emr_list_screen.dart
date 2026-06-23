@@ -46,9 +46,13 @@ class EmrListScreen extends StatelessWidget {
       "Examination",
       "POMR",
       "Documents",
-      "Patient Forms",
-      "Infection Control",
-      "Visit Summary",
+      "Progress Notes",
+      "Nursing Notes",
+      "Discharge Summary",
+      "Surgical Procedure",
+      // "Patient Forms",
+      // "Infection Control",
+      // "Visit Summary",
     ];
 
     final List<String> ipFolders = [

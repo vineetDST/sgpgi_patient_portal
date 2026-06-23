@@ -9,6 +9,8 @@ import 'package:qc_hospital/Screens/OP/reports_screens/emr_list_screen.dart';
 import 'package:qc_hospital/Widgets/clinical_base_scaffold.dart';
 import 'package:qc_hospital/Core/Utils/Sub_Screen/OP/op_action.dart';
 import 'package:qc_hospital/Core/Utils/Sub_Screen/IP/ip_action_button.dart';
+import 'package:qc_hospital/Core/Utils/Table/detail_row.dart';
+import 'package:qc_hospital/Core/Utils/Table/detail_row_wrapper.dart';
 
 class EmrFluidBalanceScreen extends StatefulWidget {
   final String patientName;
@@ -63,39 +65,204 @@ class _EmrFluidBalanceScreenState extends State<EmrFluidBalanceScreen> {
                     );
                   },
                 ),
-                const SizedBox(width: 8),
-                widget.mode == "op"
-                    ? _buildBlackButton(
-                        "Action",
-                        onTap: () {
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            useRootNavigator: true,
-                            backgroundColor: Colors.transparent,
-                            builder: (context) => OpActionBottomSheet(
-                              patientName: widget.patientName,
-                              crn: widget.crn,
-                            ),
-                          );
-                        },
-                      )
-                    : IPActionButton(),
+                // const SizedBox(width: 8),
+                // widget.mode == "op"
+                //     ? _buildBlackButton(
+                //         "Action",
+                //         onTap: () {
+                //           showModalBottomSheet(
+                //             context: context,
+                //             isScrollControlled: true,
+                //             useRootNavigator: true,
+                //             backgroundColor: Colors.transparent,
+                //             builder: (context) => OpActionBottomSheet(
+                //               patientName: widget.patientName,
+                //               crn: widget.crn,
+                //             ),
+                //           );
+                //         },
+                //       )
+                //     : IPActionButton(),
               ],
             ),
           ],
         ),
-        const SizedBox(height: 60),
-
-        const Center(
-          child: Text(
-            "No Record for Current visit",
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.black87,
-              fontWeight: FontWeight.w500,
-            ),
+        const SizedBox(height: 30),
+        Text(
+          "Intake",
+          style: AppTextStyles.RegH3.copyWith(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
           ),
+        ),
+        const SizedBox(height: 20),
+
+        const DetailTableWrapper(
+          children: [
+            DetailRow(
+              label: "Intake Time",
+              customWidget: Text(
+                "08-Jun-2026 12:00 AM",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            DetailRow(
+              label: "Fluid",
+              customWidget: Text(
+                "NS",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            DetailRow(
+              label: "Route",
+              customWidget: Text(
+                "Intra-Arterial",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            DetailRow(
+              isLast: true,
+              label: "Volume (ml)",
+              customWidget: Text(
+                "10.0",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 30),
+        Text(
+          "Output",
+          style: AppTextStyles.RegH3.copyWith(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 20),
+
+        const DetailTableWrapper(
+          children: [
+            DetailRow(
+              label: "Time",
+              customWidget: Text(
+                "--",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            DetailRow(
+              label: "Fluid",
+              customWidget: Text(
+                "--",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            DetailRow(
+              label: "Route",
+              customWidget: Text(
+                "--",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            DetailRow(
+              isLast: true,
+              label: "Volume (ml)",
+              customWidget: Text(
+                "--",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 30),
+        Text(
+          "Total",
+          style: AppTextStyles.RegH3.copyWith(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 20),
+
+        const DetailTableWrapper(
+          children: [
+            DetailRow(
+              label: "Intake(ml)",
+              customWidget: Text(
+                "10.0",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            DetailRow(
+              label: "Output(ml)",
+              customWidget: Text(
+                "--",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            DetailRow(
+              label: "Net (ml)",
+              customWidget: Text(
+                "10.0",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            DetailRow(
+              isLast: true,
+              label: "Balance (ml)",
+              customWidget: Text(
+                "10.0",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ],
         ),
 
         const SizedBox(height: 20),
