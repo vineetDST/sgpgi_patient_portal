@@ -49,7 +49,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           SharedComponents.buildTextField(
             controller: _loginIdCtrl,
             hintText: "Enter the User Login Id",
-            readOnly: true,
+            keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 16),
 

@@ -138,53 +138,56 @@ class _EmrPomrScreenState extends State<EmrPomrScreen> {
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: Colors.grey.shade300),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 140,
-            decoration: BoxDecoration(
-              color: const Color(0xFFEAF9F9),
-              border: Border(right: BorderSide(color: Colors.grey.shade300)),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 140,
+              decoration: BoxDecoration(
+                color: const Color(0xFFEAF9F9),
+                border: Border(right: BorderSide(color: Colors.grey.shade300)),
+              ),
+              child: Column(
+                children: [
+                  _buildLeftCell("Problem Name", 60),
+                  _buildDivider(),
+                  _buildLeftCell("Evidence", 60),
+                  _buildDivider(),
+                  _buildLeftCell("Plan of Action", 60),
+                  _buildDivider(),
+                  _buildLeftCell("Problem Status", 60),
+                  _buildDivider(),
+                  _buildLeftCell("Onset Date", 60),
+                ],
+              ),
             ),
-            child: Column(
-              children: [
-                _buildLeftCell("Problem Name", 60),
-                _buildDivider(),
-                _buildLeftCell("Evidence", 60),
-                _buildDivider(),
-                _buildLeftCell("Plan of Action", 60),
-                _buildDivider(),
-                _buildLeftCell("Problem Status", 60),
-                _buildDivider(),
-                _buildLeftCell("Onset Date", 60),
-              ],
-            ),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: IntrinsicWidth(
-                child: SizedBox(
-                  width: 250,
-                  child: Column(
-                    children: [
-                      _buildRightTextCell("Test", 60),
-                      _buildDivider(),
-                      _buildRightTextCell("Nothing", 60),
-                      _buildDivider(),
-                      _buildRightTextCell("Null", 60),
-                      _buildDivider(),
-                      _buildRightPillCell("Active", 60),
-                      _buildDivider(),
-                      _buildRightTextCell("08-10-2025", 60),
-                    ],
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: IntrinsicWidth(
+                  child: SizedBox(
+                    width: 250,
+                    child: Column(
+                      children: [
+                        _buildRightTextCell("Test", 60),
+                        _buildDivider(),
+                        _buildRightTextCell("Nothing", 60),
+                        _buildDivider(),
+                        _buildRightTextCell("Null", 60),
+                        _buildDivider(),
+                        _buildRightPillCell("Active", 60),
+                        _buildDivider(),
+                        _buildRightTextCell("08-10-2025", 60),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -196,88 +196,91 @@ class _EmrPrevVitalSignsScreenState extends State<EmrPrevVitalSignsScreen> {
             borderRadius: BorderRadius.circular(8),
             border: Border.all(color: Colors.grey.shade300),
           ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: 140,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFEAF9F9),
-                  border: Border(
-                    right: BorderSide(color: Colors.grey.shade300),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 140,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFEAF9F9),
+                    border: Border(
+                      right: BorderSide(color: Colors.grey.shade300),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      _buildLeftCell("Date \u2192 Time", 60),
+                      _buildDivider(),
+                      _buildLeftCell("HEIGHT", 60),
+                      _buildDivider(),
+                      _buildLeftCell("WEIGHT", 60),
+                      _buildDivider(),
+                      _buildLeftCell("SYSTOLIC BP", 60),
+                      _buildDivider(),
+                      _buildLeftCell("DIASTOLIC BP", 60),
+                      _buildDivider(),
+                      _buildLeftCell("TEMP", 60),
+                      _buildDivider(),
+                      _buildLeftCell("SPO2", 60),
+                      _buildDivider(),
+                      _buildLeftCell("HEART RATE", 60),
+                      _buildDivider(),
+                      _buildLeftCell("BMI", 60),
+                    ],
                   ),
                 ),
-                child: Column(
-                  children: [
-                    _buildLeftCell("Date \u2192 Time", 60),
-                    _buildDivider(),
-                    _buildLeftCell("HEIGHT", 60),
-                    _buildDivider(),
-                    _buildLeftCell("WEIGHT", 60),
-                    _buildDivider(),
-                    _buildLeftCell("SYSTOLIC BP", 60),
-                    _buildDivider(),
-                    _buildLeftCell("DIASTOLIC BP", 60),
-                    _buildDivider(),
-                    _buildLeftCell("TEMP", 60),
-                    _buildDivider(),
-                    _buildLeftCell("SPO2", 60),
-                    _buildDivider(),
-                    _buildLeftCell("HEART RATE", 60),
-                    _buildDivider(),
-                    _buildLeftCell("BMI", 60),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: IntrinsicWidth(
-                    // 1. IntrinsicHeight lagaya taaki divider ko poori height mil sake
-                    child: IntrinsicHeight(
-                      child: Row(
-                        children: [
-                          _buildRightColumn(
-                            "08-10-2025",
-                            "17:20",
-                            "",
-                            "",
-                            "90",
-                            "70",
-                            "98",
-                            "",
-                            "",
-                            "14",
-                          ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: IntrinsicWidth(
+                      // 1. IntrinsicHeight lagaya taaki divider ko poori height mil sake
+                      child: IntrinsicHeight(
+                        child: Row(
+                          children: [
+                            _buildRightColumn(
+                              "08-10-2025",
+                              "17:20",
+                              "",
+                              "",
+                              "90",
+                              "70",
+                              "98",
+                              "",
+                              "",
+                              "14",
+                            ),
 
-                          // 2. Container ko hata kar VerticalDivider lagaya
-                          VerticalDivider(
-                            width: 1,
-                            thickness: 1,
-                            color: Colors.grey.shade300,
-                          ),
+                            // 2. Container ko hata kar VerticalDivider lagaya
+                            VerticalDivider(
+                              width: 1,
+                              thickness: 1,
+                              color: Colors.grey.shade300,
+                            ),
 
-                          _buildRightColumn(
-                            "09-10-2025",
-                            "10:00",
-                            "",
-                            "",
-                            "95",
-                            "75",
-                            "98.5",
-                            "",
-                            "",
-                            "14.5",
-                            isSecondCol: true,
-                          ),
-                          // Last column ke baad koi divider nahi hai, toh ye clean dikhega!
-                        ],
+                            _buildRightColumn(
+                              "09-10-2025",
+                              "10:00",
+                              "",
+                              "",
+                              "95",
+                              "75",
+                              "98.5",
+                              "",
+                              "",
+                              "14.5",
+                              isSecondCol: true,
+                            ),
+                            // Last column ke baad koi divider nahi hai, toh ye clean dikhega!
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ],

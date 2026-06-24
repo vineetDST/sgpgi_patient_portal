@@ -4,10 +4,15 @@ import 'package:flutter/services.dart';
 import 'package:qc_hospital/Core/Theme/app_color.dart';
 import 'package:qc_hospital/Core/Theme/app_text_style.dart';
 import 'package:qc_hospital/Core/Utils/Appbar/op_appbar.dart';
+import 'package:qc_hospital/Core/Utils/Check_Radio_Button/check_box.dart';
+import 'package:qc_hospital/Core/Utils/Dialog/remarks_dialog.dart';
+import 'package:qc_hospital/Core/Utils/Dialog/remarks_dialog2.dart';
 import 'package:qc_hospital/Core/Utils/Expansion/expansion_frame.dart';
 import 'package:qc_hospital/Core/Utils/NavigationBar/navigationbar.dart';
 import 'package:qc_hospital/Core/Utils/Table/detail_row.dart';
 import 'package:qc_hospital/Core/Utils/Table/detail_row_wrapper.dart';
+import 'package:qc_hospital/Core/Utils/Table/scrollable_table.dart';
+import 'package:qc_hospital/Core/Utils/Table/table_text.dart';
 import 'package:qc_hospital/Screens/IP/ip_base_scaffold.dart';
 import 'package:qc_hospital/Screens/OP/clinical_histories/shared_clinical_components.dart';
 import 'package:qc_hospital/Widgets/clinical_base_scaffold.dart';
@@ -343,125 +348,128 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
   Widget _buildPhysicalExamTable() {
     const double rowHeight = 64.0;
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // LEFT FIXED COLUMN
-        Container(
-          width: 150,
-          decoration: BoxDecoration(
-            color: const Color(0xFFEAF9F9),
-            border: Border(
-              right: BorderSide(color: Colors.grey.shade300),
-              top: BorderSide(color: Colors.grey.shade300),
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildLeftCell("General\nAppearance", rowHeight),
-              _buildLeftCell("Nutritional Status", rowHeight),
-              _buildLeftCell("ENT/Oral Cravity", rowHeight),
-              _buildLeftCell("Pallor", rowHeight),
-              _buildLeftCell("Jaundice", rowHeight),
-              _buildLeftCell("Cyanosis", rowHeight),
-              _buildLeftCell("Clubbing", rowHeight),
-              _buildLeftCell("JVP", rowHeight),
-              _buildLeftCell("Edema", rowHeight),
-              _buildLeftCell("Lymph Node", rowHeight, isLast: true),
-            ],
-          ),
-        ),
-
-        // RIGHT SCROLLABLE COLUMN
-        Expanded(
-          child: Container(
+    return ClipRRect(
+      borderRadius: BorderRadiusGeometry.only(bottomLeft: Radius.circular(8),bottomRight:  Radius.circular(8)),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // LEFT FIXED COLUMN
+          Container(
+            width: 150,
             decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border(top: BorderSide(color: Colors.grey.shade300)),
+              color: const Color(0xFFEAF9F9),
+              border: Border(
+                right: BorderSide(color: Colors.grey.shade300),
+                top: BorderSide(color: Colors.grey.shade300),
+              ),
             ),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildPhysicalRightCell(
-                    ["Normal", "Abnormal"],
-                    genApp,
-                    (val) => setState(() => genApp = val),
-                    rowHeight,
-                    _genAppRemController,
-                  ),
-                  _buildPhysicalRightCell(
-                    ["Good", "Adequate", "Reduced"],
-                    nutStatus,
-                    (val) => setState(() => nutStatus = val),
-                    rowHeight,
-                    _nutStatusRemController,
-                  ),
-                  _buildPhysicalRightCell(
-                    ["0", "+", "++", "+++"],
-                    ent,
-                    (val) => setState(() => ent = val),
-                    rowHeight,
-                    _entRemController,
-                  ),
-                  _buildPhysicalRightCell(
-                    ["No", "Yes"],
-                    pallor,
-                    (val) => setState(() => pallor = val),
-                    rowHeight,
-                    _pallorRemController,
-                  ),
-                  _buildPhysicalRightCell(
-                    ["No", "Yes"],
-                    jaundice,
-                    (val) => setState(() => jaundice = val),
-                    rowHeight,
-                    _jaundiceRemController,
-                  ),
-                  _buildPhysicalRightCell(
-                    ["No", "Yes"],
-                    cyanosis,
-                    (val) => setState(() => cyanosis = val),
-                    rowHeight,
-                    _cyanosisRemController,
-                  ),
-                  _buildPhysicalRightCell(
-                    ["No", "Yes"],
-                    clubbing,
-                    (val) => setState(() => clubbing = val),
-                    rowHeight,
-                    _clubbingRemController,
-                  ),
-                  _buildPhysicalRightCell(
-                    ["No", "Yes"],
-                    jvp,
-                    (val) => setState(() => jvp = val),
-                    rowHeight,
-                    _jvpRemController,
-                  ),
-                  _buildPhysicalRightCell(
-                    ["No", "Yes"],
-                    edema,
-                    (val) => setState(() => edema = val),
-                    rowHeight,
-                    _edemaRemController,
-                  ),
-                  _buildPhysicalRightCell(
-                    ["No", "Yes"],
-                    lymphNode,
-                    (val) => setState(() => lymphNode = val),
-                    rowHeight,
-                    _lymphNodeRemController,
-                    isLast: true,
-                  ),
-                ],
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildLeftCell("General\nAppearance", rowHeight),
+                _buildLeftCell("Nutritional Status", rowHeight),
+                _buildLeftCell("ENT/Oral Cravity", rowHeight),
+                _buildLeftCell("Pallor", rowHeight),
+                _buildLeftCell("Jaundice", rowHeight),
+                _buildLeftCell("Cyanosis", rowHeight),
+                _buildLeftCell("Clubbing", rowHeight),
+                _buildLeftCell("JVP", rowHeight),
+                _buildLeftCell("Edema", rowHeight),
+                _buildLeftCell("Lymph Node", rowHeight, isLast: true),
+              ],
+            ),
+          ),
+      
+          // RIGHT SCROLLABLE COLUMN
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border(top: BorderSide(color: Colors.grey.shade300)),
+              ),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildPhysicalRightCell(
+                      ["Normal", "Abnormal"],
+                      genApp,
+                      (val) => setState(() => genApp = val),
+                      rowHeight,
+                      _genAppRemController,
+                    ),
+                    _buildPhysicalRightCell(
+                      ["Good", "Adequate", "Reduced"],
+                      nutStatus,
+                      (val) => setState(() => nutStatus = val),
+                      rowHeight,
+                      _nutStatusRemController,
+                    ),
+                    _buildPhysicalRightCell(
+                      ["0", "+", "++", "+++"],
+                      ent,
+                      (val) => setState(() => ent = val),
+                      rowHeight,
+                      _entRemController,
+                    ),
+                    _buildPhysicalRightCell(
+                      ["No", "Yes"],
+                      pallor,
+                      (val) => setState(() => pallor = val),
+                      rowHeight,
+                      _pallorRemController,
+                    ),
+                    _buildPhysicalRightCell(
+                      ["No", "Yes"],
+                      jaundice,
+                      (val) => setState(() => jaundice = val),
+                      rowHeight,
+                      _jaundiceRemController,
+                    ),
+                    _buildPhysicalRightCell(
+                      ["No", "Yes"],
+                      cyanosis,
+                      (val) => setState(() => cyanosis = val),
+                      rowHeight,
+                      _cyanosisRemController,
+                    ),
+                    _buildPhysicalRightCell(
+                      ["No", "Yes"],
+                      clubbing,
+                      (val) => setState(() => clubbing = val),
+                      rowHeight,
+                      _clubbingRemController,
+                    ),
+                    _buildPhysicalRightCell(
+                      ["No", "Yes"],
+                      jvp,
+                      (val) => setState(() => jvp = val),
+                      rowHeight,
+                      _jvpRemController,
+                    ),
+                    _buildPhysicalRightCell(
+                      ["No", "Yes"],
+                      edema,
+                      (val) => setState(() => edema = val),
+                      rowHeight,
+                      _edemaRemController,
+                    ),
+                    _buildPhysicalRightCell(
+                      ["No", "Yes"],
+                      lymphNode,
+                      (val) => setState(() => lymphNode = val),
+                      rowHeight,
+                      _lymphNodeRemController,
+                      isLast: true,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -549,7 +557,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
+
         border: Border(
           bottom: isLast
               ? BorderSide.none
@@ -687,80 +695,274 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
   // =========================================================================
   // TAB 2: SYSTEMIC EXAMINATION (READ-ONLY)
   // =========================================================================
+  // Widget _buildSystemicExaminationTab() {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       Container(
+  //         decoration: BoxDecoration(
+  //           color: Colors.white,
+  //           borderRadius: BorderRadius.circular(8),
+  //           border: Border.all(color: Colors.grey.shade300),
+  //         ),
+  //         child: ClipRRect(
+  //           borderRadius: BorderRadius.circular(8),
+  //           child: Row(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: [
+  //               // Left Fixed Labels (Inverted Table Layout)
+  //               Container(
+  //                 width: 140,
+  //                 decoration: BoxDecoration(
+  //
+  //                   color: const Color(0xFFEAF9F9),
+  //                   border: Border(
+  //                     right: BorderSide(color: Colors.grey.shade300),
+  //                   ),
+  //                 ),
+  //                 child: Column(
+  //                   children: [
+  //                     _buildLeftCell("Systems", 65),
+  //                     _buildDivider(),
+  //                     _buildLeftCell("NAD", 65),
+  //                     _buildDivider(),
+  //                     _buildLeftCell("Findings", 65),
+  //                     _buildDivider(),
+  //                     _buildLeftCell("Full Examination", 65,isLast: true),
+  //                   ],
+  //                 ),
+  //               ),
+  //               // Right Scrollable System Columns
+  //               Expanded(
+  //                 child: SingleChildScrollView(
+  //                   scrollDirection: Axis.horizontal,
+  //                   child: IntrinsicWidth(
+  //                     child: Row(
+  //                       // 1. .map() ki jagah List.generate ka use kiya index-based tracking ke liye
+  //                       children: List.generate(systemicColumns.length, (index) {
+  //                         final sys = systemicColumns[index];
+  //                         bool isLast = index == systemicColumns.length - 1;
+  //
+  //                         // 2. IntrinsicHeight lagane se divider line ko poori height mil jayegi
+  //                         return IntrinsicHeight(
+  //                           child: Row(
+  //                             children: [
+  //                               _buildSystemicCol(sys, 65),
+  //
+  //                               // 3. Agar last item nahi hai toh proper VerticalDivider dikhao
+  //                               if (!isLast)
+  //                                 VerticalDivider(
+  //                                   width: 1, // Line ka padding area
+  //                                   thickness: 1, // Line ki motai
+  //                                   color: Colors.grey.shade300, // Line ka color
+  //                                 ),
+  //                             ],
+  //                           ),
+  //                         );
+  //                       }),
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
+
+  bool _action_a = false;
+  bool _action_b = false;
+  bool _action_c = false;
+  bool _action_d = false;
+  bool _action_e = false;
+  bool _action_f = false;
+  bool _action_g = false;
+  bool _action_h = false;
+  bool _action_i = false;
+  bool _action_j = false;
+  final List<TextEditingController> _remarkControllers = List.generate(
+    10,
+        (_) => TextEditingController(),
+  );
+
+  final Map<String, Widget Function(String, String)> _screenRoutes = {
+    "Nervous System": (p, c) => NervousSystemScreen(patientName: p, crn: c),
+    "Respiratory System": (p, c) => RespiratorySystemScreen(patientName: p, crn: c),
+    "Circulatory System": (p, c) => CirculatorySystemScreen(patientName: p, crn: c),
+    "Digestive System": (p, c) => DigestiveSystemScreen(patientName: p, crn: c),
+    "Endocrine System": (p, c) => EndocrineSystemScreen(patientName: p, crn: c),
+    "Immune System": (p, c) => ImmuneSystemScreen(patientName: p, crn: c),
+    "Muscloskeletel System": (p, c) => MusculoskeletalSystemScreen(patientName: p, crn: c),
+    "Urinary / Reproductive System": (p, c) => ReproductiveSystemScreen(patientName: p, crn: c),
+    "Eye": (p, c) => EyeSystemScreen(patientName: p, crn: c),
+    "Nervous System": (p, c) => NervousSystemScreen(patientName: p, crn: c),
+  };
   Widget _buildSystemicExaminationTab() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Colors.grey.shade300),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Left Fixed Labels (Inverted Table Layout)
-              Container(
-                width: 140,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: const Color(0xFFEAF9F9),
-                  border: Border(
-                    right: BorderSide(color: Colors.grey.shade300),
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    _buildLeftCell("Systems", 65),
-                    _buildDivider(),
-                    _buildLeftCell("NAD", 65),
-                    _buildDivider(),
-                    _buildLeftCell("Findings", 65),
-                    _buildDivider(),
-                    _buildLeftCell("Full Examination", 65),
-                  ],
-                ),
-              ),
-              // Right Scrollable System Columns
-              Expanded(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: IntrinsicWidth(
-                    child: Row(
-                      // 1. .map() ki jagah List.generate ka use kiya index-based tracking ke liye
-                      children: List.generate(systemicColumns.length, (index) {
-                        final sys = systemicColumns[index];
-                        bool isLast = index == systemicColumns.length - 1;
+    return ScrollableDataTable(
+        labels: [
+          'Systems',
+          'NAD',
+          'Findings',
+          'Full Examination',
 
-                        // 2. IntrinsicHeight lagane se divider line ko poori height mil jayegi
-                        return IntrinsicHeight(
-                          child: Row(
-                            children: [
-                              _buildSystemicCol(sys, 65),
+        ],
+        rowValues: [
+          [
+            TableText('Nervous System'),
+            TableText('Nervous System'),
+            TableText('Nervous System'),
+            TableText('Nervous System'),
+            TableText('Nervous System'),
+            TableText('Nervous System'),
+            TableText('Nervous System'),
+            TableText('Nervous System'),
+            TableText('Nervous System'),
+            TableText('Nervous System'),
 
-                              // 3. Agar last item nahi hai toh proper VerticalDivider dikhao
-                              if (!isLast)
-                                VerticalDivider(
-                                  width: 1, // Line ka padding area
-                                  thickness: 1, // Line ki motai
-                                  color: Colors.grey.shade300, // Line ka color
-                                ),
-                            ],
-                          ),
-                        );
-                      }),
+          ],
+          [
+            GlobalCheckbox(
+              label: '', // Label blank hai kyunki hum text par alag action chahte hain
+              value: _action_a,
+              onChanged: (bool newValue) {
+                setState(() {
+                  // Jis specific index par click hua hai, sirf uski value update hogi
+                  _action_a = newValue;
+                });
+              },
+            ),
+            GlobalCheckbox(
+              label: '', // Label blank hai kyunki hum text par alag action chahte hain
+              value: _action_b,
+              onChanged: (bool newValue) {
+                setState(() {
+                  // Jis specific index par click hua hai, sirf uski value update hogi
+                  _action_b = newValue;
+                });
+              },
+            ),
+            GlobalCheckbox(
+              label: '', // Label blank hai kyunki hum text par alag action chahte hain
+              value: _action_c,
+              onChanged: (bool newValue) {
+                setState(() {
+                  // Jis specific index par click hua hai, sirf uski value update hogi
+                  _action_c = newValue;
+                });
+              },
+            ),
+            GlobalCheckbox(
+              label: '', // Label blank hai kyunki hum text par alag action chahte hain
+              value: _action_d,
+              onChanged: (bool newValue) {
+                setState(() {
+                  // Jis specific index par click hua hai, sirf uski value update hogi
+                  _action_d = newValue;
+                });
+              },
+            ),
+            GlobalCheckbox(
+              label: '', // Label blank hai kyunki hum text par alag action chahte hain
+              value: _action_e,
+              onChanged: (bool newValue) {
+                setState(() {
+                  // Jis specific index par click hua hai, sirf uski value update hogi
+                  _action_e = newValue;
+                });
+              },
+            ),
+            GlobalCheckbox(
+              label: '', // Label blank hai kyunki hum text par alag action chahte hain
+              value: _action_f,
+              onChanged: (bool newValue) {
+                setState(() {
+                  // Jis specific index par click hua hai, sirf uski value update hogi
+                  _action_f = newValue;
+                });
+              },
+            ),
+            GlobalCheckbox(
+              label: '', // Label blank hai kyunki hum text par alag action chahte hain
+              value: _action_g,
+              onChanged: (bool newValue) {
+                setState(() {
+                  // Jis specific index par click hua hai, sirf uski value update hogi
+                  _action_g = newValue;
+                });
+              },
+            ),
+            GlobalCheckbox(
+              label: '', // Label blank hai kyunki hum text par alag action chahte hain
+              value: _action_h,
+              onChanged: (bool newValue) {
+                setState(() {
+                  // Jis specific index par click hua hai, sirf uski value update hogi
+                  _action_h = newValue;
+                });
+              },
+            ),
+            GlobalCheckbox(
+              label: '', // Label blank hai kyunki hum text par alag action chahte hain
+              value: _action_i,
+              onChanged: (bool newValue) {
+                setState(() {
+                  // Jis specific index par click hua hai, sirf uski value update hogi
+                  _action_i = newValue;
+                });
+              },
+            ),
+            GlobalCheckbox(
+              label: '', // Label blank hai kyunki hum text par alag action chahte hain
+              value: _action_j,
+              onChanged: (bool newValue) {
+                setState(() {
+                  // Jis specific index par click hua hai, sirf uski value update hogi
+                  _action_j = newValue;
+                });
+              },
+            ),
+
+          ],
+
+          [
+          ..._remarkControllers.map((controller) => _buildInputCell(controller, isNumeric: true,hint: 'Remarks')).toList()
+          ],
+          [
+            ...systemicColumns.map((sys) {
+              return InkWell(
+                onTap: () {
+                  // 1. Map se function nikalenge, agar nahi mila toh default Nervous System
+                  final screenBuilder = _screenRoutes[sys] ??
+                          (p, c) => NervousSystemScreen(patientName: p, crn: c);
+
+                  // 2. Navigation
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => screenBuilder(widget.patientName, widget.crn),
+                    ),
+                  );
+                },
+                child: Container(
+                  height: 65, // Note: height variable defined hona chahiye
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.symmetric(horizontal: 0),
+                  child: const Text(
+                    "Details",
+                    style: TextStyle(
+                      color: Color(0xFF117A7A),
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
+              );
+            }).toList(),
+          ]
+        ]);
   }
-
   Widget _buildSystemicCol(String sys, double height) {
     return SizedBox(
       width: 200,
@@ -1069,6 +1271,77 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildInputCell(
+      TextEditingController ctrl, {
+        bool isNumeric = false,
+        String hint = "",
+        bool isLast = false,
+      }) {
+    return Container(
+      height: 64,
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 12),
+
+      child: GestureDetector(
+        // --- ADDED: Triggers Remarks Modal ---
+        onTap: hint == "Remarks"
+            ? () async {
+          await RemarksDialog.show(
+            context,
+            ctrl,
+            title: "Remarks",
+            hintText: "Remarks",
+          );
+
+          setState(() {}); // dialog close hone ke baad UI refresh
+        }
+            : null,
+        child: Container(
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey.shade300),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Stack(
+            children:[
+              TextField(
+                controller: ctrl,
+                keyboardType: isNumeric ? TextInputType.number : TextInputType.text,
+                textAlign: TextAlign.left, // ✅ always left aligned
+                textAlignVertical: TextAlignVertical.center,
+                style: const TextStyle(fontSize: 12, height: 1.2),
+                readOnly: hint == "Remarks",
+                onTap: hint == "Remarks"
+                    ? () async {
+                  await RemarksDialog.show(
+                    context,
+                    ctrl,
+                    title: "Remarks",
+                    hintText: "Remarks",
+                  );
+
+                  setState(() {}); // dialog close hone ke baad UI refresh
+                }
+                    : null,
+                decoration: InputDecoration(
+                  hintText: hint,
+                  hintStyle: TextStyle(fontSize: 11, color: Colors.grey.shade400),
+                  border: InputBorder.none,
+                  isCollapsed: true,
+
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 12,
+                  ),
+                ),
+              ),
+
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

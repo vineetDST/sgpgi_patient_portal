@@ -128,7 +128,7 @@ class _EmrMedicationScreenState extends State<EmrMedicationScreen> {
               ),
             ),
             DetailRow(
-              isLast: true,
+
               label: "Ordered On",
               customWidget: Text(
                 "08-Jun-2026",

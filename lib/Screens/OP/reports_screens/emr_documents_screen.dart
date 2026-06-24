@@ -142,49 +142,52 @@ class _EmrDocumentsScreenState extends State<EmrDocumentsScreen> {
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: Colors.grey.shade300),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 140,
-            decoration: BoxDecoration(
-              color: const Color(0xFFEAF9F9),
-              border: Border(right: BorderSide(color: Colors.grey.shade300)),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 140,
+              decoration: BoxDecoration(
+                color: const Color(0xFFEAF9F9),
+                border: Border(right: BorderSide(color: Colors.grey.shade300)),
+              ),
+              child: Column(
+                children: [
+                  _buildLeftCell("Document Name", 60),
+                  _buildDivider(),
+                  _buildLeftCell("File Name", 60),
+                  _buildDivider(),
+                  _buildLeftCell("Document Type", 60),
+                  _buildDivider(),
+                  _buildLeftCell("Action", 60),
+                ],
+              ),
             ),
-            child: Column(
-              children: [
-                _buildLeftCell("Document Name", 60),
-                _buildDivider(),
-                _buildLeftCell("File Name", 60),
-                _buildDivider(),
-                _buildLeftCell("Document Type", 60),
-                _buildDivider(),
-                _buildLeftCell("Action", 60),
-              ],
-            ),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: IntrinsicWidth(
-                child: SizedBox(
-                  width: 250,
-                  child: Column(
-                    children: [
-                      _buildRightTextCell("Health Report", 60),
-                      _buildDivider(),
-                      _buildRightTextCell("Health Report", 60),
-                      _buildDivider(),
-                      _buildRightTextCell("PDF", 60),
-                      _buildDivider(),
-                      _buildRightActionCell(60),
-                    ],
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: IntrinsicWidth(
+                  child: SizedBox(
+                    width: 250,
+                    child: Column(
+                      children: [
+                        _buildRightTextCell("Health Report", 60),
+                        _buildDivider(),
+                        _buildRightTextCell("Health Report", 60),
+                        _buildDivider(),
+                        _buildRightTextCell("PDF", 60),
+                        _buildDivider(),
+                        _buildRightActionCell(60),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

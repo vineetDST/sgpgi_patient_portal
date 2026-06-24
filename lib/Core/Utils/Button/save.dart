@@ -6,6 +6,7 @@ class AppSaveButton extends StatelessWidget {
   final Color backgroundColor;
   final Color textColor;
   final bool isFullWidth;
+  final double size ;
 
   const AppSaveButton({
     super.key,
@@ -14,6 +15,7 @@ class AppSaveButton extends StatelessWidget {
     this.backgroundColor = const Color(0xFF117A7A), // Default Teal color
     this.textColor = Colors.white, // Default White text
     this.isFullWidth = true, // Default double.infinity width
+    this.size = 16,
   });
 
   @override
@@ -37,7 +39,7 @@ class AppSaveButton extends StatelessWidget {
           text,
           style: TextStyle(
             color: textColor,
-            fontSize: 16,
+            fontSize: size,
             fontWeight: FontWeight.w600,
           ),
         ),

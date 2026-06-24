@@ -517,47 +517,50 @@ class _EmrInvestigationScreenState extends State<EmrInvestigationScreen> {
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: Colors.grey.shade300),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Left Fixed Column
-          Container(
-            width: leftWidth,
-            decoration: BoxDecoration(
-              color: const Color(0xFFEAF9F9),
-              border: Border(right: BorderSide(color: Colors.grey.shade300)),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Left Fixed Column
+            Container(
+              width: leftWidth,
+              decoration: BoxDecoration(
+                color: const Color(0xFFEAF9F9),
+                border: Border(right: BorderSide(color: Colors.grey.shade300)),
+              ),
+              child: Column(
+                children: labels.map((label) {
+                  return Column(
+                    children: [
+                      _buildLeftCell(label, rowHeight),
+                      if (label != labels.last) _buildDivider(),
+                    ],
+                  );
+                }).toList(),
+              ),
             ),
-            child: Column(
-              children: labels.map((label) {
-                return Column(
-                  children: [
-                    _buildLeftCell(label, rowHeight),
-                    if (label != labels.last) _buildDivider(),
-                  ],
-                );
-              }).toList(),
-            ),
-          ),
-          // Right Scrollable Column
-          Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: IntrinsicWidth(
-                child: Row(
-                  children: rightCols.map((col) {
-                    return Row(
-                      children: [
-                        col,
-                        if (col != rightCols.last)
-                          Container(width: 1, color: Colors.grey.shade300),
-                      ],
-                    );
-                  }).toList(),
+            // Right Scrollable Column
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: IntrinsicWidth(
+                  child: Row(
+                    children: rightCols.map((col) {
+                      return Row(
+                        children: [
+                          col,
+                          if (col != rightCols.last)
+                            Container(width: 1, color: Colors.grey.shade300),
+                        ],
+                      );
+                    }).toList(),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

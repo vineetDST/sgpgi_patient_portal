@@ -140,52 +140,55 @@ class _EmrSurgicalProcedureScreenState
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: Colors.grey.shade300),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 140,
-            decoration: BoxDecoration(
-              color: const Color(0xFFEAF9F9),
-              border: Border(right: BorderSide(color: Colors.grey.shade300)),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 140,
+              decoration: BoxDecoration(
+                color: const Color(0xFFEAF9F9),
+                border: Border(right: BorderSide(color: Colors.grey.shade300)),
+              ),
+              child: Column(
+                children: [
+                  _buildLeftCell("Request Details", 75),
+                  _buildDivider(),
+                  _buildLeftCell("Surgery Details", 60),
+                  _buildDivider(),
+                  _buildLeftCell("Status", 60),
+                  _buildDivider(),
+                  _buildLeftCell("PAC Status", 60),
+                ],
+              ),
             ),
-            child: Column(
-              children: [
-                _buildLeftCell("Request Details", 75),
-                _buildDivider(),
-                _buildLeftCell("Surgery Details", 60),
-                _buildDivider(),
-                _buildLeftCell("Status", 60),
-                _buildDivider(),
-                _buildLeftCell("PAC Status", 60),
-              ],
-            ),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: IntrinsicWidth(
-                child: SizedBox(
-                  width: 250,
-                  child: Column(
-                    children: [
-                      _buildRightRequestDetails(75),
-                      _buildDivider(),
-                      _buildRightTextCell(
-                        "Permanent Pacemaker Implantation",
-                        60,
-                      ),
-                      _buildDivider(),
-                      _buildRightTextCell("Settled", 60),
-                      _buildDivider(),
-                      _buildRightYellowPillCell("Pending", 60),
-                    ],
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: IntrinsicWidth(
+                  child: SizedBox(
+                    width: 250,
+                    child: Column(
+                      children: [
+                        _buildRightRequestDetails(75),
+                        _buildDivider(),
+                        _buildRightTextCell(
+                          "Permanent Pacemaker Implantation",
+                          60,
+                        ),
+                        _buildDivider(),
+                        _buildRightTextCell("Settled", 60),
+                        _buildDivider(),
+                        _buildRightYellowPillCell("Pending", 60),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

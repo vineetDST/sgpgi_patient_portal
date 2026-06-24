@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
 class TableLabel {
-  final String text;
+  final String? text; // Ise optional nullable banaya hai
   final IconData? icon;
+  final Widget? customWidget; // 🔥 NAYA: Custom widget ke liye
 
-  const TableLabel({required this.text, this.icon});
+  const TableLabel({
+    this.text,
+    this.icon,
+    this.customWidget,
+  }) : assert(text != null || customWidget != null, 'Ya toh text pass karein ya customWidget');
 }
 
 class ScrollableDataTable extends StatefulWidget {
@@ -14,9 +19,10 @@ class ScrollableDataTable extends StatefulWidget {
   final double rowHeight;
   final double leftColumnWidth;
   final double dataColumnWidth;
-
-  // 🔥 Naya parameter pagination ko on/off karne ke liye
   final bool showPagination;
+
+  // 🔥 NAYA FLAG: First row ko header ki tarah style karne ke liye
+  final bool isFirstRowHeader;
 
   const ScrollableDataTable({
     super.key,
@@ -26,8 +32,8 @@ class ScrollableDataTable extends StatefulWidget {
     this.rowHeight = 64.0,
     this.leftColumnWidth = 140.0,
     this.dataColumnWidth = 160.0,
-    this.showPagination =
-        false, // Default false rakha hai taaki har jagah na dikhe
+    this.showPagination = false,
+    this.isFirstRowHeader = false, // Default false, taaki baaki jagah effect na ho
   });
 
   @override
@@ -52,7 +58,7 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
 
   @override
   Widget build(BuildContext context) {
-    final currentLabels = _actualLabels; // 🔥 Is variable ko use karenge
+    final currentLabels = _actualLabels;
 
     return Container(
       decoration: BoxDecoration(
@@ -71,35 +77,49 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
                 // ==========================================
                 // 1. LEFT FIXED COLUMN
                 // ==========================================
+                // ==========================================
+// 1. LEFT FIXED COLUMN
+// ==========================================
                 Container(
                   width: widget.leftColumnWidth,
                   decoration: const BoxDecoration(color: Color(0xFFF0F8F8)),
                   child: Column(
                     children: List.generate(currentLabels.length, (index) {
+
+                      // 🔥 Check agar ye first row hai aur flag true hai
+                      bool isHeader = widget.isFirstRowHeader && index == 0;
+                      final currentLabel = currentLabels[index];
+
                       return _buildCell(
                         width: widget.leftColumnWidth,
                         isLastRow: index == currentLabels.length - 1,
-                        child: Row(
+                        bgColor: isHeader ? const Color(0xFF117A7A) : null,
+                        borderColor: isHeader ? Colors.white : Colors.grey.shade300,
+                        child: currentLabel.customWidget != null
+                        // 🔥 AGAR CUSTOM WIDGET HAI TOH DIRECT USKO DIKHAO
+                            ? currentLabel.customWidget!
+                        // 🔥 WARNA PURANA TEXT + ICON LOGIC DIKHAO
+                            : Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Flexible(
                               child: Text(
-                                currentLabels[index].text, // 🔥 Yahan use kiya
+                                currentLabel.text ?? '',
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 14,
-                                  color: Colors.black87,
+                                  color: isHeader ? Colors.white : Colors.black87,
                                 ),
                               ),
                             ),
-                            if (currentLabels[index].icon != null) ...[
+                            if (currentLabel.icon != null) ...[
                               const SizedBox(width: 4),
                               Icon(
-                                currentLabels[index].icon,
+                                currentLabel.icon,
                                 size: 16,
-                                color: Colors.black87,
+                                color: isHeader ? Colors.white : Colors.black87,
                               ),
                             ],
                           ],
@@ -112,8 +132,6 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
                 // ==========================================
                 // 2. RIGHT SCROLLABLE AREA
                 // ==========================================
-                // ==========================================
-
                 Expanded(
                   child: SingleChildScrollView(
                     controller: _scrollController,
@@ -122,18 +140,18 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ...List.generate(currentLabels.length, (rowIndex) {
+
+                          // 🔥 Check agar ye first row hai aur flag true hai
+                          bool isHeader = widget.isFirstRowHeader && rowIndex == 0;
+
                           return Row(
                             children: List.generate(
                                 widget.rowValues[rowIndex].length,
                                     (colIndex) {
 
-                                  // 1. Current widget ko get karein
                                   Widget cellWidget = widget.rowValues[rowIndex][colIndex];
-
-                                  // 2. Check karein kya ye NoPaddingCell hai?
                                   bool shouldRemovePadding = cellWidget is NoPaddingCell;
 
-                                  // 3. Agar NoPaddingCell hai, to uske andar ka actual child nikal lein
                                   if (shouldRemovePadding) {
                                     cellWidget = (cellWidget as NoPaddingCell).child;
                                   }
@@ -142,7 +160,9 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
                                     width: widget.dataColumnWidth,
                                     isLastRow: rowIndex == currentLabels.length - 1,
                                     isLastCol: colIndex == widget.rowValues[rowIndex].length - 1,
-                                    removePadding: shouldRemovePadding, // 🔥 True ya False pass karein
+                                    removePadding: shouldRemovePadding,
+                                    bgColor: isHeader ? const Color(0xFF117A7A) : Colors.white, // Background Red
+                                    borderColor: isHeader ? Colors.white : Colors.grey.shade300, // Border White
                                     child: cellWidget,
                                   );
                                 }
@@ -170,20 +190,23 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
     bool isLastRow = false,
     bool isLastCol = false,
     bool removePadding = false,
+    Color? bgColor, // 🔥 Naya parameter
+    Color? borderColor, // 🔥 Naya parameter
   }) {
     return Container(
       height: widget.rowHeight,
       width: width,
-      padding: removePadding ? EdgeInsets.zero : const EdgeInsets.symmetric(horizontal: 16,),
+      padding:    EdgeInsets.symmetric(horizontal: removePadding ? 0 : 16,vertical: 0),
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
+        color: bgColor, // 🔥 Background apply karo
         border: Border(
           bottom: isLastRow
               ? BorderSide.none
-              : BorderSide(color: Colors.grey.shade300, width: 2),
+              : BorderSide(color:  Colors.grey.shade300, width: 2),
           right: isLastCol
               ? BorderSide.none
-              : BorderSide(color: Colors.grey.shade300, width: 2),
+              : BorderSide(color: borderColor ?? Colors.grey.shade300, width: 2),
         ),
       ),
       child: child,
@@ -195,12 +218,7 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border(
-          top: BorderSide(
-            color: Colors.grey.shade300,
-            width: 2,
-          ), // Table se alag dikhane ke liye border
-        ),
+        border: Border(top: BorderSide(color: Colors.grey.shade300, width: 2)),
       ),
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: Row(
@@ -219,7 +237,6 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
     );
   }
 
-  // Page numbers UI helper
   Widget _buildPageNumber(String number, {required bool isActive}) {
     return Container(
       width: 32,
@@ -232,28 +249,17 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
       ),
       child: Text(
         number,
-        style: TextStyle(
-          color: Colors.black87,
-          fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
-        ),
+        style: TextStyle(color: Colors.black87, fontWeight: isActive ? FontWeight.w600 : FontWeight.normal),
       ),
     );
   }
 
-  // Arrow UI helper
   Widget _buildPaginationArrow(IconData icon, {required bool isDisabled}) {
     return Container(
       width: 32,
       height: 32,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      child: Icon(
-        icon,
-        size: 20,
-        color: isDisabled ? Colors.grey.shade400 : Colors.black87,
-      ),
+      decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: Colors.grey.shade300)),
+      child: Icon(icon, size: 20, color: isDisabled ? Colors.grey.shade400 : Colors.black87),
     );
   }
 }

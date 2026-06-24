@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:qc_hospital/Core/Theme/app_text_style.dart';
 import 'package:qc_hospital/Screens/OP/patient_profile_screen.dart';
 import 'package:qc_hospital/Screens/OP/q_actions/bed_status_screen.dart';
@@ -347,22 +348,25 @@ class SharedComponents {
 
   // --- FORM HELPERS ---
   static Widget buildFormLabel(String text, {bool isRequired = false}) {
-    return RichText(
-      text: TextSpan(
-        text: text,
-        style: const TextStyle(
-          fontSize: 13,
-          fontWeight: FontWeight.w500,
-          color: Colors.black87,
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: RichText(
+        text: TextSpan(
+          text: text,
+          style: const TextStyle(
+            fontSize: 13,
+            // fontWeight: FontWeight.w500,
+            color: Colors.black87,
+          ),
+          children: isRequired
+              ? [
+                  const TextSpan(
+                    text: ' *',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ]
+              : [],
         ),
-        children: isRequired
-            ? [
-                const TextSpan(
-                  text: ' *',
-                  style: TextStyle(color: Colors.red),
-                ),
-              ]
-            : [],
       ),
     );
   }
@@ -379,6 +383,9 @@ class SharedComponents {
     Widget? suffix,
     bool isDense = false,
     bool obscureText = false,
+
+    List<TextInputFormatter>? inputFormatters,
+
   }) {
     return Container(
       height: height,
@@ -394,7 +401,7 @@ class SharedComponents {
             maxLines: maxLines,
             keyboardType: keyboardType,
             obscureText: obscureText,
-
+            inputFormatters: inputFormatters,
             onChanged: (text) {
               // Agar maxLines set hai aur text ki lines maxLines se zyada ho rahi hain
               if (maxLines != 1 && '\n'.allMatches(text).length >= maxLines) {

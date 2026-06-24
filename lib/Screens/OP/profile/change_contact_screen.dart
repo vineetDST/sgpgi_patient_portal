@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:qc_hospital/Widgets/profile_base_scaffold.dart';
 import 'package:qc_hospital/Screens/OP/clinical_histories/shared_clinical_components.dart';
 
@@ -24,6 +25,7 @@ class _ChangeContactScreenState extends State<ChangeContactScreen> {
     text: "ramsharma@gmail.com",
   );
 
+  bool isValid = false ;
   @override
   void dispose() {
     _mobileCtrl.dispose();
@@ -49,6 +51,33 @@ class _ChangeContactScreenState extends State<ChangeContactScreen> {
           SharedComponents.buildTextField(
             controller: _mobileCtrl,
             hintText: "Enter the Mobile Number",
+            keyboardType: TextInputType.number,
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(14),
+
+              ],
+            onChanged: (value) {
+              if (value.isNotEmpty &&
+                  !value.startsWith("+91 ")) {
+                _mobileCtrl.text =
+                    "+91 " + value;
+                _mobileCtrl.selection =
+                    TextSelection.fromPosition(
+                      TextPosition(
+                          offset:
+                          _mobileCtrl
+                              .text.length),
+                    );
+              }
+              if (value == "+91 ") {
+                _mobileCtrl.clear();
+              }
+
+
+
+            },
+
+
           ),
           const SizedBox(height: 16),
 

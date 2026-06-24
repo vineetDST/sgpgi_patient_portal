@@ -26,6 +26,9 @@ class TableText extends StatelessWidget {
         fontWeight: fontWeight ?? FontWeight.normal,
         color: color ?? const Color(0xFF1E1E1E), // Aapka default dark color
       ),
+      maxLines: 4,
+      overflow: TextOverflow.ellipsis,
     );
   }
 }
+

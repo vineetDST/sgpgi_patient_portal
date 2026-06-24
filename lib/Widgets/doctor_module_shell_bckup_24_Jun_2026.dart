@@ -4,24 +4,24 @@ import 'package:qc_hospital/Core/Utils/NavigationBar/HospitalBottomNavigationBar
 // Import the drawers
 import 'package:qc_hospital/Core/Utils/Drawer/drawer.dart';
 import 'package:qc_hospital/Core/Utils/Drawer/OP/op_drawer.dart';
+import 'package:qc_hospital/Screens/Dashboard/dashboard.dart';
 import 'package:qc_hospital/Screens/NavigationBar/investigtion_report.dart';
 import 'package:qc_hospital/Screens/NavigationBar/online_payment.dart';
 
 // --- Import your 4 Main Doctor Tab Screens ---
 import 'package:qc_hospital/Screens/OP_IP_Workbench/workbench.dart'; // Tab 0: Home/Search
-import 'package:qc_hospital/Screens/OP/op_workbench.dart';
-import 'package:qc_hospital/Screens/OP/dashboard/dashboard_visits_screen.dart';
+import 'package:qc_hospital/Screens/OP/op_workbench.dart'; // Tab 1: OP Root
 import 'package:qc_hospital/Screens/IP/in_patient_screen.dart'; // Tab 2: IP Root
 // --- UPDATED: Import the actual notifications screen ---
 import 'package:qc_hospital/Screens/OP/q_actions/emr_screen.dart'; // Tab 3
 
 // Global key to allow cross-tab routing inside the Doctor module
 final GlobalKey<DoctorModuleShellState> doctorShellKey =
-    GlobalKey<DoctorModuleShellState>();
+GlobalKey<DoctorModuleShellState>();
 
 // Global key for the Master Scaffold so inner screens can open the drawer!
 final GlobalKey<ScaffoldState> doctorShellScaffoldKey =
-    GlobalKey<ScaffoldState>();
+GlobalKey<ScaffoldState>();
 
 class DoctorModuleShell extends StatefulWidget {
   DoctorModuleShell({Key? key}) : super(key: doctorShellKey);
@@ -43,7 +43,7 @@ class DoctorModuleShellState extends State<DoctorModuleShell> {
 
   // 2. Define the 4 Root Screens for the Doctor tabs
   final List<Widget> _rootScreens = [
-    const DashboardVisitsScreen(),
+    const Dashboard(patientName: 'Anil', crn: '2025000783'),
     const OnlinePayment(patientName: "Anil", crn: "2025000783"), // Default empty OP root
     const InvestigtionReport(patientName: "Anil", crn: "2025000783"), // Default empty OP root
     const EmrScreen(
@@ -87,9 +87,7 @@ class DoctorModuleShellState extends State<DoctorModuleShell> {
   // Dynamic Drawer based on the active tab
   Widget _getActiveDrawer() {
 
-      return const OpDrawer();
-
-
+    return const OpDrawer();
   }
 
   @override
@@ -128,7 +126,7 @@ class DoctorModuleShellState extends State<DoctorModuleShell> {
           onTap: (index) {
             if (index == _currentIndex) {
               _navigatorKeys[index].currentState?.popUntil(
-                (route) => route.isFirst,
+                    (route) => route.isFirst,
               );
             } else {
               setState(() => _currentIndex = index);
@@ -139,3 +137,19 @@ class DoctorModuleShellState extends State<DoctorModuleShell> {
     );
   }
 }
+
+// Widget _getActiveDrawer() {
+//
+//   return const OpDrawer();
+// }
+
+// final List<Widget> _rootScreens = [
+//   const Dashboard(patientName: 'Anil', crn: '2025000783'),
+//   const OnlinePayment(patientName: "Anil", crn: "2025000783"), // Default empty OP root
+//   const InvestigtionReport(patientName: "Anil", crn: "2025000783"), // Default empty OP root
+//   const EmrScreen(
+//     patientName: "Anil",
+//     crn: "2025000783",
+//     mode: 'op',
+//   ), // --- UPDATED: Replaced placeholder ---
+// ];

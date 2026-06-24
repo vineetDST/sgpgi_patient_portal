@@ -80,6 +80,7 @@ class GlobalCheckbox extends StatelessWidget {
   final bool value;
   final ValueChanged<bool> onChanged;
   final Color activeColor;
+  final CrossAxisAlignment crossAxisAlignment ;
 
   const GlobalCheckbox({
     Key? key,
@@ -88,6 +89,7 @@ class GlobalCheckbox extends StatelessWidget {
     required this.onChanged,
     // Image ke matching teal color ka hex code
     this.activeColor = const Color(0xFF157F7F),
+    this.crossAxisAlignment = CrossAxisAlignment.start
   }) : super(key: key);
 
   @override
@@ -98,7 +100,7 @@ class GlobalCheckbox extends StatelessWidget {
       },
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: crossAxisAlignment,
         children: [
           // Checkbox Box UI
           Container(
