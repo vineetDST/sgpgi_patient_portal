@@ -6,7 +6,7 @@ class CustomRemarksField extends StatefulWidget {
   final String hintText;
   final String? initialValue;
   final ValueChanged<String>? onChanged;
-  final String? remarksHintText ;
+  final String? remarksHintText;
 
   const CustomRemarksField({
     super.key,
@@ -93,7 +93,8 @@ class _CustomRemarksFieldState extends State<CustomRemarksField> {
                       ),
                       inputFormatters: [
                         TextInputFormatter.withFunction((oldValue, newValue) {
-                          final lineCount = '\n'.allMatches(newValue.text).length + 1;
+                          final lineCount =
+                              '\n'.allMatches(newValue.text).length + 1;
 
                           if (lineCount > 5) {
                             return oldValue; // 6th line allow nahi karega

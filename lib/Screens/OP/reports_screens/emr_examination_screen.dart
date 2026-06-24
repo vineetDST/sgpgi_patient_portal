@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import 'package:qc_hospital/Core/Theme/app_color.dart';
 import 'package:qc_hospital/Core/Theme/app_text_style.dart';
 import 'package:qc_hospital/Core/Utils/Appbar/op_appbar.dart';
@@ -547,6 +549,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
         border: Border(
           bottom: isLast
               ? BorderSide.none
@@ -701,6 +704,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
               Container(
                 width: 140,
                 decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
                   color: const Color(0xFFEAF9F9),
                   border: Border(
                     right: BorderSide(color: Colors.grey.shade300),
@@ -944,7 +948,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
             bottom: MediaQuery.of(context).viewInsets.bottom,
           ),
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.45,
+            height: MediaQuery.of(context).size.height * 0.35,
             decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -970,25 +974,68 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                   ],
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 16),
 
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.shade300),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding: const EdgeInsets.all(12),
-                    child: TextField(
-                      controller: controller,
-                      maxLines: null,
-                      expands: true,
-                      textAlignVertical: TextAlignVertical.top,
-                      decoration: const InputDecoration(
-                        hintText: "Findings",
-                        border: InputBorder.none,
+                // Expanded(
+                //   child: Container(
+                //     decoration: BoxDecoration(
+                //       border: Border.all(color: Colors.grey.shade300),
+                //       borderRadius: BorderRadius.circular(8),
+                //     ),
+                //     padding: const EdgeInsets.all(12),
+                //     child: TextField(
+                //       controller: controller,
+                //       maxLines: null,
+                //       expands: true,
+                //       textAlignVertical: TextAlignVertical.top,
+                //       decoration: const InputDecoration(
+                //         hintText: "Findings",
+                //         border: InputBorder.none,
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                Container(
+                  // height: 150,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(color: Colors.grey.shade300),
+                  ),
+                  child: Stack(
+                    children: [
+                      TextField(
+                        controller: controller,
+                        maxLines: 5,
+                        decoration: InputDecoration(
+                          hintText: "Findings",
+                          hintStyle: const TextStyle(color: Colors.grey),
+                          border: InputBorder.none,
+                          contentPadding: const EdgeInsets.all(12),
+                        ),
+                        inputFormatters: [
+                          TextInputFormatter.withFunction((oldValue, newValue) {
+                            final lineCount =
+                                '\n'.allMatches(newValue.text).length + 1;
+
+                            if (lineCount > 5) {
+                              return oldValue; // 6th line allow nahi karega
+                            }
+
+                            return newValue;
+                          }),
+                        ],
                       ),
-                    ),
+                      Positioned(
+                        bottom: 12,
+                        right: 12,
+                        child: Image.asset(
+                          'assets/txtarea.png', // Uses the uploaded icon
+                          width: 14,
+                          height: 14,
+                          color: Colors.grey.shade400,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
 
