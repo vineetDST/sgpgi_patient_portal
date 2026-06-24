@@ -7,7 +7,8 @@ import 'package:qc_hospital/Core/Utils/Drawer/OP/op_drawer.dart';
 
 // --- Import your 4 Main Doctor Tab Screens ---
 import 'package:qc_hospital/Screens/OP_IP_Workbench/workbench.dart'; // Tab 0: Home/Search
-import 'package:qc_hospital/Screens/OP/op_workbench.dart'; // Tab 1: OP Root
+import 'package:qc_hospital/Screens/OP/op_workbench.dart';
+import 'package:qc_hospital/Screens/OP/dashboard/dashboard_visits_screen.dart';
 import 'package:qc_hospital/Screens/IP/in_patient_screen.dart'; // Tab 2: IP Root
 // --- UPDATED: Import the actual notifications screen ---
 import 'package:qc_hospital/Screens/OP/q_actions/emr_screen.dart'; // Tab 3
@@ -40,7 +41,7 @@ class DoctorModuleShellState extends State<DoctorModuleShell> {
 
   // 2. Define the 4 Root Screens for the Doctor tabs
   final List<Widget> _rootScreens = [
-    const Workbench(),
+    const DashboardVisitsScreen(),
     const OpWorkbench(patientName: "", crn: ""), // Default empty OP root
     const InPatientScreen(),
     const EmrScreen(
