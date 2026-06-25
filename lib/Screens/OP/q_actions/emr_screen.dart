@@ -7,6 +7,7 @@ import 'package:qc_hospital/Core/Utils/NavigationBar/navigationbar.dart';
 import 'package:qc_hospital/Core/Utils/Table/scrollable_table.dart';
 import 'package:qc_hospital/Core/Utils/Table/table_text.dart';
 import 'package:qc_hospital/Screens/OP/clinical_histories/shared_clinical_components.dart';
+import 'package:qc_hospital/Screens/OP/reports_screens/list_button.dart';
 import 'package:qc_hospital/Widgets/clinical_base_scaffold.dart';
 import 'package:qc_hospital/Screens/IP/ip_base_scaffold.dart';
 
@@ -38,7 +39,7 @@ class _EmrScreenState extends State<EmrScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
+
 
     Widget content = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,65 +54,7 @@ class _EmrScreenState extends State<EmrScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Row(
-              children: [
-                _buildBlackButton(
-                  "List",
-                  onTap: () {
-                    // --- UPDATED: Opens EmrListScreen as a Right Sidebar ---
-                    showGeneralDialog(
-                      context: context,
-                      barrierDismissible: true,
-                      barrierLabel: "EMR List",
-                      transitionDuration: const Duration(milliseconds: 300),
-                      pageBuilder: (context, animation, secondaryAnimation) {
-                        return Align(
-                          alignment: Alignment.centerRight,
-                          child: SizedBox(
-                            width:
-                                MediaQuery.of(context).size.width *
-                                0.85, // Sidebar width (85% of screen)
-                            child: EmrListScreen(
-                              patientName: widget.patientName,
-                              crn: widget.crn,
-                              mode: widget.mode,
-                            ),
-                          ),
-                        );
-                      },
-                      transitionBuilder: (context, anim1, anim2, child) {
-                        return SlideTransition(
-                          position: Tween(
-                            begin: const Offset(1, 0),
-                            end: const Offset(0, 0),
-                          ).animate(anim1),
-                          child: child,
-                        );
-                      },
-                    );
-                    // -------------------------------------------------------
-                  },
-                ),
-                // const SizedBox(width: 8),
-                // widget.mode == "op"
-                //     ? _buildBlackButton(
-                //         "Action",
-                //         onTap: () {
-                //           showModalBottomSheet(
-                //             context: context,
-                //             isScrollControlled: true,
-                //             useRootNavigator: true,
-                //             backgroundColor: Colors.transparent,
-                //             builder: (context) => OpActionBottomSheet(
-                //               patientName: widget.patientName,
-                //               crn: widget.crn,
-                //             ),
-                //           );
-                //         },
-                //       )
-                //     : IPActionButton(),
-              ],
-            ),
+            EmrListButton(patientName: widget.patientName, crn: widget.crn,mode: widget.mode,)
           ],
         ),
         const SizedBox(height: 16),
@@ -153,7 +96,7 @@ class _EmrScreenState extends State<EmrScreen> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 6),
         decoration: BoxDecoration(
           color: const Color(0xFF1A1A1A),
           borderRadius: BorderRadius.circular(20),

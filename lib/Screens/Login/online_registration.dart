@@ -236,7 +236,7 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
 
         SharedComponents.buildFormLabel('First Name'),
         const SizedBox(height: 8),
-        SharedComponents.buildTextField(hintText: 'Enter First Name'),
+        SharedComponents.buildTextField(hintText: 'Enter the First Name'),
         const SizedBox(height: 16),
 
         SharedComponents.buildFormLabel('Middle Name'),
@@ -294,7 +294,7 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
         const SizedBox(height: 8),
         Row(
           children: [
-            Expanded(child: SharedComponents.buildTextField(controller: _ageCtrl,hintText: 'Enter Age')),
+            Expanded(child: SharedComponents.buildTextField(controller: _ageCtrl,hintText: 'Enter the Age')),
             const SizedBox(width: 8),
 
 
@@ -321,14 +321,14 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
 
         SharedComponents.buildFormLabel('Occupation'),
         const SizedBox(height: 8),
-        SharedComponents.buildTextField(hintText: 'Enter Occupation'),
+        SharedComponents.buildTextField(hintText: 'Enter the Occupation'),
         const SizedBox(height: 16),
 
         SharedComponents.buildFormLabel('Mobile'),
         const SizedBox(height: 8),
         SharedComponents.buildTextField(
           controller: _mobileCtrl,
-          hintText: '+91 Enter Mobile Number',
+          hintText: 'Enter the Mobile',
           keyboardType: TextInputType.number,
           inputFormatters: [
             LengthLimitingTextInputFormatter(14),
@@ -359,7 +359,7 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
 
         SharedComponents.buildFormLabel('E-mail'),
         const SizedBox(height: 8),
-        SharedComponents.buildTextField(hintText: 'Enter E-mail ID'),
+        SharedComponents.buildTextField(hintText: 'Enter the E-mail ID'),
         const SizedBox(height: 16),
       ],
     );
@@ -548,7 +548,7 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
         // --- Phone ---
         SharedComponents.buildFormLabel('Phone'),
         const SizedBox(height: 8),
-        SharedComponents.buildTextField(hintText: '+91 67577 78897',keyboardType: TextInputType.number),
+        SharedComponents.buildTextField(hintText: 'Enter the Phone',keyboardType: TextInputType.number),
         const SizedBox(height: 16),
 
         // --- Nearest Rly. Stn. ---

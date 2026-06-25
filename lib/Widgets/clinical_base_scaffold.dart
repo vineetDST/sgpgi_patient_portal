@@ -11,6 +11,8 @@ class ClinicalBaseScaffold extends StatelessWidget {
   final String crn;
   final String activeQuickAction; // e.g., 'Op Consultant', 'Allergy', etc.
   final Widget child; // The specific content for the screen (SOAP, Forms, etc.)
+  final Widget? bottomFixedWidget;
+  final bool isScroll ;
 
   const ClinicalBaseScaffold({
     super.key,
@@ -20,6 +22,8 @@ class ClinicalBaseScaffold extends StatelessWidget {
     required this.crn,
     required this.activeQuickAction,
     required this.child,
+    this.bottomFixedWidget,
+    this.isScroll = true ,
   });
 
   @override
@@ -48,6 +52,7 @@ class ClinicalBaseScaffold extends StatelessWidget {
             // ==========================================
             // LAYER 1: SCROLLABLE CONTENT
             // ==========================================
+            if(isScroll)
             Positioned.fill(
               child: SingleChildScrollView(
                 padding: EdgeInsets.only(
@@ -61,24 +66,26 @@ class ClinicalBaseScaffold extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // if (activeQuickAction != "Admission") ...[
-                    //   // Quick Actions Section (Always present on these screens)
-                    //   SharedComponents.buildQuickActions(
-                    //     context,
-                    //     screenWidth,
-                    //     patientName,
-                    //     crn,
-                    //     activeLabel: activeQuickAction,
-                    //   ),
-                    //   const SizedBox(height: 24),
-                    // ],
-                    // The unique content for the specific screen goes here!
+
                     child,
                   ],
                 ),
               ),
             ),
+            if(!isScroll)
+              Positioned.fill(
+                child: Container(
+                  padding: EdgeInsets.only(
+                    top:
+                    appBarHeight ,
 
+                    left: 16,
+                    right: 16,
+
+                  ),
+                  child: child ,
+                ),
+              ),
             // ==========================================
             // LAYER 2: APPBAR
             // ==========================================
@@ -112,6 +119,7 @@ class ClinicalBaseScaffold extends StatelessWidget {
                 crn,
               ),
             ),
+
           ],
         ),
       ),

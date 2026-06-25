@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:qc_hospital/Core/Data/dummy_data.dart';
+import 'package:qc_hospital/Core/Utils/scaffold_messenger.dart';
+import 'package:qc_hospital/Screens/Login/login.dart';
 import 'package:qc_hospital/Widgets/profile_base_scaffold.dart';
 import 'package:qc_hospital/Screens/OP/clinical_histories/shared_clinical_components.dart';
 
@@ -111,7 +114,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             height: 48,
             child: ElevatedButton(
               onPressed: () {
-                // Handle Save
+                _changePassword(context);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF117A7A), // Theme Teal
@@ -121,7 +124,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 elevation: 0,
               ),
               child: const Text(
-                "Save",
+                "Submit",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 16,
@@ -136,52 +139,61 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     );
   }
 
-  Widget _buildInputField(
-    String label,
-    TextEditingController controller, {
-    String? hint,
-    bool obscureText = false,
-    bool readOnly = false,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: Colors.black87,
-          ),
-        ),
-        const SizedBox(height: 8),
-        Container(
-          height: 48,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Colors.grey.shade300),
-          ),
-          child: TextField(
-            controller: controller,
-            obscureText: obscureText,
-            readOnly: readOnly,
-            style: TextStyle(
-              fontSize: 14,
-              color: readOnly ? Colors.black54 : Colors.black87,
-            ),
-            decoration: InputDecoration(
-              hintText: hint,
-              hintStyle: TextStyle(color: Colors.grey.shade300, fontSize: 14),
-              border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 14,
-              ),
-            ),
-          ),
-        ),
-      ],
+  void _changePassword(BuildContext context) {
+
+    var userid = _loginIdCtrl.text.toString();
+    var oldPwd = _oldPasswordCtrl.text.toString() ;
+    var newPwd = _newPasswordCtrl.text.toString() ;
+    var cnfPwd = _confirmPasswordCtrl.text.toString() ;
+
+    if(userid == null || userid.isEmpty ) {
+      _showError(context, 'Please enter User Login Id field');
+    }
+
+
+    else if(oldPwd == null || oldPwd.isEmpty) {
+    _showError(context, 'Please enter Old Password field');
+    }
+    else if (!RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&#!])[A-Za-z\d@$!%*?&#!]{8,}$').hasMatch(oldPwd)) {
+      _showError(context, 'Old Password must be at least 8 characters long, contain an uppercase letter, a lowercase letter, a number, and a special character, and must not contain spaces.');
+    }
+    else if(oldPwd != DummyData.password){
+      _showError(context, 'Old Passwrod is not correct');
+    }
+
+    else if(newPwd == null || newPwd.isEmpty) {
+      _showError(context, 'Please enter New Password field');
+    }
+    else if (!RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&#!])[A-Za-z\d@$!%*?&#!]{8,}$').hasMatch(newPwd)) {
+      _showError(context, 'New Password must be at least 8 characters long, contain an uppercase letter, a lowercase letter, a number, and a special character, and must not contain spaces.');
+    }
+
+    else if(cnfPwd == null || cnfPwd.isEmpty) {
+      _showError(context, 'Please enter Confirm Password field');
+    }
+    else if (!RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&#!])[A-Za-z\d@$!%*?&#!]{8,}$').hasMatch(cnfPwd)) {
+      _showError(context, 'Confirm Password must be at least 8 characters long, contain an uppercase letter, a lowercase letter, a number, and a special character, and must not contain spaces.');
+    }
+    else if(newPwd != cnfPwd){
+      _showError(context, 'New Password & Confirm Password should be same');
+    }
+    else {
+      DummyData.password = cnfPwd.toString();
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
+        return LoginScreen(loginby: '');
+      }), (route) => false) ;
+    }
+
+
+
+  }
+
+  void _showError(BuildContext context,String message) {
+    scaffoldMessenger(
+      context,
+      title: "Change Password",
+      message: message,
+      type: NotificationType.error,
     );
   }
 }

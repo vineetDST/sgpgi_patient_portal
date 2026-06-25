@@ -28,7 +28,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final TextEditingController crnoController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController continueController = TextEditingController();
 
+  @override
+  void initState(){
+    super.initState();
+
+    crnoController.text = 'Asgar';
+    passwordController.text = 'Asgar@123';
+
+  }
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -226,52 +235,46 @@ class _LoginScreenState extends State<LoginScreen> {
 
      print("Login");
 
-     // String crnoText = crnoController.text;
-     // if(crnoText == null || crnoText.isEmpty) {
-     //
-     //    scaffoldMessenger(context, title: 'Login Credentials', message: 'Please Enter CR No. Field', type: NotificationType.error);
-     //    return ;
-     // }
-     //
-     // String pwdText = passwordController.text;
-     // if(pwdText == null || pwdText.isEmpty) {
-     //
-     //   scaffoldMessenger(context, title: 'Login Credentials', message: 'Please Enter Password Field', type: NotificationType.error);
-     //   return ;
-     // }
-     // else if (!RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&#!])[A-Za-z\d@$!%*?&#!]{8,}$').hasMatch(pwdText)) {
-     //   setState(() {
-     //
-     //
-     //
-     //     scaffoldMessenger(
-     //         context,
-     //         title: 'Login Credentials',
-     //         message: 'Password must be at least 8 characters long, contain an uppercase letter, a lowercase letter, a number, and a special character, and must not contain spaces.',
-     //         type: NotificationType.error);
-     //     return ;
-     //
-     //   });
-     // }
-     //
-     // else if(pwdText != DummyData.password){
-     //   scaffoldMessenger(context, title: 'Login Credentials', message: 'Password is not matched', type: NotificationType.error);
-     //   return ;
-     // }
-     //
-     // else {
-     //
-     //   Navigator.push(context, MaterialPageRoute(builder: (context) {
-     //       return Dashboard(crn: '',patientName: '',);
-     //     // return PedBalance(crn: '',patientName: '',);
-     //   }));
-     //
-     // }
+     String crnoText = crnoController.text;
+     if(crnoText == null || crnoText.isEmpty) {
 
-     Navigator.push(context, MaterialPageRoute(builder: (context) {
+        scaffoldMessenger(context, title: 'Login Credentials', message: 'Please Enter CR No. Field', type: NotificationType.error);
+        return ;
+     }
 
-       return DoctorModuleShell();
-     }));
+     String pwdText = passwordController.text;
+     if(pwdText == null || pwdText.isEmpty) {
+
+       scaffoldMessenger(context, title: 'Login Credentials', message: 'Please Enter Password Field', type: NotificationType.error);
+       return ;
+     }
+     else if (!RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&#!])[A-Za-z\d@$!%*?&#!]{8,}$').hasMatch(pwdText)) {
+       setState(() {
+         scaffoldMessenger(
+             context,
+             title: 'Login Credentials',
+             message: 'Password must be at least 8 characters long, contain an uppercase letter, a lowercase letter, a number, and a special character, and must not contain spaces.',
+             type: NotificationType.error);
+         return ;
+
+       });
+     }
+
+     else if(pwdText != DummyData.password){
+       scaffoldMessenger(context, title: 'Login Credentials', message: 'Password is not matched', type: NotificationType.error);
+       return ;
+     }
+
+     else {
+
+       Navigator.push(context, MaterialPageRoute(builder: (context) {
+
+         return DoctorModuleShell();
+       }));
+
+     }
+
+
 
 
 
@@ -422,6 +425,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                      return OnlineRegistration();
                                   }));
                                 }
+                                else {
+                                  scaffoldMessenger(
+                                      context,
+                                      title: 'Patient Online Registration Form',
+                                      message: 'Please select Instructions field',
+                                      type: NotificationType.error,
+                                  );
+                                }
                               },
                               child: const Text(
                                 'Continue',
@@ -480,6 +491,8 @@ class LoginInputField extends StatefulWidget {
   final bool isPassword;
   TextEditingController? controller ;
   FocusNode? focusNode ;
+  TextInputType? keyboardType ;
+  Function(String)? onChanged;
 
     LoginInputField({
     super.key,
@@ -488,6 +501,8 @@ class LoginInputField extends StatefulWidget {
     required this.isPassword,
     this.controller,
       this.focusNode,
+      this.keyboardType  ,
+      this.onChanged,
   });
 
   @override
@@ -552,6 +567,8 @@ class _LoginInputFieldState extends State<LoginInputField> {
 
                 border: InputBorder.none,
               ),
+              keyboardType: widget.keyboardType,
+              onChanged: widget.onChanged,
             ),
           ),
           widget.isPassword

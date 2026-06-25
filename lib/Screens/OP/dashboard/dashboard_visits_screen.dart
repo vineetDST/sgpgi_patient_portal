@@ -27,61 +27,40 @@ class _DashboardVisitsScreenState extends State<DashboardVisitsScreen> {
 
   // --- VISITS STATE ---
   String _activeFilter = "Total"; // "Total", "IP", or "OP"
-  String _selectedMonth = "November";
+  String _selectedMonth = "All";  // Default to 'All' so everything shows initially
 
-  // --- MOCK DATA: VISITS ---
+  // --- MOCK DATA: VISITS (Including Nov, Dec, Jan data) ---
   final List<DashboardCardModel> _allVisits = [
-    DashboardCardModel(
-      date: DateTime(2026, 1, 12),
-      dateTimeText: "January 12, 2026 | 8:00 AM",
-      title: "Endocrine Surgery",
-      badgeText: "IP",
-      row1Label: "Visit ID : ",
-      row1Value: "IP-001",
-      row2Value: "Dr. Sabaretnam Mayilaganam",
-      recordType: "IP",
-    ),
-    DashboardCardModel(
-      date: DateTime(2026, 1, 19),
-      dateTimeText: "January 19, 2026 | 8:00 AM",
-      title: "Endocrine Surgery",
-      badgeText: "IP",
-      row1Label: "Visit ID : ",
-      row1Value: "IP-002",
-      row2Value: "Dr. Sabaretnam Mayilaganam",
-      recordType: "IP",
-    ),
-    DashboardCardModel(
-      date: DateTime(2026, 1, 7),
-      dateTimeText: "January 7, 2026 | 8:00 AM",
-      title: "Endocrine Surgery",
-      badgeText: "OP",
-      row1Label: "Visit ID : ",
-      row1Value: "OP-001",
-      row2Value: "Dr. Sabaretnam Mayilaganam",
-      recordType: "OP",
-    ),
+    // November
+    DashboardCardModel(date: DateTime(2025, 11, 5), dateTimeText: "November 5, 2025 | 10:30 AM", title: "Endocrine Surgery", badgeText: "OP", row1Label: "Visit ID : ", row1Value: "OP-101", row2Value: "Dr. Sabaretnam", recordType: "OP"),
+    DashboardCardModel(date: DateTime(2025, 11, 18), dateTimeText: "November 18, 2025 | 09:00 AM", title: "Endocrine Surgery", badgeText: "IP", row1Label: "Visit ID : ", row1Value: "IP-101", row2Value: "Dr. Sabaretnam", recordType: "IP"),
+    // December
+    DashboardCardModel(date: DateTime(2025, 12, 10), dateTimeText: "December 10, 2025 | 11:15 AM", title: "Endocrine Surgery", badgeText: "OP", row1Label: "Visit ID : ", row1Value: "OP-102", row2Value: "Dr. Sabaretnam", recordType: "OP"),
+    DashboardCardModel(date: DateTime(2025, 12, 22), dateTimeText: "December 22, 2025 | 08:30 AM", title: "Endocrine Surgery", badgeText: "IP", row1Label: "Visit ID : ", row1Value: "IP-102", row2Value: "Dr. Sabaretnam", recordType: "IP"),
+    // January
+    DashboardCardModel(date: DateTime(2026, 1, 7), dateTimeText: "January 7, 2026 | 8:00 AM", title: "Endocrine Surgery", badgeText: "OP", row1Label: "Visit ID : ", row1Value: "OP-001", row2Value: "Dr. Sabaretnam", recordType: "OP"),
+    DashboardCardModel(date: DateTime(2026, 1, 12), dateTimeText: "January 12, 2026 | 8:00 AM", title: "Endocrine Surgery", badgeText: "IP", row1Label: "Visit ID : ", row1Value: "IP-001", row2Value: "Dr. Sabaretnam", recordType: "IP"),
   ];
 
   // --- MOCK DATA: APPOINTMENTS ---
   final List<DashboardCardModel> _allAppointments = [
-    DashboardCardModel(
-      date: DateTime(2026, 1, 7),
-      dateTimeText: "January 12, 2026 | 8:00 AM - 1:00 PM",
-      title: "Endocrine Surgery",
-      badgeText: "Booked",
-      row1Label: "Appointment Type : ",
-      row1Value: "Consultation",
-      row2Value: "Dr. Sabaretnam Mayilaganam",
-      recordType: "Appointment",
-    ),
+    DashboardCardModel(date: DateTime(2026, 1, 7), dateTimeText: "January 12, 2026 | 8:00 AM - 1:00 PM", title: "Endocrine Surgery", badgeText: "Booked", row1Label: "Appointment Type : ", row1Value: "Consultation", row2Value: "Dr. Sabaretnam", recordType: "Appointment"),
   ];
 
-  // Logic to dynamically filter visits
+  // --- CORE FILTERING LOGIC ---
   List<DashboardCardModel> get _filteredVisits {
-    if (_selectedMonth == "All") return []; // Shows empty SVG for visits
-    if (_activeFilter == "Total") return _allVisits;
-    return _allVisits.where((v) => v.recordType == _activeFilter).toList();
+    // 1. Pehle Month ke hisab se data filter karo
+    var monthFiltered = _allVisits.where((v) {
+      if (_selectedMonth == "All") return true;
+      if (_selectedMonth == "November" && v.date.month == 11) return true;
+      if (_selectedMonth == "December" && v.date.month == 12) return true;
+      if (_selectedMonth == "January" && v.date.month == 1) return true;
+      return false;
+    }).toList();
+
+    // 2. Uske baad Card (Total/IP/OP) ke hisab se filter karo
+    if (_activeFilter == "Total") return monthFiltered;
+    return monthFiltered.where((v) => v.recordType == _activeFilter).toList();
   }
 
   @override
@@ -95,7 +74,6 @@ class _DashboardVisitsScreenState extends State<DashboardVisitsScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 2. Main Navigation Tabs (My Visit / My Appointments)
           Row(
             children: [
               _buildMainTabItem("My Visit", 0),
@@ -105,17 +83,12 @@ class _DashboardVisitsScreenState extends State<DashboardVisitsScreen> {
           ),
           const SizedBox(height: 16),
 
-          // 3. Conditional Rendering based on active tab
-          if (_activeMainTab == 0)
-            _buildMyVisitsView()
-          else
-            _buildMyAppointmentsView(),
+          if (_activeMainTab == 0) _buildMyVisitsView() else _buildMyAppointmentsView(),
         ],
       ),
     );
   }
 
-  // --- MAIN TAB SELECTOR UI ---
   Widget _buildMainTabItem(String title, int index) {
     bool isActive = _activeMainTab == index;
     return GestureDetector(
@@ -146,9 +119,19 @@ class _DashboardVisitsScreenState extends State<DashboardVisitsScreen> {
   // VIEW: MY VISITS
   // =======================================================================
   Widget _buildMyVisitsView() {
-    int totalCount = _allVisits.length;
-    int ipCount = _allVisits.where((v) => v.recordType == "IP").length;
-    int opCount = _allVisits.where((v) => v.recordType == "OP").length;
+    // Yahan hum pehle cards ka count calculate kar rahe hain, selected month ke aadhar par.
+    // Taaki agar user 'November' choose kare, toh Cards mein sirf November ka IP/OP count dikhe.
+    var monthFilteredForCounts = _allVisits.where((v) {
+      if (_selectedMonth == "All") return true;
+      if (_selectedMonth == "November" && v.date.month == 11) return true;
+      if (_selectedMonth == "December" && v.date.month == 12) return true;
+      if (_selectedMonth == "January" && v.date.month == 1) return true;
+      return false;
+    }).toList();
+
+    int totalCount = monthFilteredForCounts.length;
+    int ipCount = monthFilteredForCounts.where((v) => v.recordType == "IP").length;
+    int opCount = monthFilteredForCounts.where((v) => v.recordType == "OP").length;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -184,8 +167,8 @@ class _DashboardVisitsScreenState extends State<DashboardVisitsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 24),
 
+        const SizedBox(height: 16,),
         // List Header & Filter Dropdown
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -210,11 +193,9 @@ class _DashboardVisitsScreenState extends State<DashboardVisitsScreen> {
                 ),
                 PopupMenuButton<String>(
                   icon: const Icon(Icons.arrow_drop_down, color: Colors.grey),
-                  onSelected: (newValue) =>
-                      setState(() => _selectedMonth = newValue!),
-                  itemBuilder: (context) => ["All", "November"].map((
-                    String value,
-                  ) {
+                  onSelected: (newValue) => setState(() => _selectedMonth = newValue!),
+                  // --- ADDED ALL MONTHS HERE ---
+                  itemBuilder: (context) => ["All", "November", "December", "January"].map((String value) {
                     return PopupMenuItem<String>(
                       value: value,
                       child: Text(value, style: const TextStyle(fontSize: 13)),
@@ -225,28 +206,28 @@ class _DashboardVisitsScreenState extends State<DashboardVisitsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 4,),
 
         // Scrollable List OR Empty State
         _filteredVisits.isEmpty
             ? Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 40.0, bottom: 40.0),
-                  child: SvgPicture.asset(
-                    'assets/myvisitillust.svg', // Visit SVG
-                    width: MediaQuery.of(context).size.width * 0.9,
-                  ),
-                ),
-              )
+          child: Padding(
+            padding: const EdgeInsets.only(top: 40.0, bottom: 40.0),
+            child: SvgPicture.asset(
+              'assets/myvisitillust.svg', // Visit SVG
+              width: MediaQuery.of(context).size.width * 0.9,
+            ),
+          ),
+        )
             : ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.only(top: 8, bottom: 40),
-                itemCount: _filteredVisits.length,
-                itemBuilder: (context, index) {
-                  return DashboardCardComponent(record: _filteredVisits[index]);
-                },
-              ),
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.zero,
+          itemCount: _filteredVisits.length,
+          itemBuilder: (context, index) {
+            return DashboardCardComponent(record: _filteredVisits[index]);
+          },
+        ),
       ],
     );
   }
@@ -261,28 +242,24 @@ class _DashboardVisitsScreenState extends State<DashboardVisitsScreen> {
         const SizedBox(height: 8),
         _allAppointments.isEmpty
             ? Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 60.0, bottom: 40.0),
-                  child: SvgPicture.asset(
-                    'assets/myappointsillust.svg',
-                    width: MediaQuery.of(context).size.width * 0.6,
-                  ),
-                ),
-              )
+          child: Padding(
+            padding: const EdgeInsets.only(top: 60.0, bottom: 40.0),
+            child: SvgPicture.asset(
+              'assets/myappointsillust.svg',
+              width: MediaQuery.of(context).size.width * 0.6,
+            ),
+          ),
+        )
             : ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.only(top: 8, bottom: 40),
-                itemCount: _allAppointments.length,
-                itemBuilder: (context, index) {
-                  return DashboardCardComponent(
-                    record: _allAppointments[index],
-                  );
-                },
-              ),
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: const EdgeInsets.only(top: 8, bottom: 40),
+          itemCount: _allAppointments.length,
+          itemBuilder: (context, index) {
+            return DashboardCardComponent(record: _allAppointments[index]);
+          },
+        ),
       ],
     );
   }
-
-  // Exact profile card replication
 }

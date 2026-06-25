@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qc_hospital/Core/Data/dummy_data.dart';
+import 'package:qc_hospital/Core/Utils/scaffold_messenger.dart';
 import 'package:qc_hospital/Screens/Login/forget_password.dart';
 
 import 'package:qc_hospital/Screens/Login/login.dart';
@@ -15,6 +16,7 @@ class Otp extends StatefulWidget {
 
 class _LoginScreenState extends State<Otp> {
 
+  final otpController = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -128,9 +130,13 @@ class _LoginScreenState extends State<Otp> {
                   getLabel("OTP", removePadding: true),
                   SizedBox(height: 8),
                   LoginInputField(
+                    controller: otpController,
+                    keyboardType: TextInputType.number,
                     hintText: "Enter OTP",
                     icon: Icons.vpn_key_outlined,
-                    isPassword: true, // Assuming this handles the eye icon logic inside
+                    isPassword: true,
+
+
                   ),
 
                   SizedBox(height: 30),
@@ -149,7 +155,7 @@ class _LoginScreenState extends State<Otp> {
                               ),
                             ),
                             onPressed: () {
-                              // Resend logic
+                              sendOTP();
                             },
                             child: const Text(
                               'Resend',
@@ -170,13 +176,7 @@ class _LoginScreenState extends State<Otp> {
                               ),
                             ),
                             onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                                    return ForgetPassword();
-                                  },
-                                ),
-                              );
+                               _otpSubmit(context);
                             },
                             child: const Text(
                               'Submit',
@@ -251,5 +251,43 @@ class _LoginScreenState extends State<Otp> {
         ),
       ),
     );
+  }
+
+  void _otpSubmit(BuildContext context) {
+     var otp = otpController.text.toString();
+
+     if(otp == null || otp.isEmpty){
+        scaffoldMessenger(
+            context,
+            title: 'OTP',
+            message: 'Please enter OTP',
+            type: NotificationType.error);
+     }
+     else if(otp.length !=  4) {
+       scaffoldMessenger(
+           context,
+           title: 'OTP',
+           message: 'Please enter 4 Digit OTP ',
+           type: NotificationType.error);
+     }
+
+     else if(otp != DummyData.otp) {
+       scaffoldMessenger(
+           context,
+           title: 'OTP',
+           message: 'Please enter Correct OTP ',
+           type: NotificationType.error);
+     }
+    else {
+      clearOtp();
+       Navigator.of(context).push(
+         MaterialPageRoute(
+           builder: (BuildContext context) {
+             return ForgetPassword();
+           },
+         ),
+       );
+     }
+
   }
 }

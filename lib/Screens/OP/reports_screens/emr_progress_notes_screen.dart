@@ -5,6 +5,7 @@ import 'package:qc_hospital/Core/Utils/Appbar/op_appbar.dart';
 import 'package:qc_hospital/Core/Utils/NavigationBar/navigationbar.dart';
 import 'package:qc_hospital/Screens/IP/ip_base_scaffold.dart';
 import 'package:qc_hospital/Screens/OP/clinical_histories/shared_clinical_components.dart';
+import 'package:qc_hospital/Screens/OP/reports_screens/list_button.dart';
 import 'package:qc_hospital/Widgets/clinical_base_scaffold.dart';
 import 'package:qc_hospital/Core/Utils/Sub_Screen/OP/op_action.dart';
 import 'package:qc_hospital/Core/Utils/Sub_Screen/IP/ip_action_button.dart';
@@ -42,44 +43,7 @@ class _EmrProgressNotesScreenState extends State<EmrProgressNotesScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Row(
-              children: [
-                _buildBlackButton(
-                  "List",
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EmrListScreen(
-                          patientName: widget.patientName,
-                          crn: widget.crn,
-                          mode: widget.mode,
-                        ),
-                        fullscreenDialog: true,
-                      ),
-                    );
-                  },
-                ),
-                // const SizedBox(width: 8),
-                // widget.mode == "op"
-                //     ? _buildBlackButton(
-                //         "Action",
-                //         onTap: () {
-                //           showModalBottomSheet(
-                //             context: context,
-                //             isScrollControlled: true,
-                //             useRootNavigator: true,
-                //             backgroundColor: Colors.transparent,
-                //             builder: (context) => OpActionBottomSheet(
-                //               patientName: widget.patientName,
-                //               crn: widget.crn,
-                //             ),
-                //           );
-                //         },
-                //       )
-                //     : IPActionButton(),
-              ],
-            ),
+            EmrListButton(patientName: widget.patientName, crn: widget.crn,mode: widget.mode,)
           ],
         ),
         const SizedBox(height: 20),

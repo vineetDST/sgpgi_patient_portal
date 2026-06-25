@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qc_hospital/Core/Data/dummy_data.dart';
 import 'package:qc_hospital/Core/Utils/scaffold_messenger.dart';
 
 import 'package:qc_hospital/Screens/Login/login.dart';
@@ -13,6 +14,10 @@ class ForgetPassword extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<ForgetPassword> {
+
+  final newPwdController = TextEditingController();
+  final cnfPwdController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -105,7 +110,7 @@ class _LoginScreenState extends State<ForgetPassword> {
                   buildFormLabel("New Password", isRequired: true),
                   SizedBox(height: 8),
                   LoginInputField(
-
+                    controller: newPwdController,
                     hintText: "****",
                     icon: Icons.vpn_key_outlined,
                     isPassword: true, // Assuming this handles the eye icon logic inside
@@ -116,6 +121,7 @@ class _LoginScreenState extends State<ForgetPassword> {
                   buildFormLabel("Confirm Password", isRequired: true),
                   SizedBox(height: 8),
                   LoginInputField(
+                    controller: cnfPwdController,
                     hintText: "****",
                     icon: Icons.vpn_key_outlined,
                     isPassword: true, // Assuming this handles the eye icon logic inside
@@ -137,12 +143,7 @@ class _LoginScreenState extends State<ForgetPassword> {
                               ),
                             ),
                             onPressed: () {
-                              scaffoldMessenger(
-                                context,
-                                title: "Success",
-                                message: "Registration completed successfully.",
-                                type: NotificationType.success,
-                              );
+                               _changePassword(context);
                             },
                             child: const Text(
                               'Save',
@@ -163,45 +164,7 @@ class _LoginScreenState extends State<ForgetPassword> {
     );
   }
 
-  // Helper Widget for Detail Row (Label : Value)
-  Widget _buildDetailRow(String label, String value) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          width: 160, // Fixed width for label so colons align perfectly
-          child: Text(
-            label,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              fontFamily: "Poppins",
-            ),
-          ),
-        ),
-        const Text(
-          ":   ",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        Expanded(
-          child: Text(
-            value,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              fontFamily: "Poppins",
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+
 
 
 
@@ -226,6 +189,47 @@ class _LoginScreenState extends State<ForgetPassword> {
               : [],
         ),
       ),
+    );
+  }
+
+  void _changePassword(BuildContext context) {
+
+    var newPwd = newPwdController.text.toString() ;
+    var cnfPwd = cnfPwdController.text.toString() ;
+
+    if(newPwd == null || newPwd.isEmpty) {
+       _showError(context, 'Please enter New Password field');
+    }
+    else if (!RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&#!])[A-Za-z\d@$!%*?&#!]{8,}$').hasMatch(newPwd)) {
+      _showError(context, 'New Password must be at least 8 characters long, contain an uppercase letter, a lowercase letter, a number, and a special character, and must not contain spaces.');
+    }
+
+    else if(cnfPwd == null || cnfPwd.isEmpty) {
+      _showError(context, 'Please enter Confirm Password field');
+    }
+    else if (!RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&#!])[A-Za-z\d@$!%*?&#!]{8,}$').hasMatch(cnfPwd)) {
+      _showError(context, 'Confirm Password must be at least 8 characters long, contain an uppercase letter, a lowercase letter, a number, and a special character, and must not contain spaces.');
+    }
+    else if(newPwd != cnfPwd){
+      _showError(context, 'New Password & Confirm Password should be same');
+    }
+    else {
+      DummyData.password = cnfPwd.toString();
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
+         return LoginScreen(loginby: '');
+      }), (route) => false) ;
+    }
+
+
+
+  }
+
+  void _showError(BuildContext context,String message) {
+    scaffoldMessenger(
+      context,
+      title: "Forget Password",
+      message: message,
+      type: NotificationType.error,
     );
   }
 }

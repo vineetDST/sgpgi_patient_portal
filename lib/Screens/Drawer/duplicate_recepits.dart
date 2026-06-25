@@ -91,41 +91,40 @@ class _OpConsultationState extends State<DuplicateRecepits> {
       patientName: widget.patientName,
       crn: widget.crn,
       activeQuickAction: 'Admission',
+      isScroll: false,
 
       // 3. Yahan humne ek fixed height de di hai, ab koi RenderFlex error nahi aayega!
-      child: SizedBox(
-        height: availableHeight,
-        child: Column(
-          children: [
+      child: Column(
+        children: [
 
-            // 4. Upar ka content Expanded + Scrollable rahega
-            Expanded(
-              child: SingleChildScrollView(
-                // padding: const EdgeInsets.only(bottom: 20), // Thodi bottom padding taaki content button se na chipke
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildPatientBillList(),
-                    const SizedBox(height: 16),
+          // 4. Upar ka content Expanded + Scrollable rahega
+          Expanded(
+            child: SingleChildScrollView(
+              // padding: const EdgeInsets.only(bottom: 20), // Thodi bottom padding taaki content button se na chipke
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 70),
+                  _buildPatientBillList(),
+                  const SizedBox(height: 16),
 
-                    _buildinvestigationRefund(),
-                    const SizedBox(height: 16),
+                  _buildinvestigationRefund(),
+                  const SizedBox(height: 16),
 
-                    _buildDischarge(),
-                  ],
-                ),
+                  _buildDischarge(),
+                ],
               ),
             ),
+          ),
 
-            // 5. Ye button Column ke end me, yani available height ke bottom me fix rahega
-            Container(
-              color: Colors.transparent,
-              padding:  EdgeInsets.only(bottom: screenHeight * 0.1, ),
-              child: AppSaveButton(text: 'Print'),
-            ),
+          // 5. Ye button Column ke end me, yani available height ke bottom me fix rahega
+          Container(
+            color: Colors.transparent,
+            padding:  EdgeInsets.only(bottom: screenHeight * 0.13,top: 16 ),
+            child: AppSaveButton(text: 'Print'),
+          ),
 
-          ],
-        ),
+        ],
       ),
     );
   }

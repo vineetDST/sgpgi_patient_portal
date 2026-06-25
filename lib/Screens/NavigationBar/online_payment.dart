@@ -140,113 +140,123 @@ class GeneralTariff extends StatefulWidget {
 class _GeneralTariffState extends State<GeneralTariff> {
 
   bool _action_a = false ;
+  bool _action_b = false ;
   @override
   Widget build(BuildContext context) {
 
-    return DetailTableWrapper(children: [
-      DetailRow(label: 'Tariff Name', text: 'CPP for Haemophilla -2 Unit'),
-      DetailRow(label: 'Qty.', text: '1.0'),
-      DetailRow(label: 'Price(Rs).', text: '150.00'),
-      DetailRow(label: 'Paid Amount', text: '0.00'),
-      DetailRow(label: 'Amount', text: '0.00'),
+    return Column(
+      children: [
+        DetailTableWrapper(children: [
+          DetailRow(label: 'Tariff Name', text: 'CPP for Haemophilla -2 Unit'),
+          DetailRow(label: 'Qty.', text: '1.0'),
+          DetailRow(label: 'Price(Rs).', text: '150.00'),
+          DetailRow(label: 'Paid Amount', text: '0.00'),
+          DetailRow(label: 'Amount', text: '0.00'),
 
 
-      DetailRow(
+          DetailRow(
 
 
-        label: "Total Balance (Rs.)",
-        removePadding: true, // 🔥 important
-        customWidget: Container(
-          padding: EdgeInsets.only(left: 16),
-          alignment: Alignment.centerLeft,
-          width: double.infinity,
-          height: double.infinity,
+            label: "Total Balance (Rs.)",
+            removePadding: true, // 🔥 important
+            customWidget: Container(
+              padding: EdgeInsets.only(left: 16),
+              alignment: Alignment.centerLeft,
+              width: double.infinity,
+              height: double.infinity,
 
-          color: Colors.yellow,
-          child: const Text(
-            "0.00",
-            style: const TextStyle(
-              color: Colors.black87,
-              fontSize: 14,
+              color: Colors.yellow,
+              child: const Text(
+                "150.00",
+                style: const TextStyle(
+                  color: Colors.black87,
+                  fontSize: 14,
+                ),
+              ),
             ),
           ),
-        ),
-      ),
-      Container(
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide.none
+          Container(
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide.none
 
 
-          ),
-        ),
-        child: IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // LEFT
-              Container(
-                width: 150,
+              ),
+            ),
+            child: IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // LEFT
+                  Container(
+                    width: 150,
 
-                padding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF0F8F8),
-                  border: Border(
-                    right: BorderSide(color: Colors.grey.shade300,width: 2),
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(   // 🔥 FIX
-                      child: Center(
-                        child: GlobalCheckbox(
-                          label: '', // Label blank hai kyunki hum text par alag action chahte hain
-                          value: _action_a ?? false,
-                          onChanged: (bool newValue) {
-                            setState(() {
-
-                              _action_a = newValue; // Checkbox ka state update
-                            });
-                          },
-                        ),
+                    padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF0F8F8),
+                      border: Border(
+                        right: BorderSide(color: Colors.grey.shade300,width: 2),
                       ),
                     ),
+                    child: Row(
+                      children: [
+                        Expanded(   // 🔥 FIX
+                          child: Center(
+                            child: GlobalCheckbox(
+                              label: '', // Label blank hai kyunki hum text par alag action chahte hain
+                              value: _action_a ?? false,
+                              onChanged: (bool newValue) {
+                                setState(() {
 
-                  ],
-                ),
-              ),
+                                  _action_a = newValue; // Checkbox ka state update
+                                });
+                              },
+                            ),
+                          ),
+                        ),
 
-              // RIGHT
-              Expanded(
-                flex: 3,
-                child: Container(
-                  padding: false
-                      ? EdgeInsets.zero
-                      : const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 18,
+                      ],
+                    ),
                   ),
-                  alignment: Alignment.centerLeft,
-                  child: GlobalCheckbox(
-                    label: '', // Label blank hai kyunki hum text par alag action chahte hain
-                    value: _action_a ?? false,
-                    onChanged: (bool newValue) {
-                      setState(() {
 
-                        _action_a = newValue; // Checkbox ka state update
-                      });
-                    },
+                  // RIGHT
+                  Expanded(
+                    flex: 3,
+                    child: Container(
+                      padding: false
+                          ? EdgeInsets.zero
+                          : const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 18,
+                      ),
+                      alignment: Alignment.centerLeft,
+                      child: GlobalCheckbox(
+                        label: '', // Label blank hai kyunki hum text par alag action chahte hain
+                        value: _action_b ?? false,
+                        onChanged: (bool newValue) {
+                          setState(() {
+
+                            _action_b = newValue; // Checkbox ka state update
+                          });
+                        },
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
-        ),
-      )
+            ),
+          )
 
 
-    ],);
+        ],),
+        const SizedBox(height: 16,),
+        AppSaveButton(text: 'Make Payment',onPressed: (){
+
+        },),
+        const SizedBox(height: 16,),
+      ],
+    );
   }
 }
 
@@ -269,6 +279,8 @@ class _InvestigationState extends State<Investigation> {
   }
 
   bool _action_a = false;
+  bool _action_b = false;
+  bool _action_c = false;
 
   @override
   Widget build(BuildContext context) {
@@ -332,7 +344,7 @@ class _InvestigationState extends State<Investigation> {
         const SizedBox(height: 16,),
 
         // Search Button
-        AppSaveButton(text: 'Search'),
+        AppSaveButton(text: 'Search',onPressed: (){}),
 
         const SizedBox(height: 16,),
 
@@ -393,14 +405,16 @@ class _InvestigationState extends State<Investigation> {
                 const TableText('85.00'),
               ],
               [
-                NoPaddingCell(
-                  child: Container(
-                    padding: const EdgeInsets.only(left: 16),
-                    alignment: Alignment.centerLeft,
-                    width: double.infinity,
-                    height: double.infinity,
-                    color: Colors.yellow,
-                    child: const Text("150.00", style: TextStyle(color: Colors.black87, fontSize: 14)),
+                NoRightBorderCell(
+                  child: NoPaddingCell(
+                    child: Container(
+                      padding: const EdgeInsets.only(left: 16),
+                      alignment: Alignment.centerLeft,
+                      width: double.infinity,
+                      height: double.infinity,
+                      color: Colors.yellow,
+                      child: const Text("170.00", style: TextStyle(color: Colors.black87, fontSize: 14)),
+                    ),
                   ),
                 ),
                 NoPaddingCell(
@@ -410,27 +424,32 @@ class _InvestigationState extends State<Investigation> {
                     width: double.infinity,
                     height: double.infinity,
                     color: Colors.yellow,
-                    child: const Text("150.00", style: TextStyle(color: Colors.black87, fontSize: 14)),
+
                   ),
                 )
               ],
               [
                 GlobalCheckbox(
                   label: '',
-                  value: _action_a,
+                  value: _action_b,
                   onChanged: (bool newValue) {
-                    setState(() { _action_a = newValue; });
+                    setState(() { _action_b = newValue; });
                   },
                 ),
                 GlobalCheckbox(
                   label: '',
-                  value: _action_a,
+                  value: _action_c,
                   onChanged: (bool newValue) {
-                    setState(() { _action_a = newValue; });
+                    setState(() { _action_c = newValue; });
                   },
                 ),
               ]
             ]),
+        const SizedBox(height: 16,),
+        AppSaveButton(text: 'Make Payment',onPressed: (){
+
+        },),
+        const SizedBox(height: 16,),
       ],
     );
   }
@@ -444,114 +463,124 @@ class PartPayment extends StatefulWidget {
 class _PartPaymentState extends State<PartPayment> {
 
   bool _action_a = false ;
+  bool _action_b = false ;
   @override
   Widget build(BuildContext context) {
 
-    return DetailTableWrapper(children: [
-      DetailRow(label: 'Head', text: 'Part Payment'),
-      DetailRow(label: 'Date of Req.', text: '08-06-2026'),
-      DetailRow(label: 'Req. No.', text: 'REQ9876'),
-      DetailRow(label: 'Req. Department', text: 'Endrocine Surgery'),
-      DetailRow(label: 'Requested By', text: 'Admin'),
-      DetailRow(label: 'Requested Amount', text: '2000.00'),
+    return Column(
+      children: [
+        DetailTableWrapper(children: [
+          DetailRow(label: 'Head', text: 'Part Payment'),
+          DetailRow(label: 'Date of Req.', text: '08-06-2026'),
+          DetailRow(label: 'Req. No.', text: 'REQ9876'),
+          DetailRow(label: 'Req. Department', text: 'Endrocine Surgery'),
+          DetailRow(label: 'Requested By', text: 'Admin'),
+          DetailRow(label: 'Requested Amount', text: '2000.00'),
 
 
-      DetailRow(
+          DetailRow(
 
 
-        label: "Total Balance (Rs.)",
-        removePadding: true, // 🔥 important
-        customWidget: Container(
-          padding: EdgeInsets.only(left: 16),
-          alignment: Alignment.centerLeft,
-          width: double.infinity,
-          height: double.infinity,
+            label: "Total Balance (Rs.)",
+            removePadding: true, // 🔥 important
+            customWidget: Container(
+              padding: EdgeInsets.only(left: 16),
+              alignment: Alignment.centerLeft,
+              width: double.infinity,
+              height: double.infinity,
 
-          color: Colors.yellow,
-          child: const Text(
-            "0.00",
-            style: const TextStyle(
-              color: Colors.black87,
-              fontSize: 14,
+              color: Colors.yellow,
+              child: const Text(
+                "2000.00",
+                style: const TextStyle(
+                  color: Colors.black87,
+                  fontSize: 14,
+                ),
+              ),
             ),
           ),
-        ),
-      ),
-      Container(
-        decoration: BoxDecoration(
-          border: Border(
-              bottom: BorderSide.none
+          Container(
+            decoration: BoxDecoration(
+              border: Border(
+                  bottom: BorderSide.none
 
 
-          ),
-        ),
-        child: IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // LEFT
-              Container(
-                width: 150,
+              ),
+            ),
+            child: IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // LEFT
+                  Container(
+                    width: 150,
 
-                padding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF0F8F8),
-                  border: Border(
-                    right: BorderSide(color: Colors.grey.shade300,width: 2),
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(   // 🔥 FIX
-                      child: Center(
-                        child: GlobalCheckbox(
-                          label: '', // Label blank hai kyunki hum text par alag action chahte hain
-                          value: _action_a ?? false,
-                          onChanged: (bool newValue) {
-                            setState(() {
-
-                              _action_a = newValue; // Checkbox ka state update
-                            });
-                          },
-                        ),
+                    padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF0F8F8),
+                      border: Border(
+                        right: BorderSide(color: Colors.grey.shade300,width: 2),
                       ),
                     ),
+                    child: Row(
+                      children: [
+                        Expanded(   // 🔥 FIX
+                          child: Center(
+                            child: GlobalCheckbox(
+                              label: '', // Label blank hai kyunki hum text par alag action chahte hain
+                              value: _action_a ?? false,
+                              onChanged: (bool newValue) {
+                                setState(() {
 
-                  ],
-                ),
-              ),
+                                  _action_a = newValue; // Checkbox ka state update
+                                });
+                              },
+                            ),
+                          ),
+                        ),
 
-              // RIGHT
-              Expanded(
-                flex: 3,
-                child: Container(
-                  padding: false
-                      ? EdgeInsets.zero
-                      : const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 18,
+                      ],
+                    ),
                   ),
-                  alignment: Alignment.centerLeft,
-                  child: GlobalCheckbox(
-                    label: '', // Label blank hai kyunki hum text par alag action chahte hain
-                    value: _action_a ?? false,
-                    onChanged: (bool newValue) {
-                      setState(() {
 
-                        _action_a = newValue; // Checkbox ka state update
-                      });
-                    },
+                  // RIGHT
+                  Expanded(
+                    flex: 3,
+                    child: Container(
+                      padding: false
+                          ? EdgeInsets.zero
+                          : const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 18,
+                      ),
+                      alignment: Alignment.centerLeft,
+                      child: GlobalCheckbox(
+                        label: '', // Label blank hai kyunki hum text par alag action chahte hain
+                        value: _action_b ?? false,
+                        onChanged: (bool newValue) {
+                          setState(() {
+
+                            _action_b = newValue; // Checkbox ka state update
+                          });
+                        },
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
-        ),
-      )
+            ),
+          )
 
 
-    ],);
+        ],),
+        const SizedBox(height: 16,),
+        AppSaveButton(text: 'Make Payment',onPressed: (){
+
+        },),
+        const SizedBox(height: 16,),
+      ],
+    );
   }
 }
 

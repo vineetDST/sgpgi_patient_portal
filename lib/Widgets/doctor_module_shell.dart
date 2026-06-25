@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qc_hospital/Core/Data/dummy_data.dart';
 import 'package:qc_hospital/Core/Utils/NavigationBar/HospitalBottomNavigationBar.dart';
 
 // Import the drawers
@@ -41,14 +42,15 @@ class DoctorModuleShellState extends State<DoctorModuleShell> {
     GlobalKey<NavigatorState>(),
   ];
 
+
   // 2. Define the 4 Root Screens for the Doctor tabs
   final List<Widget> _rootScreens = [
     const DashboardVisitsScreen(),
-    const OnlinePayment(patientName: "Anil", crn: "2025000783"), // Default empty OP root
-    const InvestigtionReport(patientName: "Anil", crn: "2025000783"), // Default empty OP root
+    const OnlinePayment(patientName: 'Ram Sharma', crn: "2025000653"), // Default empty OP root
+    const InvestigtionReport(patientName: "Ram Sharma", crn: "2025000653"), // Default empty OP root
     const EmrScreen(
-      patientName: "Anil",
-      crn: "2025000783",
+      patientName: "Ram Sharma",
+      crn: "2025000653",
       mode: 'op',
     ), // --- UPDATED: Replaced placeholder ---
   ];
@@ -121,16 +123,27 @@ class DoctorModuleShellState extends State<DoctorModuleShell> {
         ),
 
         // The Doctor-specific footer (Now visible across all screens)
+        // The Doctor-specific footer
         bottomNavigationBar: HospitalBottomNavigationBar(
           currentIndex: _currentIndex,
           backgroundColor: Colors.transparent,
           notificationBadge: 2,
           onTap: (index) {
             if (index == _currentIndex) {
+              // Same tab click: Reset to root
               _navigatorKeys[index].currentState?.popUntil(
-                (route) => route.isFirst,
+                    (route) => route.isFirst,
               );
             } else {
+              // 👉 NEW LOGIC FOR TESTER:
+              // Doosre tab par jaane se pehle, current tab ki history clear kar do.
+              // Isse agar Tab 3 me 'Ped Balance' khula tha, toh wo close ho jayega aur
+              // tester ko wapas Tab 3 par aane par fresh EMR Screen milegi.
+              _navigatorKeys[_currentIndex].currentState?.popUntil(
+                    (route) => route.isFirst,
+              );
+
+              // Ab naye tab par switch karein
               setState(() => _currentIndex = index);
             }
           },

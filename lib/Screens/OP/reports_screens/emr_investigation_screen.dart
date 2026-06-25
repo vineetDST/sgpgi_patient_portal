@@ -6,6 +6,7 @@ import 'package:qc_hospital/Core/Utils/NavigationBar/navigationbar.dart';
 import 'package:qc_hospital/Screens/IP/Quick_Action_Screen/EMR/ip_emr.dart';
 import 'package:qc_hospital/Screens/IP/ip_base_scaffold.dart';
 import 'package:qc_hospital/Screens/OP/clinical_histories/shared_clinical_components.dart';
+import 'package:qc_hospital/Screens/OP/reports_screens/list_button.dart';
 import 'package:qc_hospital/Widgets/clinical_base_scaffold.dart';
 import 'package:qc_hospital/Core/Utils/Sub_Screen/OP/op_action.dart';
 import 'package:qc_hospital/Core/Utils/Sub_Screen/IP/ip_action_button.dart';
@@ -56,44 +57,7 @@ class _EmrInvestigationScreenState extends State<EmrInvestigationScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Row(
-              children: [
-                _buildBlackButton(
-                  "List",
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EmrListScreen(
-                          patientName: widget.patientName,
-                          crn: widget.crn,
-                          mode: widget.mode,
-                        ),
-                        fullscreenDialog: true,
-                      ),
-                    );
-                  },
-                ),
-                // const SizedBox(width: 8),
-                // widget.mode == "op"
-                //     ? _buildBlackButton(
-                //         "Action",
-                //         onTap: () {
-                //           showModalBottomSheet(
-                //             context: context,
-                //             isScrollControlled: true,
-                //             useRootNavigator: true,
-                //             backgroundColor: Colors.transparent,
-                //             builder: (context) => OpActionBottomSheet(
-                //               patientName: widget.patientName,
-                //               crn: widget.crn,
-                //             ),
-                //           );
-                //         },
-                //       )
-                //     : IPActionButton(),
-              ],
-            ),
+            EmrListButton(patientName: widget.patientName, crn: widget.crn,mode: widget.mode,)
           ],
         ),
         const SizedBox(height: 16),
@@ -129,26 +93,7 @@ class _EmrInvestigationScreenState extends State<EmrInvestigationScreen> {
     }
   }
 
-  Widget _buildBlackButton(String text, {required VoidCallback onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-        decoration: BoxDecoration(
-          color: const Color(0xFF1A1A1A),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Text(
-          text,
-          style: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
-            fontSize: 12,
-          ),
-        ),
-      ),
-    );
-  }
+
 
   Widget _buildTabs() {
     return Container(

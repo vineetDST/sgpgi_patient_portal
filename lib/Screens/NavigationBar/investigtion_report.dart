@@ -91,44 +91,46 @@ class _OpConsultationState extends State<InvestigtionReport> {
       patientName: widget.patientName,
       crn: widget.crn,
       activeQuickAction: 'Admission',
+      isScroll: false,
 
       // 3. Yahan humne ek fixed height de di hai, ab koi RenderFlex error nahi aayega!
-      child: SizedBox(
-        height: availableHeight,
-        child: Column(
-          children: [
+      child: Column(
+        children: [
 
-            // 4. Upar ka content Expanded + Scrollable rahega
-            Expanded(
-              child: SingleChildScrollView(
-                // padding: const EdgeInsets.only(bottom: 20), // Thodi bottom padding taaki content button se na chipke
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildSearchOrder(),
-                    const SizedBox(height: 16),
+          // 4. Upar ka content Expanded + Scrollable rahega
 
-                    _buildRequistionDetails(),
-                    const SizedBox(height: 16),
+           Expanded(
+            child: SingleChildScrollView(
+              // padding: const EdgeInsets.only(bottom: 20), // Thodi bottom padding taaki content button se na chipke
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 70),
+                  _buildSearchOrder(),
+                  const SizedBox(height: 16),
 
-                    _buildTestDetails(),
-                  ],
-                ),
+                  _buildRequistionDetails(),
+                  const SizedBox(height: 16),
+
+                  _buildTestDetails(),
+                  const SizedBox(height: 16),
+                ],
               ),
             ),
-
+          ),
             // 5. Ye button Column ke end me, yani available height ke bottom me fix rahega
             Container(
               color: Colors.transparent,
-              padding:  EdgeInsets.only(bottom: screenHeight * 0.1, ),
+              padding:  EdgeInsets.only(bottom: screenHeight * 0.13,top: 16 ),
               child: AppSaveButton(text: 'Print'),
             ),
 
-          ],
-        ),
+        ],
       ),
     );
   }
+
+
 
   Widget _buildSearchOrder() {
     return CustomExpansionFrame(
@@ -174,7 +176,7 @@ class _OpConsultationState extends State<InvestigtionReport> {
         ),
         const SizedBox(height: 16),
 
-        SharedComponents.buildFormLabel('Department', isRequired: true),
+        SharedComponents.buildFormLabel('Department',),
         const SizedBox(height: 8),
         FunctionalDropdown(
           value: _department,
@@ -184,7 +186,7 @@ class _OpConsultationState extends State<InvestigtionReport> {
         ),
         const SizedBox(height: 16),
 
-        SharedComponents.buildFormLabel('Service Center', isRequired: true),
+        SharedComponents.buildFormLabel('Service Center', ),
         const SizedBox(height: 8),
         FunctionalDropdown(
           value: _service,
@@ -192,6 +194,12 @@ class _OpConsultationState extends State<InvestigtionReport> {
           items: ['--Select--','All','Few'],
           onChanged: (val) => setState(() => _service = val),
         ),
+        const SizedBox(height: 24),
+
+        SizedBox(
+            width: 120,
+            height: 40,
+            child: AppSaveButton(text: 'Search',onPressed: (){},)),
         const SizedBox(height: 16),
 
 

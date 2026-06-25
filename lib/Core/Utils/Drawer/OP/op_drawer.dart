@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qc_hospital/Core/Data/dummy_data.dart';
 import 'package:qc_hospital/Core/Theme/app_color.dart';
 import 'package:qc_hospital/Core/Theme/app_text_style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -42,6 +43,9 @@ class _OpDrawerState extends State<OpDrawer> {
 
     },
   ];
+
+  String name = DummyData.dummyProfile['name'];
+  String crn = DummyData.dummyProfile['crn'];
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +104,7 @@ class _OpDrawerState extends State<OpDrawer> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "DR. Ram Varma",
+                                      name,
                                       style: AppTextStyles.RegH3.copyWith(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 16,
@@ -109,7 +113,7 @@ class _OpDrawerState extends State<OpDrawer> {
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      "Cardiology",
+                                      crn,
                                       style: AppTextStyles.RegH3.copyWith(
                                         fontSize: 14,
                                         color: AppColor.color717171,
@@ -194,16 +198,17 @@ class _OpDrawerState extends State<OpDrawer> {
         int? targetTabIndex;
 
         if (index == 0) {
-          targetScreen = const PedBalance(patientName: 'Anil', crn: '2025000783');
+          targetScreen =  PedBalance(patientName: name, crn: crn);
         } else if (index == 1) {
-          targetScreen = const AccStmt(patientName: 'Anil', crn: '2025000783');
+          targetScreen =   AccStmt(patientName: name, crn: crn);
         } else if (index == 2) {
-          targetScreen = const InvestigationOrder(patientName: 'Anil', crn: '2025000783');
+          targetScreen =   InvestigationOrder(patientName: name, crn: crn);
         } else if (index == 3) {
-          targetScreen = const DuplicateRecepits(patientName: 'Anil', crn: '2025000783');
+          targetScreen =   DuplicateRecepits(patientName: name, crn: crn);
         }
 
         if (targetScreen != null) {
+          // 1. Pehle drawer ko close karein
           Navigator.of(context).pop();
           if (targetTabIndex != null) {
             doctorShellKey.currentState?.changeTab(index);

@@ -15,6 +15,7 @@ import 'package:qc_hospital/Core/Utils/Table/scrollable_table.dart';
 import 'package:qc_hospital/Core/Utils/Table/table_text.dart';
 import 'package:qc_hospital/Screens/IP/ip_base_scaffold.dart';
 import 'package:qc_hospital/Screens/OP/clinical_histories/shared_clinical_components.dart';
+import 'package:qc_hospital/Screens/OP/reports_screens/list_button.dart';
 import 'package:qc_hospital/Widgets/clinical_base_scaffold.dart';
 import 'package:qc_hospital/Core/Utils/Sub_Screen/OP/op_action.dart';
 import 'package:qc_hospital/Core/Utils/Sub_Screen/IP/ip_action_button.dart';
@@ -155,44 +156,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Row(
-              children: [
-                _buildBlackButton(
-                  "List",
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EmrListScreen(
-                          patientName: widget.patientName,
-                          crn: widget.crn,
-                          mode: widget.mode,
-                        ),
-                        fullscreenDialog: true,
-                      ),
-                    );
-                  },
-                ),
-                // const SizedBox(width: 8),
-                // widget.mode == "op"
-                //     ? _buildBlackButton(
-                //         "Action",
-                //         onTap: () {
-                //           showModalBottomSheet(
-                //             context: context,
-                //             isScrollControlled: true,
-                //             useRootNavigator: true,
-                //             backgroundColor: Colors.transparent,
-                //             builder: (context) => OpActionBottomSheet(
-                //               patientName: widget.patientName,
-                //               crn: widget.crn,
-                //             ),
-                //           );
-                //         },
-                //       )
-                //     : IPActionButton(),
-              ],
-            ),
+            EmrListButton(patientName: widget.patientName, crn: widget.crn,mode: widget.mode,)
           ],
         ),
         const SizedBox(height: 16),
@@ -783,7 +747,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
   bool _action_i = false;
   bool _action_j = false;
   final List<TextEditingController> _remarkControllers = List.generate(
-    10,
+    9,
         (_) => TextEditingController(),
   );
 
@@ -811,15 +775,15 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
         rowValues: [
           [
             TableText('Nervous System'),
-            TableText('Nervous System'),
-            TableText('Nervous System'),
-            TableText('Nervous System'),
-            TableText('Nervous System'),
-            TableText('Nervous System'),
-            TableText('Nervous System'),
-            TableText('Nervous System'),
-            TableText('Nervous System'),
-            TableText('Nervous System'),
+            TableText('Respiratory System'),
+            TableText('Circulatory System'),
+            TableText('Digestive System'),
+            TableText('Endocrine System'),
+            TableText('Immune System'),
+            TableText('Muscloskeletel System'),
+            TableText('Urinary / Reproductive System'),
+            TableText('Eye'),
+
 
           ],
           [
@@ -913,16 +877,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                 });
               },
             ),
-            GlobalCheckbox(
-              label: '', // Label blank hai kyunki hum text par alag action chahte hain
-              value: _action_j,
-              onChanged: (bool newValue) {
-                setState(() {
-                  // Jis specific index par click hua hai, sirf uski value update hogi
-                  _action_j = newValue;
-                });
-              },
-            ),
+
 
           ],
 

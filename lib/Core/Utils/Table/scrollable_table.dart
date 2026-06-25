@@ -132,6 +132,9 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
                 // ==========================================
                 // 2. RIGHT SCROLLABLE AREA
                 // ==========================================
+                // ==========================================
+                // 2. RIGHT SCROLLABLE AREA
+                // ==========================================
                 Expanded(
                   child: SingleChildScrollView(
                     controller: _scrollController,
@@ -140,8 +143,6 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ...List.generate(currentLabels.length, (rowIndex) {
-
-                          // 🔥 Check agar ye first row hai aur flag true hai
                           bool isHeader = widget.isFirstRowHeader && rowIndex == 0;
 
                           return Row(
@@ -149,24 +150,36 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
                                 widget.rowValues[rowIndex].length,
                                     (colIndex) {
 
+                                  // 🔥 NAYA LOGIC WIDGET KO UNWRAP KARNE KE LIYE
                                   Widget cellWidget = widget.rowValues[rowIndex][colIndex];
-                                  bool shouldRemovePadding = cellWidget is NoPaddingCell;
+                                  bool shouldRemovePadding = false;
+                                  bool shouldRemoveRightBorder = false;
 
-                                  if (shouldRemovePadding) {
-                                    cellWidget = (cellWidget as NoPaddingCell).child;
+                                  // While loop check karega agar wrapper nested hain
+                                  while (cellWidget is NoPaddingCell || cellWidget is NoRightBorderCell) {
+                                    if (cellWidget is NoPaddingCell) {
+                                      shouldRemovePadding = true;
+                                      cellWidget = cellWidget.child;
+                                    }
+                                    if (cellWidget is NoRightBorderCell) {
+                                      shouldRemoveRightBorder = true;
+                                      cellWidget = cellWidget.child;
+                                    }
                                   }
+
+                                  bool isLastColOfThisRow = colIndex == widget.rowValues[rowIndex].length - 1;
 
                                   return _buildCell(
                                     width: widget.dataColumnWidth,
                                     isLastRow: rowIndex == currentLabels.length - 1,
-                                    isLastCol: colIndex == widget.rowValues[rowIndex].length - 1,
+                                    isLastCol: isLastColOfThisRow,
                                     removePadding: shouldRemovePadding,
-                                    bgColor: isHeader ? const Color(0xFF117A7A) : Colors.white, // Background Red
-                                    borderColor: isHeader ? Colors.white : Colors.grey.shade300, // Border White
-                                    child: cellWidget,
+                                    forceNoRightBorder: shouldRemoveRightBorder, // 🔥 FLAG PASS KIYA
+                                    bgColor: isHeader ? const Color(0xFF117A7A) : Colors.white,
+                                    borderColor: isHeader ? Colors.white : Colors.grey.shade300,
+                                    child: cellWidget, // Unwrap kiya hua actual widget
                                   );
-                                }
-                            ),
+                                }),
                           );
                         }),
                       ],
@@ -190,21 +203,25 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
     bool isLastRow = false,
     bool isLastCol = false,
     bool removePadding = false,
-    Color? bgColor, // 🔥 Naya parameter
-    Color? borderColor, // 🔥 Naya parameter
+    bool forceNoRightBorder = false, // 🔥 NAYA PARAMETER
+    Color? bgColor,
+    Color? borderColor,
   }) {
+    // 🔥 Agar last col hai, ya humne manually force kiya hai, toh border hide kar do
+    bool hideRightBorder = isLastCol || forceNoRightBorder;
+
     return Container(
       height: widget.rowHeight,
       width: width,
-      padding:    EdgeInsets.symmetric(horizontal: removePadding ? 0 : 16,vertical: 0),
+      padding: EdgeInsets.symmetric(horizontal: removePadding ? 0 : 16, vertical: 0),
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
-        color: bgColor, // 🔥 Background apply karo
+        color: bgColor,
         border: Border(
           bottom: isLastRow
               ? BorderSide.none
-              : BorderSide(color:  Colors.grey.shade300, width: 2),
-          right: isLastCol
+              : BorderSide(color: Colors.grey.shade300, width: 2),
+          right: hideRightBorder // 🔥 Yahan logic change hua
               ? BorderSide.none
               : BorderSide(color: borderColor ?? Colors.grey.shade300, width: 2),
         ),
@@ -268,6 +285,16 @@ class NoPaddingCell extends StatelessWidget {
   final Widget child;
 
   const NoPaddingCell({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return child;
+  }
+}
+class NoRightBorderCell extends StatelessWidget {
+  final Widget child;
+
+  const NoRightBorderCell({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {

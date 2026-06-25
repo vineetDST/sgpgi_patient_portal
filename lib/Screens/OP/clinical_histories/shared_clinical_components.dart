@@ -138,13 +138,13 @@ class SharedComponents {
             children: [
               Text(
                 label1,
-                style: const TextStyle(color: Colors.grey, fontSize: 11),
+                style:   TextStyle(color: isName ? const Color(0xFF117A7A) : Colors.grey, fontSize: 11),
               ),
               const SizedBox(height: 10),
               Text(
                 val1,
                 style: TextStyle(
-                  color: isName ? const Color(0xFF117A7A) : Colors.black,
+                  color:   Colors.black,
                   fontWeight: FontWeight.bold,
                   fontSize: 12,
                 ),

@@ -169,7 +169,12 @@ class DummyData{
     'Wales': ['--Select--', 'Cardiff', 'Swansea'],
   };
 
-
+  static const Map<String, dynamic> dummyProfile = {
+    'name': 'Ram Sharma',
+    'age': 34,
+    'sex': 'Male',
+    'crn': '2025000653',
+  };
 }
 
 Future<void> showOtpNotification(String otp) async {
@@ -230,4 +235,8 @@ Future<void> sendOTP() async {
   // 4. Notification bhejein
   await requestNotificationPermission();
   await showOtpNotification(nayaOtp);
+}
+
+void clearOtp(){
+  DummyData.otp = '';
 }
