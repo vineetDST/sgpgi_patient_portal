@@ -122,7 +122,7 @@ class _OpConsultationState extends State<InvestigtionReport> {
             Container(
               color: Colors.transparent,
               padding:  EdgeInsets.only(bottom: screenHeight * 0.13,top: 16 ),
-              child: AppSaveButton(text: 'Print'),
+              child: AppSaveButton(text: 'Print',onPressed: () {},),
             ),
 
         ],

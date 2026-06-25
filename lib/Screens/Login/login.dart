@@ -34,8 +34,8 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState(){
     super.initState();
 
-    crnoController.text = 'Asgar';
-    passwordController.text = 'Asgar@123';
+    // crnoController.text = 'Asgar';
+    // passwordController.text = 'Asgar@123';
 
   }
   @override
