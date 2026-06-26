@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+
 class ExpandedDropdown extends StatefulWidget {
   final String? value;
   final List<String> items;
   final Function(String?) onChanged;
   final String hint;
+  final bool enabled;
 
   const ExpandedDropdown({
     super.key,
@@ -11,6 +13,7 @@ class ExpandedDropdown extends StatefulWidget {
     required this.items,
     required this.onChanged,
     this.hint = "--Select--",
+    this.enabled = true,
   });
 
   @override
@@ -18,7 +21,6 @@ class ExpandedDropdown extends StatefulWidget {
 }
 
 class _AppDropdownState extends State<ExpandedDropdown> {
-
   bool isOpen = false;
   @override
   Widget build(BuildContext context) {
@@ -28,11 +30,14 @@ class _AppDropdownState extends State<ExpandedDropdown> {
           height: 48,
           width: double.infinity,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: widget.enabled ? Colors.white : Colors.grey.shade100,
+
+            // color: Colors.white,
             borderRadius: BorderRadius.circular(8),
             border: Border.all(color: Colors.grey.shade300),
           ),
           child: PopupMenuButton<String>(
+            enabled: widget.enabled,
             // onSelected: widget.onChanged,
             onOpened: () {
               setState(() => isOpen = true);
@@ -55,43 +60,46 @@ class _AppDropdownState extends State<ExpandedDropdown> {
               borderRadius: BorderRadius.circular(8),
               side: BorderSide(color: Colors.grey.shade300, width: 1),
             ),
-            child:
-
-                 Padding(
+            child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-
                   Expanded(
-                      child: Text(
-                        widget.value ?? widget.hint,
-                        style: TextStyle(
-                          color: (widget.value == null || widget.value == widget.hint)
-                              ? Colors.grey.shade400
-                              : Colors.black87,
-                          fontSize: 14,
-                        ),
-                        overflow: TextOverflow.ellipsis,
+                    child: Text(
+                      widget.value ?? widget.hint,
+                      style: TextStyle(
+                        color: !widget.enabled
+                            ? Colors.grey.shade500
+                            : (widget.value == null ||
+                                  widget.value == widget.hint)
+                            ? Colors.grey.shade400
+                            : Colors.black87,
+                        fontSize: 14,
                       ),
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  const Icon(Icons.arrow_drop_down, color: Colors.grey),
+                  ),
+                  Icon(
+                    Icons.arrow_drop_down,
+                    color: widget.enabled ? Colors.grey : Colors.grey.shade400,
+                  ),
                 ],
               ),
             ),
             itemBuilder: (context) => widget.items
                 .map(
                   (item) => PopupMenuItem<String>(
-                value: item,
-                child: Text(
-                  item,
-                  style: const TextStyle(
-                    color: Colors.black87,
-                    fontSize: 14,
+                    value: item,
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        color: Colors.black87,
+                        fontSize: 14,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            )
+                )
                 .toList(),
           ),
         );

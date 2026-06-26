@@ -138,13 +138,16 @@ class SharedComponents {
             children: [
               Text(
                 label1,
-                style:   TextStyle(color: isName ? const Color(0xFF117A7A) : Colors.grey, fontSize: 11),
+                style: TextStyle(
+                  color: isName ? const Color(0xFF117A7A) : Colors.grey,
+                  fontSize: 11,
+                ),
               ),
               const SizedBox(height: 10),
               Text(
                 val1,
                 style: TextStyle(
-                  color:   Colors.black,
+                  color: Colors.black,
                   fontWeight: FontWeight.bold,
                   fontSize: 12,
                 ),
@@ -385,7 +388,6 @@ class SharedComponents {
     bool obscureText = false,
 
     List<TextInputFormatter>? inputFormatters,
-
   }) {
     return Container(
       height: height,
@@ -425,9 +427,22 @@ class SharedComponents {
 
             contextMenuBuilder: (_, __) => const SizedBox.shrink(),
             decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide.none,
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide.none,
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide.none,
+              ),
+              filled: readOnly,
+              fillColor: const Color(0xFFF8F9FA),
               hintText: hintText,
               hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
-              border: InputBorder.none,
               suffixIcon: suffix,
               isDense: isDense,
               contentPadding: EdgeInsets.symmetric(
@@ -481,10 +496,24 @@ class SharedComponents {
 
         contextMenuBuilder: (_, __) => const SizedBox.shrink(),
         decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide.none,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide.none,
+          ),
+          filled: readOnly,
+          fillColor: const Color(0xFFF8F9FA),
           isDense: true,
           hintText: hintText,
           hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
-          border: InputBorder.none,
+          // border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,
             vertical: 8,

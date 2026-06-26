@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qc_hospital/Core/Theme/app_color.dart';
 
 class AppSaveButton extends StatelessWidget {
   final String text;
@@ -6,12 +7,14 @@ class AppSaveButton extends StatelessWidget {
   final Color backgroundColor;
   final Color textColor;
   final bool isFullWidth;
-  final double size ;
+  final double size;
+  final bool enabled;
 
   const AppSaveButton({
     super.key,
     this.text = 'Save',
     this.onPressed,
+    this.enabled = true,
     this.backgroundColor = const Color(0xFF117A7A), // Default Teal color
     this.textColor = Colors.white, // Default White text
     this.isFullWidth = true, // Default double.infinity width
@@ -25,11 +28,14 @@ class AppSaveButton extends StatelessWidget {
       width: isFullWidth ? double.infinity : null,
       height: 48,
       child: ElevatedButton(
-        onPressed: onPressed ?? () {
-          Navigator.of(context).pop();
-        },
+        onPressed: enabled
+            ? onPressed ??
+                  () {
+                    Navigator.of(context).pop();
+                  }
+            : null,
         style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor,
+          backgroundColor: enabled ? backgroundColor : Color(0xFFF8F9FA),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
           ),
@@ -38,7 +44,7 @@ class AppSaveButton extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-            color: textColor,
+            color: enabled ? textColor : AppColor.color1E1E1E,
             fontSize: size,
             fontWeight: FontWeight.w600,
           ),

@@ -4,10 +4,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qc_hospital/main.dart';
 
-
-class DummyData{
-
-
+class DummyData {
+  static int registration = 0;
 
   static const List<String> donorTypes = [
     '--Select--',
@@ -89,7 +87,6 @@ class DummyData{
     'Mrs',
     'Miss',
     'Prof',
-
   ];
 
   static const List<String> maritalStatus = [
@@ -98,53 +95,51 @@ class DummyData{
     'Un-Marreid',
     'Single',
     'Divorced',
-
   ];
 
   static const List<String> ageUnits = [
     '--Select--',
-    'Years', 'Months', 'Days'
-
+    'Years',
+    'Months',
+    'Days',
   ];
 
   static const List<String> religion = [
     '--Select--',
-    'Christian', 'Hindu', 'Muslim', 'Other'
-
+    'Christian',
+    'Hindu',
+    'Muslim',
+    'Other',
   ];
 
-  static const List<String> sex = [
-    '--Select--',
-    'Male', 'Female', 'Other'
+  static const List<String> sex = ['--Select--', 'Male', 'Female', 'Other'];
 
-  ];
-
-  static const List<String> countries = [
-    '--Select--',
-    'India', 'USA', 'UK'
-
-  ];
+  static const List<String> countries = ['--Select--', 'India', 'USA', 'UK'];
 
   static const List<String> states = [
     '--Select--',
-    'Tamil Nadu', 'Maharashtra', 'Delhi'
-
+    'Tamil Nadu',
+    'Maharashtra',
+    'Delhi',
   ];
 
   static const List<String> cities = [
     '--Select--',
 
-    'Chennai', 'Mumbai', 'New Delhi'
+    'Chennai',
+    'Mumbai',
+    'New Delhi',
   ];
 
   static const List<String> identity = [
     '--Select--',
 
-    'Aadhar Card', 'PAN Card', 'Voter Card'
+    'Aadhar Card',
+    'PAN Card',
+    'Voter Card',
   ];
 
-
-  static String password = 'Asgar@123' ;
+  static String password = 'Asgar@123';
   static String otp = '';
 
   static const List<String> countries1 = ['--Select--', 'India', 'USA', 'UK'];
@@ -187,12 +182,11 @@ Future<void> showOtpNotification(String otp) async {
     playSound: true,
     enableVibration: true,
     ticker: 'OTP Notification',
-
-
   );
 
-  const NotificationDetails notificationDetails =
-  NotificationDetails(android: androidDetails);
+  const NotificationDetails notificationDetails = NotificationDetails(
+    android: androidDetails,
+  );
 
   await flutterLocalNotificationsPlugin.show(
     0,
@@ -237,6 +231,6 @@ Future<void> sendOTP() async {
   await showOtpNotification(nayaOtp);
 }
 
-void clearOtp(){
+void clearOtp() {
   DummyData.otp = '';
 }

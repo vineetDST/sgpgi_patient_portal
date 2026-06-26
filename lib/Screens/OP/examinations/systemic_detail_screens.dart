@@ -78,9 +78,11 @@ class _NervousSystemScreenState extends State<NervousSystemScreen> {
           SharedComponents.buildFormLabel("Other"),
           const SizedBox(height: 8),
           SharedComponents.buildTextField(
+            readOnly: true,
             controller: _otherCtrl,
             hintText: "Other",
             maxLines: 5,
+
             // height: 130,
           ),
         ],
@@ -99,10 +101,10 @@ class _NervousSystemScreenState extends State<NervousSystemScreen> {
         SharedComponents.buildFormLabel(label),
         const SizedBox(height: 8),
         SharedComponents.buildTextField(
+          readOnly: true,
           controller: ctrl,
           hintText: label,
           maxLines: 5,
-
         ),
         if (!isLast) const SizedBox(height: 24),
       ],
@@ -188,6 +190,7 @@ class _RespiratorySystemScreenState extends State<RespiratorySystemScreen> {
           SharedComponents.buildFormLabel("Other Remarks"),
           const SizedBox(height: 8),
           SharedComponents.buildTextField(
+            readOnly: true,
             controller: _remarksCtrl,
             hintText: "Other Remarks",
             maxLines: 5,
@@ -218,15 +221,15 @@ class CirculatorySystemScreen extends StatefulWidget {
 
 class _CirculatorySystemScreenState extends State<CirculatorySystemScreen> {
   // Exam 1 States
-  String? perPulse,
-      rhythm,
-      apex,
+  String? perPulse = "Normal",
+      rhythm = "Regular",
+      apex = "Tapping",
       rfDelay,
-      allPulses,
+      allPulses = "Equal",
       cardio,
       s1,
       s2,
-      s2Split,
+      s2Split = "Normal",
       s3,
       s4,
       rub;
@@ -466,7 +469,22 @@ class _CirculatorySystemScreenState extends State<CirculatorySystemScreen> {
                         groupValue: sysVal,
                         activeColor: const Color(0xFF117A7A),
                         visualDensity: VisualDensity.compact,
-                        onChanged: sysChange,
+                        // onChanged: sysChange,
+                        onChanged: null, // disable here
+
+                        fillColor: MaterialStateProperty.resolveWith<Color>((
+                          states,
+                        ) {
+                          if (states.contains(MaterialState.disabled)) {
+                            return Colors.grey.shade400; // disabled color
+                          }
+                          if (states.contains(MaterialState.selected)) {
+                            return const Color(0xFF117A7A); // selected color
+                          }
+                          return Colors
+                              .grey
+                              .shade600; // normal unselected border
+                        }),
                       ),
                     )
                     .toList(),
@@ -487,7 +505,22 @@ class _CirculatorySystemScreenState extends State<CirculatorySystemScreen> {
                         groupValue: diaVal,
                         activeColor: const Color(0xFF117A7A),
                         visualDensity: VisualDensity.compact,
-                        onChanged: diaChange,
+                        // onChanged: diaChange,
+                        onChanged: null, // disable here
+
+                        fillColor: MaterialStateProperty.resolveWith<Color>((
+                          states,
+                        ) {
+                          if (states.contains(MaterialState.disabled)) {
+                            return Colors.grey.shade400; // disabled color
+                          }
+                          if (states.contains(MaterialState.selected)) {
+                            return const Color(0xFF117A7A); // selected color
+                          }
+                          return Colors
+                              .grey
+                              .shade600; // normal unselected border
+                        }),
                       ),
                     )
                     .toList(),
@@ -504,14 +537,30 @@ class _CirculatorySystemScreenState extends State<CirculatorySystemScreen> {
                   border: Border.all(color: Colors.grey.shade300),
                 ),
                 child: TextField(
+                  readOnly: true,
+
                   controller: ctrl,
                   style: const TextStyle(fontSize: 13),
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide.none,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide.none,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide.none,
+                    ),
+                    filled: true,
+                    fillColor: const Color(0xFFF8F9FA),
                     contentPadding: EdgeInsets.symmetric(
                       horizontal: 12,
                       vertical: 10,
                     ),
-                    border: InputBorder.none,
+                    // border: InputBorder.none,
                     isDense: true,
                   ),
                 ),
@@ -611,7 +660,14 @@ class DigestiveSystemScreen extends StatefulWidget {
 }
 
 class _DigestiveSystemScreenState extends State<DigestiveSystemScreen> {
-  String? liver, spleen, veins, rectal, tenderness, ascites, guarding, abdLump;
+  String? liver = "Yes",
+      spleen = "Yes",
+      veins = "Yes",
+      rectal = "Yes",
+      tenderness = "No",
+      ascites,
+      guarding,
+      abdLump;
   final _liverCtrl = TextEditingController();
   final _spleenCtrl = TextEditingController();
   final _veinsCtrl = TextEditingController();
@@ -739,6 +795,7 @@ class _DigestiveSystemScreenState extends State<DigestiveSystemScreen> {
           SharedComponents.buildFormLabel("Other Remarks"),
           const SizedBox(height: 8),
           SharedComponents.buildTextField(
+            readOnly: true,
             controller: _remarksCtrl,
             hintText: "Other Remarks",
             maxLines: 5,
@@ -760,6 +817,7 @@ class _DigestiveSystemScreenState extends State<DigestiveSystemScreen> {
         SharedComponents.buildFormLabel(label),
         const SizedBox(height: 8),
         SharedComponents.buildTextField(
+          readOnly: true,
           controller: ctrl,
           hintText: label,
           maxLines: 5,
@@ -934,6 +992,7 @@ class _MusculoskeletalSystemScreenState
           SharedComponents.buildFormLabel("Other Remarks"),
           const SizedBox(height: 8),
           SharedComponents.buildTextField(
+            readOnly: true,
             controller: _remarksCtrl,
             hintText: "Other Remarks",
             maxLines: 5,
@@ -964,12 +1023,12 @@ class ReproductiveSystemScreen extends StatefulWidget {
 
 class _ReproductiveSystemScreenState extends State<ReproductiveSystemScreen> {
   // Urinary / Reproductive States
-  String? uriAbdLump;
-  String? uriRenalTenderness;
-  String? uriBladderLump;
-  String? uriAscites;
-  String? uriLymph;
-  String? uriSpine;
+  String? uriAbdLump = "Yes";
+  String? uriRenalTenderness = "Yes";
+  String? uriBladderLump = "Yes";
+  String? uriAscites = "Yes";
+  String? uriLymph = "Normal";
+  String? uriSpine = "Yes";
   String? uriOthers;
   final _uriAbdLumpCtrl = TextEditingController();
   final _uriRenalTendernessCtrl = TextEditingController();
@@ -994,19 +1053,19 @@ class _ReproductiveSystemScreenState extends State<ReproductiveSystemScreen> {
   final _prosMucosaCtrl = TextEditingController();
 
   // Gait & Limb Deformity States
-  String? gaitDeformity;
-  String? limbDeformity;
-  String? otherDeformity;
+  String? gaitDeformity = "Yes";
+  String? limbDeformity = "No";
+  String? otherDeformity = "Yes";
   final _gaitDeformityCtrl = TextEditingController();
   final _limbDeformityCtrl = TextEditingController();
   final _otherDeformityCtrl = TextEditingController();
 
   // Genital Examination States
-  String? genPrepuce;
-  String? genTestis;
-  String? genMeatus;
-  String? genVaricocele;
-  String? genBxo;
+  String? genPrepuce = "Normal";
+  String? genTestis = "Normal";
+  String? genMeatus = "Normal";
+  String? genVaricocele = "Normal";
+  String? genBxo = "Yes";
   String? genOthers;
   final _genPrepuceCtrl = TextEditingController();
   final _genTestisCtrl = TextEditingController();
@@ -1016,9 +1075,9 @@ class _ReproductiveSystemScreenState extends State<ReproductiveSystemScreen> {
   final _genOthersCtrl = TextEditingController();
 
   // Vascular Access States
-  String? vasAvf;
-  String? vasCapd;
-  String? vasSubclavian;
+  String? vasAvf = "Yes";
+  String? vasCapd = "No";
+  String? vasSubclavian = "Yes";
   final _vasAvfCtrl = TextEditingController();
   final _vasCapdCtrl = TextEditingController();
   final _vasSubclavianCtrl = TextEditingController();
@@ -1259,6 +1318,7 @@ class _ReproductiveSystemScreenState extends State<ReproductiveSystemScreen> {
           SharedComponents.buildFormLabel("Other Remarks"),
           const SizedBox(height: 8),
           SharedComponents.buildTextField(
+            readOnly: true,
             controller: _remarksCtrl,
             hintText: "Other Remarks",
             maxLines: 5,
@@ -1276,7 +1336,7 @@ class _ReproductiveSystemScreenState extends State<ReproductiveSystemScreen> {
 class EndocrineSystemScreen extends StatelessWidget {
   final String patientName;
   final String crn;
-    EndocrineSystemScreen({
+  EndocrineSystemScreen({
     super.key,
     required this.patientName,
     required this.crn,
@@ -1297,6 +1357,7 @@ class EndocrineSystemScreen extends StatelessWidget {
           SharedComponents.buildFormLabel("Other Remarks"),
           const SizedBox(height: 8),
           SharedComponents.buildTextField(
+            readOnly: true,
             hintText: "Other Remarks",
             maxLines: 5,
             controller: _otherRemarksController,
@@ -1310,11 +1371,7 @@ class EndocrineSystemScreen extends StatelessWidget {
 class ImmuneSystemScreen extends StatelessWidget {
   final String patientName;
   final String crn;
-    ImmuneSystemScreen({
-    super.key,
-    required this.patientName,
-    required this.crn,
-  });
+  ImmuneSystemScreen({super.key, required this.patientName, required this.crn});
   final TextEditingController _otherRemarksController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -1330,9 +1387,10 @@ class ImmuneSystemScreen extends StatelessWidget {
           SharedComponents.buildFormLabel("Other Remarks"),
           const SizedBox(height: 8),
           SharedComponents.buildTextField(
+            readOnly: true,
             hintText: "Other Remarks",
             maxLines: 5,
-            controller: _otherRemarksController
+            controller: _otherRemarksController,
           ),
         ],
       ),
@@ -1498,7 +1556,20 @@ class _EyeSystemScreenState extends State<EyeSystemScreen> {
                         horizontal: -4,
                         vertical: -4,
                       ),
-                      onChanged: onChanged,
+                      // onChanged: onChanged,
+                      onChanged: null, // disable here
+
+                      fillColor: MaterialStateProperty.resolveWith<Color>((
+                        states,
+                      ) {
+                        if (states.contains(MaterialState.disabled)) {
+                          return Colors.grey.shade400; // disabled color
+                        }
+                        if (states.contains(MaterialState.selected)) {
+                          return const Color(0xFF117A7A); // selected color
+                        }
+                        return Colors.grey.shade600; // normal unselected border
+                      }),
                     ),
                     const SizedBox(width: 4),
                     Text(
@@ -1649,14 +1720,30 @@ Widget _buildTextTable(List<_TData> rows) {
                               border: Border.all(color: Colors.grey.shade300),
                             ),
                             child: TextField(
+                              readOnly: true,
+
                               controller: data.controller,
                               style: const TextStyle(fontSize: 13),
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide.none,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide.none,
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide.none,
+                                ),
+                                filled: true,
+                                fillColor: const Color(0xFFF8F9FA),
                                 contentPadding: EdgeInsets.symmetric(
                                   horizontal: 12,
                                   vertical: 10,
                                 ),
-                                border: InputBorder.none,
+                                // border: InputBorder.none,
                                 isDense: true,
                               ),
                             ),
@@ -1757,7 +1844,30 @@ Widget _buildRadioTextTable(List<_RTData> rows, {double radioWidth = 220}) {
                                           groupValue: data.selected,
                                           activeColor: const Color(0xFF117A7A),
                                           visualDensity: VisualDensity.compact,
-                                          onChanged: data.onChanged,
+                                          onChanged: null, // disable here
+
+                                          fillColor:
+                                              MaterialStateProperty.resolveWith<
+                                                Color
+                                              >((states) {
+                                                if (states.contains(
+                                                  MaterialState.disabled,
+                                                )) {
+                                                  return Colors
+                                                      .grey
+                                                      .shade400; // disabled color
+                                                }
+                                                if (states.contains(
+                                                  MaterialState.selected,
+                                                )) {
+                                                  return const Color(
+                                                    0xFF117A7A,
+                                                  ); // selected color
+                                                }
+                                                return Colors
+                                                    .grey
+                                                    .shade600; // normal unselected border
+                                              }),
                                         ),
                                         Text(
                                           opt,
@@ -1793,14 +1903,30 @@ Widget _buildRadioTextTable(List<_RTData> rows, {double radioWidth = 220}) {
                                 border: Border.all(color: Colors.grey.shade300),
                               ),
                               child: TextField(
+                                readOnly: true,
+
                                 controller: data.controller,
                                 style: const TextStyle(fontSize: 13),
-                                decoration: const InputDecoration(
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  filled: true,
+                                  fillColor: const Color(0xFFF8F9FA),
                                   contentPadding: EdgeInsets.symmetric(
                                     horizontal: 12,
                                     vertical: 10,
                                   ),
-                                  border: InputBorder.none,
+                                  // border: InputBorder.none,
                                   isDense: true,
                                 ),
                               ),
@@ -1868,8 +1994,8 @@ Widget _buildBaseScreen(
         ),
         const SizedBox(height: 16),
         child, // The specific forms go here
-        const SizedBox(height: 32),
-        SharedComponents.buildActionButtons(context),
+        // const SizedBox(height: 32),
+        // SharedComponents.buildActionButtons(context),
         const SizedBox(height: 20),
       ],
     ),
@@ -1891,13 +2017,9 @@ Widget _buildBaseScreen(
   );
 }
 
-
 // Helper models for Synchronized Radio Tables
 class _RadioRowData {
   final String label;
   final List<String> options;
   _RadioRowData(this.label, this.options);
 }
-
-
-

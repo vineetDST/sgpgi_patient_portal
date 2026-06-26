@@ -49,7 +49,6 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
   String? _referringDepartment;
   String? _identity;
 
-
   String _addressType = 'Urban'; // Radio Button value (Urban / Rural)
   String typeRadio1 = "Urban";
 
@@ -61,8 +60,6 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
   // Dynamic lists jo UI me show hongi
   List<String> _availableStates = ['--Select--'];
   List<String> _availableCities = ['--Select--'];
-
-
 
   bool _sameAsPresentAddress = true; // Correspondence Checkbox
 
@@ -84,10 +81,10 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
 
   final ExpansionTileController _demoController = ExpansionTileController();
   final ExpansionTileController _contactController = ExpansionTileController();
-  final ExpansionTileController _emergencyController = ExpansionTileController();
+  final ExpansionTileController _emergencyController =
+      ExpansionTileController();
   final ExpansionTileController _referralController = ExpansionTileController();
   final ExpansionTileController _identityController = ExpansionTileController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -105,11 +102,7 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
         ),
         title: const Text(
           'Online Registration',
-          style: TextStyle(
-            color: Colors.black,
-
-            fontSize: 16,
-          ),
+          style: TextStyle(color: Colors.black, fontSize: 16),
         ),
         centerTitle: true,
         // Gradient background set karne ke liye flexibleSpace
@@ -130,22 +123,22 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
       // ================= BODY =================
       // Baad me aap apne ExpansionFrames yahan daal sakte hain
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal:16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           children: [
-            const SizedBox(height: 16,),
-            Expanded(child: ListView(
-              children: [
-                _buildDemographicsSection(),
-                _buildContactDetailsSection(),
-                _buildEmergencyContact(),
-                _buildReferralDetails(),
-                _buildIdentity(),
-              ],
-
-            )),
-            const SizedBox(height: 10,),
-
+            const SizedBox(height: 16),
+            Expanded(
+              child: ListView(
+                children: [
+                  _buildDemographicsSection(),
+                  _buildContactDetailsSection(),
+                  _buildEmergencyContact(),
+                  _buildReferralDetails(),
+                  _buildIdentity(),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
           ],
         ),
       ),
@@ -153,15 +146,17 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
       // ================= BOTTOM SECTION =================
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-        ),
+        decoration: const BoxDecoration(color: Colors.white),
         child: Column(
-          mainAxisSize: MainAxisSize.min, // Ye column ko shrink karke bottom me rakhega
+          mainAxisSize:
+              MainAxisSize.min, // Ye column ko shrink karke bottom me rakhega
           children: [
             GlobalCheckbox(
+              enabled: DummyData.registration == 0 ? true : false,
+
               crossAxisAlignment: CrossAxisAlignment.center,
-              label: 'I Hereby declare that all the above information is correct and complete',
+              label:
+                  'I Hereby declare that all the above information is correct and complete',
               value: _action_a,
               onChanged: (bool newValue) {
                 setState(() {
@@ -170,21 +165,44 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
               },
             ),
             const SizedBox(height: 8),
-            AppSaveButton(
-              text: 'Register',
-              onPressed: () {
-                // Ye button dabte hi pehle validation check hoga.
-                // Agar error hua, toh wahi ruk jayega aur alert dega.
-                // Agar pass hua, toh aage bhej dega.
-                _validateAndSubmit();
-              },
-            ),
+            if (DummyData.registration == 0)
+              AppSaveButton(
+                enabled: DummyData.registration == 0 ? true : false,
+                text: 'Register',
+                onPressed: () {
+                  // Ye button dabte hi pehle validation check hoga.
+                  // Agar error hua, toh wahi ruk jayega aur alert dega.
+                  // Agar pass hua, toh aage bhej dega.
+                  if (DummyData.registration == 0) _validateAndSubmit();
+                },
+              ),
+            const SizedBox(height: 12),
+
+            if (DummyData.registration == 1)
+              AppSaveButton(
+                text: 'Print',
+                onPressed: () {
+                  // Ye button dabte hi pehle validation check hoga.
+                  // Agar error hua, toh wahi ruk jayega aur alert dega.
+                  // Agar pass hua, toh aage bhej dega.
+                  // _validateAndSubmit();
+                  if (DummyData.registration == 1) {
+                    scaffoldMessenger(
+                      context,
+                      title: 'Print',
+                      message: 'Print succesfully',
+                      type: NotificationType.success,
+                    );
+                  }
+                },
+              ),
             const SizedBox(height: 20),
           ],
         ),
       ),
     );
   }
+
   Widget _buildDemographicsSection() {
     return CustomExpansionFrame(
       controller: _demoController,
@@ -192,12 +210,18 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
       children: [
         SharedComponents.buildFormLabel('Reference No.'),
         const SizedBox(height: 8),
-        SharedComponents.buildTextField(hintText: 'Auto Generated',enabled: true,readOnly: true),
+        SharedComponents.buildTextField(
+          // readOnly: DummyData.registration == 0 ? false : true,
+          hintText: 'Auto Generated',
+          enabled: true,
+          readOnly: true,
+        ),
         const SizedBox(height: 16),
 
         SharedComponents.buildFormLabel('Date'),
         const SizedBox(height: 8),
         AppDateField(
+          enabled: DummyData.registration == 0 ? true : false,
           controller: dateOfDischargeController,
           onTap: () async {
             DateTime? pickedDate = await CustomCalendarDialog.show(
@@ -217,6 +241,8 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
         SharedComponents.buildFormLabel('Department', isRequired: true),
         const SizedBox(height: 8),
         FunctionalDropdown(
+          enabled: DummyData.registration == 0 ? true : false,
+
           value: _department,
           hint: '--Select--',
           items: DummyData.department,
@@ -227,6 +253,8 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
         SharedComponents.buildFormLabel('Prefix', isRequired: true),
         const SizedBox(height: 8),
         FunctionalDropdown(
+          enabled: DummyData.registration == 0 ? true : false,
+
           value: _prefix,
           hint: '--Select--',
           items: DummyData.prefix,
@@ -236,24 +264,33 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
 
         SharedComponents.buildFormLabel('First Name'),
         const SizedBox(height: 8),
-        SharedComponents.buildTextField(hintText: 'Enter the First Name'),
+
+        SharedComponents.buildTextField(
+          readOnly: DummyData.registration == 0 ? false : true,
+          hintText: 'Enter the First Name',
+        ),
         const SizedBox(height: 16),
 
         SharedComponents.buildFormLabel('Middle Name'),
         const SizedBox(height: 8),
-        SharedComponents.buildTextField(hintText: 'Enter the Middle Name'),
+        SharedComponents.buildTextField(
+          readOnly: DummyData.registration == 0 ? false : true,
+          hintText: 'Enter the Middle Name',
+        ),
         const SizedBox(height: 16),
 
         SharedComponents.buildFormLabel('Last Name'),
         const SizedBox(height: 8),
-        SharedComponents.buildTextField(hintText: 'Enter the Last Name'),
+        SharedComponents.buildTextField(
+          readOnly: DummyData.registration == 0 ? false : true,
+          hintText: 'Enter the Last Name',
+        ),
         const SizedBox(height: 16),
-
-
 
         SharedComponents.buildFormLabel('Sex', isRequired: true),
         const SizedBox(height: 8),
         FunctionalDropdown(
+          enabled: DummyData.registration == 0 ? true : false,
           value: _sex,
           hint: '--Select--',
           items: DummyData.sex ?? ['Male', 'Female', 'Other'],
@@ -264,6 +301,8 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
         SharedComponents.buildFormLabel('Date of Birth', isRequired: true),
         const SizedBox(height: 8),
         AppDateField(
+          enabled: DummyData.registration == 0 ? true : false,
+
           controller: dobController,
           onTap: () async {
             DateTime? pickedDate = await CustomCalendarDialog.show(
@@ -283,6 +322,7 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
         SharedComponents.buildFormLabel('Marital Status'),
         const SizedBox(height: 8),
         FunctionalDropdown(
+          enabled: DummyData.registration == 0 ? true : false,
           value: _maritalStatus,
           hint: '--Select--',
           items: DummyData.maritalStatus ?? ['Married', 'Unmarried'],
@@ -294,12 +334,20 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
         const SizedBox(height: 8),
         Row(
           children: [
-            Expanded(child: SharedComponents.buildTextField(controller: _ageCtrl,hintText: 'Enter the Age')),
+            Expanded(
+              child: SharedComponents.buildTextField(
+                readOnly: DummyData.registration == 0 ? false : true,
+                controller: _ageCtrl,
+                hintText: 'Enter the Age',
+                keyboardType: TextInputType.number,
+              ),
+            ),
             const SizedBox(width: 8),
-
 
             Expanded(
               child: ExpandedDropdown(
+                enabled: DummyData.registration == 0 ? true : false,
+
                 value: _ageUnit,
                 items: DummyData.ageUnits,
                 onChanged: (v) => setState(() => _ageUnit = v),
@@ -312,59 +360,55 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
         SharedComponents.buildFormLabel('Religion'),
         const SizedBox(height: 8),
         FunctionalDropdown(
+          enabled: DummyData.registration == 0 ? true : false,
           value: _religion,
           hint: '--Select--',
-          items: DummyData.religion ?? ['Christian', 'Hindu', 'Muslim', 'Other'],
+          items:
+              DummyData.religion ?? ['Christian', 'Hindu', 'Muslim', 'Other'],
           onChanged: (val) => setState(() => _religion = val),
         ),
         const SizedBox(height: 16),
 
         SharedComponents.buildFormLabel('Occupation'),
         const SizedBox(height: 8),
-        SharedComponents.buildTextField(hintText: 'Enter the Occupation'),
+        SharedComponents.buildTextField(
+          readOnly: DummyData.registration == 0 ? false : true,
+          hintText: 'Enter the Occupation',
+        ),
         const SizedBox(height: 16),
 
         SharedComponents.buildFormLabel('Mobile'),
         const SizedBox(height: 8),
         SharedComponents.buildTextField(
+          readOnly: DummyData.registration == 0 ? false : true,
           controller: _mobileCtrl,
           hintText: 'Enter the Mobile',
           keyboardType: TextInputType.number,
-          inputFormatters: [
-            LengthLimitingTextInputFormatter(14),
-
-          ],
+          inputFormatters: [LengthLimitingTextInputFormatter(14)],
           onChanged: (value) {
-            if (value.isNotEmpty &&
-                !value.startsWith("+91 ")) {
-              _mobileCtrl.text =
-                  "+91 " + value;
-              _mobileCtrl.selection =
-                  TextSelection.fromPosition(
-                    TextPosition(
-                        offset:
-                        _mobileCtrl
-                            .text.length),
-                  );
+            if (value.isNotEmpty && !value.startsWith("+91 ")) {
+              _mobileCtrl.text = "+91 " + value;
+              _mobileCtrl.selection = TextSelection.fromPosition(
+                TextPosition(offset: _mobileCtrl.text.length),
+              );
             }
             if (value == "+91 ") {
               _mobileCtrl.clear();
             }
-
-
-
           },
         ),
         const SizedBox(height: 16),
 
         SharedComponents.buildFormLabel('E-mail'),
         const SizedBox(height: 8),
-        SharedComponents.buildTextField(hintText: 'Enter the E-mail ID'),
+        SharedComponents.buildTextField(
+          readOnly: DummyData.registration == 0 ? false : true,
+          hintText: 'Enter the E-mail ID',
+        ),
         const SizedBox(height: 16),
       ],
     );
   }
-
 
   Widget _buildContactDetailsSection() {
     return CustomExpansionFrame(
@@ -394,6 +438,8 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
         Row(
           children: [
             RadioButton<String>(
+              enabled: DummyData.registration == 0 ? true : false,
+
               value: "Urban",
               label: "Urban",
               groupValue: typeRadio1,
@@ -401,6 +447,8 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
             ),
             const SizedBox(width: 16), // Dono ke beech thoda gap
             RadioButton<String>(
+              enabled: DummyData.registration == 0 ? true : false,
+
               value: "Rural",
               label: "Rural",
               groupValue: typeRadio1,
@@ -416,6 +464,7 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
               crossAxisAlignment: CrossAxisAlignment.center,
               label: 'Active',
               value: _action_b,
+              enabled: DummyData.registration == 0 ? true : false,
               onChanged: (bool newValue) {
                 setState(() {
                   _action_b = newValue;
@@ -426,29 +475,39 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
         ),
         const SizedBox(height: 16),
 
-
         // --- House No ---
         SharedComponents.buildFormLabel('House No'),
         const SizedBox(height: 8),
-        SharedComponents.buildTextField(hintText: 'Enter the House No'),
+        SharedComponents.buildTextField(
+          readOnly: DummyData.registration == 0 ? false : true,
+          hintText: 'Enter the House No',
+        ),
         const SizedBox(height: 16),
 
         // --- Street ---
         SharedComponents.buildFormLabel('Street'),
         const SizedBox(height: 8),
-        SharedComponents.buildTextField(hintText: 'Enter the Street'),
+        SharedComponents.buildTextField(
+          readOnly: DummyData.registration == 0 ? false : true,
+          hintText: 'Enter the Street',
+        ),
         const SizedBox(height: 16),
 
         // --- Locality ---
         SharedComponents.buildFormLabel('Locality', isRequired: true),
         const SizedBox(height: 8),
-        SharedComponents.buildTextField(controller: _localityCtrl,hintText: 'Enter the Locality'),
+        SharedComponents.buildTextField(
+          readOnly: DummyData.registration == 0 ? false : true,
+          controller: _localityCtrl,
+          hintText: 'Enter the Locality',
+        ),
         const SizedBox(height: 16),
 
         // --- Country ---
         SharedComponents.buildFormLabel('Country', isRequired: true),
         const SizedBox(height: 8),
         FunctionalDropdown(
+          enabled: DummyData.registration == 0 ? true : false,
           value: _country,
           hint: '--Select--',
           items: DummyData.countries1,
@@ -463,7 +522,8 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
 
               // Nayi state list fetch karein
               if (val != null && val != '--Select--') {
-                _availableStates = DummyData.statesByCountry1[val] ?? ['--Select--'];
+                _availableStates =
+                    DummyData.statesByCountry1[val] ?? ['--Select--'];
               } else {
                 _availableStates = ['--Select--'];
               }
@@ -479,15 +539,19 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
           onTap: () {
             // Agar country select nahi ki hai, to error message dikhayein
             if (_country == null || _country == '--Select--') {
-
-              scaffoldMessenger(context, title: 'Contact Details',
-                  message: 'Please select a Country first', type: NotificationType.error);
+              scaffoldMessenger(
+                context,
+                title: 'Contact Details',
+                message: 'Please select a Country first',
+                type: NotificationType.error,
+              );
             }
           },
           child: AbsorbPointer(
             // Agar country select nahi hai, to dropdown ko absorb (block) kar do
             absorbing: _country == null || _country == '--Select--',
             child: FunctionalDropdown(
+              enabled: DummyData.registration == 0 ? true : false,
               value: _state,
               hint: '--Select--',
               items: _availableStates, // Dynamic list yaha pass karein
@@ -500,7 +564,8 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
 
                   // Nayi city list fetch karein
                   if (val != null && val != '--Select--') {
-                    _availableCities = DummyData.citiesByState1[val] ?? ['--Select--'];
+                    _availableCities =
+                        DummyData.citiesByState1[val] ?? ['--Select--'];
                   } else {
                     _availableCities = ['--Select--'];
                   }
@@ -518,14 +583,19 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
           onTap: () {
             // Agar state select nahi ki hai, to error message dikhayein
             if (_state == null || _state == '--Select--') {
-              scaffoldMessenger(context, title: 'Contact Details',
-                  message: 'Please select a State first', type: NotificationType.error);
+              scaffoldMessenger(
+                context,
+                title: 'Contact Details',
+                message: 'Please select a State first',
+                type: NotificationType.error,
+              );
             }
           },
           child: AbsorbPointer(
             // Agar state select nahi hai, to dropdown ko absorb (block) kar do
             absorbing: _state == null || _state == '--Select--',
             child: FunctionalDropdown(
+              enabled: DummyData.registration == 0 ? true : false,
               value: _city,
               hint: '--Select--',
               items: _availableCities, // Dynamic list yaha pass karein
@@ -542,23 +612,35 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
         // --- Pin ---
         SharedComponents.buildFormLabel('Pin'),
         const SizedBox(height: 8),
-        SharedComponents.buildTextField(hintText: 'Enter the Pin',keyboardType: TextInputType.number),
+        SharedComponents.buildTextField(
+          readOnly: DummyData.registration == 0 ? false : true,
+          hintText: 'Enter the Pin',
+          keyboardType: TextInputType.number,
+        ),
         const SizedBox(height: 16),
 
         // --- Phone ---
         SharedComponents.buildFormLabel('Phone'),
         const SizedBox(height: 8),
-        SharedComponents.buildTextField(hintText: 'Enter the Phone',keyboardType: TextInputType.number),
+        SharedComponents.buildTextField(
+          readOnly: DummyData.registration == 0 ? false : true,
+          hintText: 'Enter the Phone',
+          keyboardType: TextInputType.number,
+        ),
         const SizedBox(height: 16),
 
         // --- Nearest Rly. Stn. ---
         SharedComponents.buildFormLabel('Nearest Rly. Stn.', isRequired: true),
         const SizedBox(height: 8),
-        SharedComponents.buildTextField(controller: _rlyStnCtrl,hintText: 'Enter the Nearest Rly. Stn'),
+        SharedComponents.buildTextField(
+          readOnly: DummyData.registration == 0 ? false : true,
+          controller: _rlyStnCtrl,
+          hintText: 'Enter the Nearest Rly. Stn',
+        ),
         const SizedBox(height: 24),
 
         // --- Address (Correspondence) Heading ---
-        SharedComponents.buildFormLabel('Address (Correspondence)', ),
+        SharedComponents.buildFormLabel('Address (Correspondence)'),
 
         const SizedBox(height: 8),
 
@@ -566,10 +648,13 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
         Row(
           children: [
             GlobalCheckbox(
+              enabled: DummyData.registration == 0 ? true : false,
+
               crossAxisAlignment: CrossAxisAlignment.center,
               label: 'Same as Present address',
               value: _sameAsPresentAddress,
-              onChanged: (bool newValue) => setState(() => _sameAsPresentAddress = newValue),
+              onChanged: (bool newValue) =>
+                  setState(() => _sameAsPresentAddress = newValue),
             ),
           ],
         ),
@@ -579,186 +664,221 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
   }
 
   Widget _buildEmergencyContact() {
-      return CustomExpansionFrame(
-          controller: _emergencyController,
-          title: 'Emergency Contact Details',
-          children: [
-
-        SharedComponents.buildFormLabel('Contact Person\'s Name',isRequired: true),
-        const SizedBox(height: 8),
-        SharedComponents.buildTextField(controller: _emgNameCtrl,hintText: 'Enter the Contact Person\'s Name'),
-        const SizedBox(height: 16),
-
-        SharedComponents.buildFormLabel('Phone/Mobile',isRequired: true),
+    return CustomExpansionFrame(
+      controller: _emergencyController,
+      title: 'Emergency Contact Details',
+      children: [
+        SharedComponents.buildFormLabel(
+          'Contact Person\'s Name',
+          isRequired: true,
+        ),
         const SizedBox(height: 8),
         SharedComponents.buildTextField(
-          controller: _mobileCtrl2,
-            hintText: 'Enter the Phone/Mobile',
-          keyboardType: TextInputType.number,
-          inputFormatters: [
-            LengthLimitingTextInputFormatter(14),
+          readOnly: DummyData.registration == 0 ? false : true,
+          controller: _emgNameCtrl,
+          hintText: 'Enter the Contact Person\'s Name',
+        ),
+        const SizedBox(height: 16),
 
-          ],
+        SharedComponents.buildFormLabel('Phone/Mobile', isRequired: true),
+        const SizedBox(height: 8),
+        SharedComponents.buildTextField(
+          readOnly: DummyData.registration == 0 ? false : true,
+          controller: _mobileCtrl2,
+          hintText: 'Enter the Phone/Mobile',
+          keyboardType: TextInputType.number,
+          inputFormatters: [LengthLimitingTextInputFormatter(14)],
           onChanged: (value) {
-            if (value.isNotEmpty &&
-                !value.startsWith("+91 ")) {
-              _mobileCtrl2.text =
-                  "+91 " + value;
-              _mobileCtrl2.selection =
-                  TextSelection.fromPosition(
-                    TextPosition(
-                        offset:
-                        _mobileCtrl2
-                            .text.length),
-                  );
+            if (value.isNotEmpty && !value.startsWith("+91 ")) {
+              _mobileCtrl2.text = "+91 " + value;
+              _mobileCtrl2.selection = TextSelection.fromPosition(
+                TextPosition(offset: _mobileCtrl2.text.length),
+              );
             }
             if (value == "+91 ") {
               _mobileCtrl2.clear();
             }
-
-
-
           },
         ),
         const SizedBox(height: 16),
 
-        SharedComponents.buildFormLabel('RelationShip',isRequired: true),
+        SharedComponents.buildFormLabel('RelationShip', isRequired: true),
         const SizedBox(height: 8),
         FunctionalDropdown(
+          enabled: DummyData.registration == 0 ? true : false,
           value: _relationShip2,
 
           items: DummyData.relations,
           onChanged: (val) => setState(() => _relationShip2 = val),
         ),
         const SizedBox(height: 16),
-
-      ]);
+      ],
+    );
   }
 
   Widget _buildReferralDetails() {
     return CustomExpansionFrame(
-        controller: _referralController,
-        title: 'Referral Details',
-        children: [
+      controller: _referralController,
+      title: 'Referral Details',
+      children: [
+        SharedComponents.buildFormLabel('Referring Doctor', isRequired: true),
+        const SizedBox(height: 8),
+        SharedComponents.buildTextField(
+          readOnly: DummyData.registration == 0 ? false : true,
+          controller: _refDoctorCtrl,
+          hintText: 'Enter the Referring Doctor',
+        ),
+        const SizedBox(height: 16),
 
-      SharedComponents.buildFormLabel('Referring Doctor',isRequired: true),
-      const SizedBox(height: 8),
-      SharedComponents.buildTextField(controller: _refDoctorCtrl,hintText: 'Enter the Referring Doctor'),
-      const SizedBox(height: 16),
+        SharedComponents.buildFormLabel(
+          'Referring Department',
+          isRequired: true,
+        ),
+        const SizedBox(height: 8),
+        FunctionalDropdown(
+          enabled: DummyData.registration == 0 ? true : false,
+          value: _referringDepartment,
 
-      SharedComponents.buildFormLabel('Referring Department',isRequired: true),
-      const SizedBox(height: 8),
-      FunctionalDropdown(
-        value: _referringDepartment,
+          items: DummyData.department,
+          onChanged: (val) => setState(() => _referringDepartment = val),
+        ),
+        const SizedBox(height: 16),
 
-        items: DummyData.department,
-        onChanged: (val) => setState(() => _referringDepartment = val),
-      ),
-      const SizedBox(height: 16),
-
-      SharedComponents.buildFormLabel('Referring Hospital',isRequired: true),
-      const SizedBox(height: 8),
-      SharedComponents.buildTextField(controller: _refHospitalCtrl,hintText: 'Enter the Referring Hospital'),
-      const SizedBox(height: 16),
-
-
-
-    ]);
+        SharedComponents.buildFormLabel('Referring Hospital', isRequired: true),
+        const SizedBox(height: 8),
+        SharedComponents.buildTextField(
+          readOnly: DummyData.registration == 0 ? false : true,
+          controller: _refHospitalCtrl,
+          hintText: 'Enter the Referring Hospital',
+        ),
+        const SizedBox(height: 16),
+      ],
+    );
   }
 
   Widget _buildIdentity() {
     return CustomExpansionFrame(
-        controller: _identityController,
-        title: 'Identity Information', children: [
+      controller: _identityController,
+      title: 'Identity Information',
+      children: [
+        SharedComponents.buildFormLabel('Identity Proof'),
+        const SizedBox(height: 8),
+        FunctionalDropdown(
+          enabled: DummyData.registration == 0 ? true : false,
+          value: _identity,
 
+          items: DummyData.identity,
+          onChanged: (val) => setState(() => _identity = val),
+        ),
+        const SizedBox(height: 16),
 
-      SharedComponents.buildFormLabel('Identity Proof'),
-      const SizedBox(height: 8),
-      FunctionalDropdown(
-        value: _identity,
+        SharedComponents.buildFormLabel('Identity Card Number'),
+        const SizedBox(height: 8),
+        SharedComponents.buildTextField(
+          readOnly: DummyData.registration == 0 ? false : true,
+          hintText: 'Enter the Identity Card Number',
+        ),
+        const SizedBox(height: 16),
 
-        items: DummyData.identity,
-        onChanged: (val) => setState(() => _identity = val),
-      ),
-      const SizedBox(height: 16),
-
-
-      SharedComponents.buildFormLabel('Identity Card Number'),
-      const SizedBox(height: 8),
-      SharedComponents.buildTextField(hintText: 'Enter the Identity Card Number'),
-      const SizedBox(height: 16),
-
-
-
-      SharedComponents.buildFormLabel('Issue Authority'),
-      const SizedBox(height: 8),
-      SharedComponents.buildTextField(hintText: 'Enter the Issue Authority'),
-      const SizedBox(height: 16),
-
-
-
-    ]);
+        SharedComponents.buildFormLabel('Issue Authority'),
+        const SizedBox(height: 8),
+        SharedComponents.buildTextField(
+          readOnly: DummyData.registration == 0 ? false : true,
+          hintText: 'Enter the Issue Authority',
+        ),
+        const SizedBox(height: 16),
+      ],
+    );
   }
 
   void _validateAndSubmit() {
     // 1. Terms & Conditions Check
 
-
     // 2. Demographics Mandatory Checks
     if (_department == null || _department == '--Select--') {
-      _handleSectionError('Demographics','Please select Department'); return;
+      _handleSectionError('Demographics', 'Please select Department');
+      return;
     }
     if (_prefix == null || _prefix == '--Select--') {
-      _handleSectionError('Demographics','Please select Prefix'); return;
+      _handleSectionError('Demographics', 'Please select Prefix');
+      return;
     }
 
     if (_sex == null || _sex == '--Select--') {
-      _handleSectionError('Demographics','Please select Sex'); return;
+      _handleSectionError('Demographics', 'Please select Sex');
+      return;
     }
     if (dobController.text.isEmpty) {
-      _handleSectionError('Demographics','Please select Date of Birth'); return;
+      _handleSectionError('Demographics', 'Please select Date of Birth');
+      return;
     }
     if (_ageCtrl.text.isEmpty) {
-      _handleSectionError('Demographics','Please enter Age'); return;
+      _handleSectionError('Demographics', 'Please enter Age');
+      return;
     }
 
     // 3. Contact Details Mandatory Checks
     if (_localityCtrl.text.isEmpty) {
-      _handleSectionError('Contact Details','Please enter Locality'); return;
+      _handleSectionError('Contact Details', 'Please enter Locality');
+      return;
     }
     if (_country == null || _country == '--Select--') {
-      _handleSectionError('Contact Details','Please select Country'); return;
+      _handleSectionError('Contact Details', 'Please select Country');
+      return;
     }
     if (_state == null || _state == '--Select--') {
-      _handleSectionError('Contact Details','Please select State'); return;
+      _handleSectionError('Contact Details', 'Please select State');
+      return;
     }
     if (_rlyStnCtrl.text.isEmpty) {
-      _handleSectionError('Contact Details','Please enter Nearest Rly. Stn.'); return;
+      _handleSectionError('Contact Details', 'Please enter Nearest Rly. Stn.');
+      return;
     }
 
     // 4. Emergency Contact Mandatory Checks
     if (_emgNameCtrl.text.isEmpty) {
-      _handleSectionError('Emergency Contact Details','Please enter Emergency Contact Name'); return;
+      _handleSectionError(
+        'Emergency Contact Details',
+        'Please enter Emergency Contact Name',
+      );
+      return;
     }
     if (_mobileCtrl2.text.isEmpty) {
-      _handleSectionError('Emergency Contact Details','Please enter Emergency Phone/Mobile'); return;
+      _handleSectionError(
+        'Emergency Contact Details',
+        'Please enter Emergency Phone/Mobile',
+      );
+      return;
     }
     if (_relationShip2 == null || _relationShip2 == '--Select--') {
-      _handleSectionError('Emergency Contact Details','Please select Emergency Relationship'); return;
+      _handleSectionError(
+        'Emergency Contact Details',
+        'Please select Emergency Relationship',
+      );
+      return;
     }
 
     // 5. Referral Details Mandatory Checks
     if (_refDoctorCtrl.text.isEmpty) {
-      _handleSectionError('Referral Details','Please enter Referring Doctor'); return;
+      _handleSectionError('Referral Details', 'Please enter Referring Doctor');
+      return;
     }
     if (_referringDepartment == null || _referringDepartment == '--Select--') {
-      _handleSectionError('Referral Details','Please select Referring Department'); return;
+      _handleSectionError(
+        'Referral Details',
+        'Please select Referring Department',
+      );
+      return;
     }
     if (_refHospitalCtrl.text.isEmpty) {
-      _handleSectionError('Referral Details','Please enter Referring Hospital'); return;
+      _handleSectionError(
+        'Referral Details',
+        'Please enter Referring Hospital',
+      );
+      return;
     }
     if (!_action_a) {
-      _showError('Terms & Conditions','Please accept Terms & Conditions');
+      _showError('Terms & Conditions', 'Please accept Terms & Conditions');
       return;
     }
 
@@ -767,16 +887,21 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
     // Ab hum User ko sahi screen par bhejenge (Issue 3 fixed)
 
     // Yahan apni Dashboard ya Success Screen ka naam daalein
-    Navigator.pushReplacement(
+    // Navigator.pushReplacement(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => LoginScreen(loginby: '')),
+    // );
+    setState(() {});
+    DummyData.registration = 1;
+    scaffoldMessenger(
       context,
-      MaterialPageRoute(builder: (context) => LoginScreen(loginby: '')),
+      title: 'Registration',
+      message: 'Registration succesfully',
+      type: NotificationType.success,
     );
-
-
-
   }
 
-  void _showError(String title,String message) {
+  void _showError(String title, String message) {
     scaffoldMessenger(
       context,
       title: title,

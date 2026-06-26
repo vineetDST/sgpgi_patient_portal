@@ -248,7 +248,8 @@ class _FunctionalDropdownState extends State<FunctionalDropdown> {
                       style: TextStyle(
                         color: !widget.enabled
                             ? Colors.grey.shade500
-                            : (widget.value == null || widget.value == widget.hint)
+                            : (widget.value == null ||
+                                  widget.value == widget.hint)
                             ? Colors.grey.shade400
                             : Colors.black87,
                         fontSize: 14,
@@ -299,9 +300,7 @@ class _FunctionalDropdownState extends State<FunctionalDropdown> {
                         Expanded(
                           child: Text(
                             item,
-                            style: const TextStyle(
-                              fontSize: 14,
-                            ),
+                            style: const TextStyle(fontSize: 14),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -321,4 +320,3 @@ class _FunctionalDropdownState extends State<FunctionalDropdown> {
     );
   }
 }
-

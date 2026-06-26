@@ -25,11 +25,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   final TextEditingController crnoController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController continueController = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (BuildContext context) {
@@ -157,21 +155,24 @@ class _LoginScreenState extends State<LoginScreen> {
                           );
                         },
                         child: Container(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            decoration: BoxDecoration(
-                              color: Colors.transparent,
-                            ),
-                            child: getLabel('Forgot Password?New User',removePadding: true)),
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          decoration: BoxDecoration(color: Colors.transparent),
+                          child: getLabel(
+                            'Forgot Password?New User',
+                            removePadding: true,
+                          ),
+                        ),
                       ),
                     ],
                   ),
                   SizedBox(height: 24),
 
-
-
-                  AppSaveButton(text: 'Login',onPressed: () {
-                    _login(context);
-                  }),
+                  AppSaveButton(
+                    text: 'Login',
+                    onPressed: () {
+                      _login(context);
+                    },
+                  ),
                   const SizedBox(height: 30),
                   Row(
                     children: [
@@ -179,29 +180,35 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: AppSaveButton(
                           size: 14,
                           text: 'Online Registration',
-                          onPressed: (){
+                          onPressed: () {
                             // Navigator.push(context, MaterialPageRoute(builder: (context) {
                             //    return OnlineRegistration();
                             // }));
 
+                            DummyData.registration = 0;
                             showPatientRegistrationDialog(context);
                           },
-                        )
-
+                        ),
                       ),
-                      const SizedBox(width: 16,),
+                      const SizedBox(width: 16),
                       Expanded(
-                          child: AppSaveButton(
-                            size: 14,
-                            text: 'OPD Schedule',
-                            onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                return OpdSchedule();
-                              }));
-                            },
-                          )),
+                        child: AppSaveButton(
+                          size: 14,
+                          text: 'OPD Schedule',
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return OpdSchedule();
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
@@ -211,7 +218,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget getLabel(String label,{bool removePadding = false}) {
+  Widget getLabel(String label, {bool removePadding = false}) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: removePadding ? 0 : 10),
       child: Text(
@@ -227,59 +234,62 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _login(BuildContext context) {
+    print("Login");
 
-     print("Login");
+    String crnoText = crnoController.text;
+    if (crnoText == null || crnoText.isEmpty) {
+      scaffoldMessenger(
+        context,
+        title: 'Login Credentials',
+        message: 'Please Enter CR No. Field',
+        type: NotificationType.error,
+      );
+      return;
+    }
 
-     String crnoText = crnoController.text;
-     if(crnoText == null || crnoText.isEmpty) {
-
-        scaffoldMessenger(context, title: 'Login Credentials', message: 'Please Enter CR No. Field', type: NotificationType.error);
-        return ;
-     }
-
-     String pwdText = passwordController.text;
-     if(pwdText == null || pwdText.isEmpty) {
-
-       scaffoldMessenger(context, title: 'Login Credentials', message: 'Please Enter Password Field', type: NotificationType.error);
-       return ;
-     }
-     else if (!RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&#!])[A-Za-z\d@$!%*?&#!]{8,}$').hasMatch(pwdText)) {
-       setState(() {
-         scaffoldMessenger(
-             context,
-             title: 'Login Credentials',
-             message: 'Password must be at least 8 characters long, contain an uppercase letter, a lowercase letter, a number, and a special character, and must not contain spaces.',
-             type: NotificationType.error);
-         return ;
-
-       });
-     }
-
-     else if(pwdText != DummyData.password){
-       scaffoldMessenger(context, title: 'Login Credentials', message: 'Password is not matched', type: NotificationType.error);
-       return ;
-     }
-
-     else {
-
-       Navigator.push(context, MaterialPageRoute(builder: (context) {
-
-         return DoctorModuleShell();
-       }));
-
-     }
-
-
-
-
-
-
-
+    String pwdText = passwordController.text;
+    if (pwdText == null || pwdText.isEmpty) {
+      scaffoldMessenger(
+        context,
+        title: 'Login Credentials',
+        message: 'Please Enter Password Field',
+        type: NotificationType.error,
+      );
+      return;
+    } else if (!RegExp(
+      r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&#!])[A-Za-z\d@$!%*?&#!]{8,}$',
+    ).hasMatch(pwdText)) {
+      setState(() {
+        scaffoldMessenger(
+          context,
+          title: 'Login Credentials',
+          message:
+              'Password must be at least 8 characters long, contain an uppercase letter, a lowercase letter, a number, and a special character, and must not contain spaces.',
+          type: NotificationType.error,
+        );
+        return;
+      });
+    } else if (pwdText != DummyData.password) {
+      scaffoldMessenger(
+        context,
+        title: 'Login Credentials',
+        message: 'Password is not matched',
+        type: NotificationType.error,
+      );
+      return;
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return DoctorModuleShell();
+          },
+        ),
+      );
+    }
   }
 
-
-
-// 🛠️ Is function ko kisi button ke onPressed se call karein
+  // 🛠️ Is function ko kisi button ke onPressed se call karein
   void showPatientRegistrationDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -302,7 +312,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   // 1. GRADIENT HEADER
                   // ==========================================
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(12),
@@ -329,8 +342,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         InkWell(
-                          onTap: () => Navigator.pop(context), // Close button action
-                          child: const Icon(Icons.close, color: Colors.black87, size: 22),
+                          onTap: () =>
+                              Navigator.pop(context), // Close button action
+                          child: const Icon(
+                            Icons.close,
+                            color: Colors.black87,
+                            size: 22,
+                          ),
                         ),
                       ],
                     ),
@@ -355,13 +373,21 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(height: 16),
 
                         // Bullet Points
-                        _buildBulletPoint('You can do advance booking for next one month only.'),
+                        _buildBulletPoint(
+                          'You can do advance booking for next one month only.',
+                        ),
                         const SizedBox(height: 12),
-                        _buildBulletPoint('While choosing the department, please be informed about the working days of that department.'),
+                        _buildBulletPoint(
+                          'While choosing the department, please be informed about the working days of that department.',
+                        ),
                         const SizedBox(height: 12),
-                        _buildBulletPoint('Please take a print out of online registration form.'),
+                        _buildBulletPoint(
+                          'Please take a print out of online registration form.',
+                        ),
                         const SizedBox(height: 12),
-                        _buildBulletPoint('Please arrive at the hospital before 10.00 AM and report to the online registration counter with your referral documents with this online registration form.'),
+                        _buildBulletPoint(
+                          'Please arrive at the hospital before 10.00 AM and report to the online registration counter with your referral documents with this online registration form.',
+                        ),
 
                         const SizedBox(height: 24),
 
@@ -373,7 +399,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               height: 24,
                               child: Checkbox(
                                 value: isChecked,
-                                activeColor: const Color(0xFF147B74), // Teal color
+                                activeColor: const Color(
+                                  0xFF147B74,
+                                ), // Teal color
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(4),
                                 ),
@@ -407,7 +435,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 40,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF147B74), // Teal color
+                                backgroundColor: const Color(
+                                  0xFF147B74,
+                                ), // Teal color
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(25),
                                 ),
@@ -415,17 +445,22 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               onPressed: () {
                                 if (isChecked) {
-
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                     return OnlineRegistration();
-                                  }));
-                                }
-                                else {
+                                  DummyData.registration = 0;
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return OnlineRegistration();
+                                      },
+                                    ),
+                                  );
+                                } else {
                                   scaffoldMessenger(
-                                      context,
-                                      title: 'Patient Online Registration Form',
-                                      message: 'Please select Instructions field',
-                                      type: NotificationType.error,
+                                    context,
+                                    title: 'Patient Online Registration Form',
+                                    message: 'Please select Instructions field',
+                                    type: NotificationType.error,
                                   );
                                 }
                               },
@@ -452,7 +487,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-// 🛠️ Helper method bullet points ke design ke liye
+  // 🛠️ Helper method bullet points ke design ke liye
   Widget _buildBulletPoint(String text) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -484,20 +519,20 @@ class LoginInputField extends StatefulWidget {
   final String hintText;
   final IconData icon;
   final bool isPassword;
-  TextEditingController? controller ;
-  FocusNode? focusNode ;
-  TextInputType? keyboardType ;
+  TextEditingController? controller;
+  FocusNode? focusNode;
+  TextInputType? keyboardType;
   Function(String)? onChanged;
 
-    LoginInputField({
+  LoginInputField({
     super.key,
     required this.hintText,
     required this.icon,
     required this.isPassword,
     this.controller,
-      this.focusNode,
-      this.keyboardType  ,
-      this.onChanged,
+    this.focusNode,
+    this.keyboardType,
+    this.onChanged,
   });
 
   @override
@@ -514,7 +549,7 @@ class _LoginInputFieldState extends State<LoginInputField> {
   }
 
   @override
-  Widget build(BuildContext context,) {
+  Widget build(BuildContext context) {
     return Container(
       // padding: EdgeInsets.symmetric(vertical: 15,horizontal: 15),
       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),

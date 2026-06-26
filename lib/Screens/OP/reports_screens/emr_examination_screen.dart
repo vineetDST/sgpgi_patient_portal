@@ -41,16 +41,16 @@ class EmrExaminationScreen extends StatefulWidget {
 }
 
 class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
-  String? genApp;
-  String? nutStatus;
+  String? genApp = 'Normal';
+  String? nutStatus = "Adequate";
   String? ent;
-  String? pallor;
-  String? jaundice;
-  String? cyanosis;
+  String? pallor = "Yes";
+  String? jaundice = "Yes";
+  String? cyanosis = "No";
   String? clubbing;
-  String? jvp;
+  String? jvp = "Yes";
   String? edema;
-  String? lymphNode;
+  String? lymphNode = "Yes";
 
   // Controllers for the Text Fields in Physical Examination table (physical.png)
   final TextEditingController _genAppRemController = TextEditingController();
@@ -156,7 +156,11 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            EmrListButton(patientName: widget.patientName, crn: widget.crn,mode: widget.mode,)
+            EmrListButton(
+              patientName: widget.patientName,
+              crn: widget.crn,
+              mode: widget.mode,
+            ),
           ],
         ),
         const SizedBox(height: 16),
@@ -299,6 +303,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
           hintText: "Remarks",
           maxLines: 5,
           controller: _remarksController,
+          readOnly: true,
         ),
 
         // Buttons removed!
@@ -313,7 +318,10 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
     const double rowHeight = 64.0;
 
     return ClipRRect(
-      borderRadius: BorderRadiusGeometry.only(bottomLeft: Radius.circular(8),bottomRight:  Radius.circular(8)),
+      borderRadius: BorderRadiusGeometry.only(
+        bottomLeft: Radius.circular(8),
+        bottomRight: Radius.circular(8),
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -343,7 +351,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
               ],
             ),
           ),
-      
+
           // RIGHT SCROLLABLE COLUMN
           Expanded(
             child: Container(
@@ -362,6 +370,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                       (val) => setState(() => genApp = val),
                       rowHeight,
                       _genAppRemController,
+                      enabled: false,
                     ),
                     _buildPhysicalRightCell(
                       ["Good", "Adequate", "Reduced"],
@@ -369,6 +378,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                       (val) => setState(() => nutStatus = val),
                       rowHeight,
                       _nutStatusRemController,
+                      enabled: false,
                     ),
                     _buildPhysicalRightCell(
                       ["0", "+", "++", "+++"],
@@ -376,6 +386,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                       (val) => setState(() => ent = val),
                       rowHeight,
                       _entRemController,
+                      enabled: false,
                     ),
                     _buildPhysicalRightCell(
                       ["No", "Yes"],
@@ -383,6 +394,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                       (val) => setState(() => pallor = val),
                       rowHeight,
                       _pallorRemController,
+                      enabled: false,
                     ),
                     _buildPhysicalRightCell(
                       ["No", "Yes"],
@@ -390,6 +402,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                       (val) => setState(() => jaundice = val),
                       rowHeight,
                       _jaundiceRemController,
+                      enabled: false,
                     ),
                     _buildPhysicalRightCell(
                       ["No", "Yes"],
@@ -397,6 +410,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                       (val) => setState(() => cyanosis = val),
                       rowHeight,
                       _cyanosisRemController,
+                      enabled: false,
                     ),
                     _buildPhysicalRightCell(
                       ["No", "Yes"],
@@ -404,6 +418,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                       (val) => setState(() => clubbing = val),
                       rowHeight,
                       _clubbingRemController,
+                      enabled: false,
                     ),
                     _buildPhysicalRightCell(
                       ["No", "Yes"],
@@ -411,6 +426,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                       (val) => setState(() => jvp = val),
                       rowHeight,
                       _jvpRemController,
+                      enabled: false,
                     ),
                     _buildPhysicalRightCell(
                       ["No", "Yes"],
@@ -418,6 +434,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                       (val) => setState(() => edema = val),
                       rowHeight,
                       _edemaRemController,
+                      enabled: false,
                     ),
                     _buildPhysicalRightCell(
                       ["No", "Yes"],
@@ -426,6 +443,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                       rowHeight,
                       _lymphNodeRemController,
                       isLast: true,
+                      enabled: false,
                     ),
                   ],
                 ),
@@ -451,6 +469,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
               customWidget: SharedComponents.buildTextField(
                 controller: TextEditingController(text: 'No'),
                 isDense: true,
+                readOnly: true,
               ),
             ),
             DetailRow(
@@ -458,6 +477,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
               customWidget: SharedComponents.buildTextField(
                 controller: TextEditingController(text: 'No'),
                 isDense: true,
+                readOnly: true,
               ),
             ),
             DetailRow(
@@ -465,6 +485,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
               customWidget: SharedComponents.buildTextField(
                 controller: TextEditingController(text: 'No'),
                 isDense: true,
+                readOnly: true,
               ),
             ),
             DetailRow(
@@ -472,6 +493,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
               customWidget: SharedComponents.buildTextField(
                 controller: TextEditingController(text: 'No'),
                 isDense: true,
+                readOnly: true,
               ),
             ),
             DetailRow(
@@ -479,6 +501,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
               customWidget: SharedComponents.buildTextField(
                 controller: TextEditingController(text: 'No'),
                 isDense: true,
+                readOnly: true,
               ),
             ),
             DetailRow(
@@ -486,6 +509,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
               customWidget: SharedComponents.buildTextField(
                 controller: TextEditingController(text: 'No'),
                 isDense: true,
+                readOnly: true,
               ),
             ),
             DetailRow(
@@ -493,6 +517,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
               customWidget: SharedComponents.buildTextField(
                 controller: TextEditingController(text: 'No'),
                 isDense: true,
+                readOnly: true,
               ),
             ),
             DetailRow(
@@ -501,6 +526,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
               customWidget: SharedComponents.buildTextField(
                 controller: TextEditingController(text: 'No'),
                 isDense: true,
+                readOnly: true,
               ),
             ),
           ],
@@ -521,7 +547,6 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
-
         border: Border(
           bottom: isLast
               ? BorderSide.none
@@ -547,6 +572,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
     double height,
     TextEditingController controller, {
     bool isLast = false,
+    bool enabled = false,
   }) {
     return Container(
       height: height,
@@ -576,7 +602,19 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                       groupValue: groupValue,
                       activeColor: const Color(0xFF117A7A),
                       visualDensity: VisualDensity.compact,
-                      onChanged: onChanged,
+                      onChanged: enabled ? onChanged : null, // disable here
+
+                      fillColor: MaterialStateProperty.resolveWith<Color>((
+                        states,
+                      ) {
+                        if (states.contains(MaterialState.disabled)) {
+                          return Colors.grey.shade400; // disabled color
+                        }
+                        if (states.contains(MaterialState.selected)) {
+                          return const Color(0xFF117A7A); // selected color
+                        }
+                        return Colors.grey.shade600; // normal unselected border
+                      }),
                     ),
                     Text(
                       option,
@@ -602,13 +640,29 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
             ),
             child: TextField(
               controller: controller,
+
+              // readOnly: true,
               style: const TextStyle(fontSize: 13),
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide.none,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide.none,
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide.none,
+                ),
+                filled: true,
+                fillColor: const Color(0xFFF8F9FA),
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: 12,
                   vertical: 12,
                 ),
-                border: InputBorder.none,
+                // border: InputBorder.none,
                 isDense: true,
               ),
             ),
@@ -646,6 +700,8 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
         child: TextField(
           controller: controller,
           style: const TextStyle(fontSize: 13),
+          readOnly: true,
+
           decoration: const InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             border: InputBorder.none,
@@ -748,176 +804,201 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
   bool _action_j = false;
   final List<TextEditingController> _remarkControllers = List.generate(
     9,
-        (_) => TextEditingController(),
+    (_) => TextEditingController(),
   );
 
   final Map<String, Widget Function(String, String)> _screenRoutes = {
     "Nervous System": (p, c) => NervousSystemScreen(patientName: p, crn: c),
-    "Respiratory System": (p, c) => RespiratorySystemScreen(patientName: p, crn: c),
-    "Circulatory System": (p, c) => CirculatorySystemScreen(patientName: p, crn: c),
+    "Respiratory System": (p, c) =>
+        RespiratorySystemScreen(patientName: p, crn: c),
+    "Circulatory System": (p, c) =>
+        CirculatorySystemScreen(patientName: p, crn: c),
     "Digestive System": (p, c) => DigestiveSystemScreen(patientName: p, crn: c),
     "Endocrine System": (p, c) => EndocrineSystemScreen(patientName: p, crn: c),
     "Immune System": (p, c) => ImmuneSystemScreen(patientName: p, crn: c),
-    "Muscloskeletel System": (p, c) => MusculoskeletalSystemScreen(patientName: p, crn: c),
-    "Urinary / Reproductive System": (p, c) => ReproductiveSystemScreen(patientName: p, crn: c),
+    "Muscloskeletel System": (p, c) =>
+        MusculoskeletalSystemScreen(patientName: p, crn: c),
+    "Urinary / Reproductive System": (p, c) =>
+        ReproductiveSystemScreen(patientName: p, crn: c),
     "Eye": (p, c) => EyeSystemScreen(patientName: p, crn: c),
     "Nervous System": (p, c) => NervousSystemScreen(patientName: p, crn: c),
   };
   Widget _buildSystemicExaminationTab() {
     return ScrollableDataTable(
-        labels: [
-          'Systems',
-          'NAD',
-          'Findings',
-          'Full Examination',
-
+      labels: ['Systems', 'NAD', 'Findings', 'Full Examination'],
+      rowValues: [
+        [
+          TableText('Nervous System'),
+          TableText('Respiratory System'),
+          TableText('Circulatory System'),
+          TableText('Digestive System'),
+          TableText('Endocrine System'),
+          TableText('Immune System'),
+          TableText('Muscloskeletel System'),
+          TableText('Urinary / Reproductive System'),
+          TableText('Eye'),
         ],
-        rowValues: [
-          [
-            TableText('Nervous System'),
-            TableText('Respiratory System'),
-            TableText('Circulatory System'),
-            TableText('Digestive System'),
-            TableText('Endocrine System'),
-            TableText('Immune System'),
-            TableText('Muscloskeletel System'),
-            TableText('Urinary / Reproductive System'),
-            TableText('Eye'),
+        [
+          GlobalCheckbox(
+            label:
+                '', // Label blank hai kyunki hum text par alag action chahte hain
+            value: _action_a,
 
+            enabled: false,
+            onChanged: (bool newValue) {
+              setState(() {
+                // Jis specific index par click hua hai, sirf uski value update hogi
+                _action_a = newValue;
+              });
+            },
+          ),
+          GlobalCheckbox(
+            label:
+                '', // Label blank hai kyunki hum text par alag action chahte hain
+            value: _action_b,
+            enabled: false,
+            onChanged: (bool newValue) {
+              setState(() {
+                // Jis specific index par click hua hai, sirf uski value update hogi
+                _action_b = newValue;
+              });
+            },
+          ),
+          GlobalCheckbox(
+            label:
+                '', // Label blank hai kyunki hum text par alag action chahte hain
+            value: _action_c,
+            enabled: false,
+            onChanged: (bool newValue) {
+              setState(() {
+                // Jis specific index par click hua hai, sirf uski value update hogi
+                _action_c = newValue;
+              });
+            },
+          ),
+          GlobalCheckbox(
+            label:
+                '', // Label blank hai kyunki hum text par alag action chahte hain
+            value: _action_d,
+            enabled: false,
+            onChanged: (bool newValue) {
+              setState(() {
+                // Jis specific index par click hua hai, sirf uski value update hogi
+                _action_d = newValue;
+              });
+            },
+          ),
+          GlobalCheckbox(
+            label:
+                '', // Label blank hai kyunki hum text par alag action chahte hain
+            value: _action_e,
+            enabled: false,
+            onChanged: (bool newValue) {
+              setState(() {
+                // Jis specific index par click hua hai, sirf uski value update hogi
+                _action_e = newValue;
+              });
+            },
+          ),
+          GlobalCheckbox(
+            label:
+                '', // Label blank hai kyunki hum text par alag action chahte hain
+            value: _action_f,
+            enabled: false,
+            onChanged: (bool newValue) {
+              setState(() {
+                // Jis specific index par click hua hai, sirf uski value update hogi
+                _action_f = newValue;
+              });
+            },
+          ),
+          GlobalCheckbox(
+            label:
+                '', // Label blank hai kyunki hum text par alag action chahte hain
+            value: _action_g,
+            enabled: false,
+            onChanged: (bool newValue) {
+              setState(() {
+                // Jis specific index par click hua hai, sirf uski value update hogi
+                _action_g = newValue;
+              });
+            },
+          ),
+          GlobalCheckbox(
+            label:
+                '', // Label blank hai kyunki hum text par alag action chahte hain
+            value: _action_h,
+            enabled: false,
+            onChanged: (bool newValue) {
+              setState(() {
+                // Jis specific index par click hua hai, sirf uski value update hogi
+                _action_h = newValue;
+              });
+            },
+          ),
+          GlobalCheckbox(
+            label:
+                '', // Label blank hai kyunki hum text par alag action chahte hain
+            value: _action_i,
+            enabled: false,
+            onChanged: (bool newValue) {
+              setState(() {
+                // Jis specific index par click hua hai, sirf uski value update hogi
+                _action_i = newValue;
+              });
+            },
+          ),
+        ],
 
-          ],
-          [
-            GlobalCheckbox(
-              label: '', // Label blank hai kyunki hum text par alag action chahte hain
-              value: _action_a,
-              onChanged: (bool newValue) {
-                setState(() {
-                  // Jis specific index par click hua hai, sirf uski value update hogi
-                  _action_a = newValue;
-                });
-              },
-            ),
-            GlobalCheckbox(
-              label: '', // Label blank hai kyunki hum text par alag action chahte hain
-              value: _action_b,
-              onChanged: (bool newValue) {
-                setState(() {
-                  // Jis specific index par click hua hai, sirf uski value update hogi
-                  _action_b = newValue;
-                });
-              },
-            ),
-            GlobalCheckbox(
-              label: '', // Label blank hai kyunki hum text par alag action chahte hain
-              value: _action_c,
-              onChanged: (bool newValue) {
-                setState(() {
-                  // Jis specific index par click hua hai, sirf uski value update hogi
-                  _action_c = newValue;
-                });
-              },
-            ),
-            GlobalCheckbox(
-              label: '', // Label blank hai kyunki hum text par alag action chahte hain
-              value: _action_d,
-              onChanged: (bool newValue) {
-                setState(() {
-                  // Jis specific index par click hua hai, sirf uski value update hogi
-                  _action_d = newValue;
-                });
-              },
-            ),
-            GlobalCheckbox(
-              label: '', // Label blank hai kyunki hum text par alag action chahte hain
-              value: _action_e,
-              onChanged: (bool newValue) {
-                setState(() {
-                  // Jis specific index par click hua hai, sirf uski value update hogi
-                  _action_e = newValue;
-                });
-              },
-            ),
-            GlobalCheckbox(
-              label: '', // Label blank hai kyunki hum text par alag action chahte hain
-              value: _action_f,
-              onChanged: (bool newValue) {
-                setState(() {
-                  // Jis specific index par click hua hai, sirf uski value update hogi
-                  _action_f = newValue;
-                });
-              },
-            ),
-            GlobalCheckbox(
-              label: '', // Label blank hai kyunki hum text par alag action chahte hain
-              value: _action_g,
-              onChanged: (bool newValue) {
-                setState(() {
-                  // Jis specific index par click hua hai, sirf uski value update hogi
-                  _action_g = newValue;
-                });
-              },
-            ),
-            GlobalCheckbox(
-              label: '', // Label blank hai kyunki hum text par alag action chahte hain
-              value: _action_h,
-              onChanged: (bool newValue) {
-                setState(() {
-                  // Jis specific index par click hua hai, sirf uski value update hogi
-                  _action_h = newValue;
-                });
-              },
-            ),
-            GlobalCheckbox(
-              label: '', // Label blank hai kyunki hum text par alag action chahte hain
-              value: _action_i,
-              onChanged: (bool newValue) {
-                setState(() {
-                  // Jis specific index par click hua hai, sirf uski value update hogi
-                  _action_i = newValue;
-                });
-              },
-            ),
+        [
+          ..._remarkControllers
+              .map(
+                (controller) => _buildInputCell(
+                  controller,
+                  isNumeric: true,
+                  hint: 'Remarks',
+                ),
+              )
+              .toList(),
+        ],
+        [
+          ...systemicColumns.map((sys) {
+            return InkWell(
+              onTap: () {
+                // 1. Map se function nikalenge, agar nahi mila toh default Nervous System
+                final screenBuilder =
+                    _screenRoutes[sys] ??
+                    (p, c) => NervousSystemScreen(patientName: p, crn: c);
 
-
-          ],
-
-          [
-          ..._remarkControllers.map((controller) => _buildInputCell(controller, isNumeric: true,hint: 'Remarks')).toList()
-          ],
-          [
-            ...systemicColumns.map((sys) {
-              return InkWell(
-                onTap: () {
-                  // 1. Map se function nikalenge, agar nahi mila toh default Nervous System
-                  final screenBuilder = _screenRoutes[sys] ??
-                          (p, c) => NervousSystemScreen(patientName: p, crn: c);
-
-                  // 2. Navigation
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => screenBuilder(widget.patientName, widget.crn),
-                    ),
-                  );
-                },
-                child: Container(
-                  height: 65, // Note: height variable defined hona chahiye
-                  alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.symmetric(horizontal: 0),
-                  child: const Text(
-                    "Details",
-                    style: TextStyle(
-                      color: Color(0xFF117A7A),
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                    ),
+                // 2. Navigation
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        screenBuilder(widget.patientName, widget.crn),
+                  ),
+                );
+              },
+              child: Container(
+                height: 65, // Note: height variable defined hona chahiye
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.symmetric(horizontal: 0),
+                child: const Text(
+                  "Details",
+                  style: TextStyle(
+                    color: Color(0xFF117A7A),
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              );
-            }).toList(),
-          ]
-        ]);
+              ),
+            );
+          }).toList(),
+        ],
+      ],
+    );
   }
+
   Widget _buildSystemicCol(String sys, double height) {
     return SizedBox(
       width: 200,
@@ -943,11 +1024,18 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
               child: Checkbox(
                 value: _systemicNadState[sys] ?? false,
                 activeColor: const Color(0xFF117A7A),
-                onChanged: (value) {
-                  setState(() {
-                    _systemicNadState[sys] = value ?? false;
-                  });
-                },
+                // onChanged: (value) {
+                //   setState(() {
+                //     _systemicNadState[sys] = value ?? false;
+                //   });
+                // },
+                onChanged: null,
+                // ? (value) {
+                //     setState(() {
+                //       _systemicNadState[sys] = value ?? false;
+                //     });
+                //   }
+                // : null,
               ),
             ),
           ),
@@ -1163,6 +1251,8 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                       TextField(
                         controller: controller,
                         maxLines: 5,
+                        readOnly: true,
+
                         decoration: InputDecoration(
                           hintText: "Findings",
                           hintStyle: const TextStyle(color: Colors.grey),
@@ -1230,11 +1320,11 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
   }
 
   Widget _buildInputCell(
-      TextEditingController ctrl, {
-        bool isNumeric = false,
-        String hint = "",
-        bool isLast = false,
-      }) {
+    TextEditingController ctrl, {
+    bool isNumeric = false,
+    String hint = "",
+    bool isLast = false,
+  }) {
     return Container(
       height: 64,
       padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 12),
@@ -1243,15 +1333,16 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
         // --- ADDED: Triggers Remarks Modal ---
         onTap: hint == "Remarks"
             ? () async {
-          await RemarksDialog.show(
-            context,
-            ctrl,
-            title: "Remarks",
-            hintText: "Remarks",
-          );
+                await RemarksDialog.show(
+                  context,
+                  ctrl,
+                  title: "Remarks",
+                  hintText: "Remarks",
+                  readOnly: true,
+                );
 
-          setState(() {}); // dialog close hone ke baad UI refresh
-        }
+                setState(() {}); // dialog close hone ke baad UI refresh
+              }
             : null,
         child: Container(
           alignment: Alignment.centerLeft,
@@ -1260,29 +1351,37 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
             borderRadius: BorderRadius.circular(8),
           ),
           child: Stack(
-            children:[
+            children: [
               TextField(
                 controller: ctrl,
-                keyboardType: isNumeric ? TextInputType.number : TextInputType.text,
+                keyboardType: isNumeric
+                    ? TextInputType.number
+                    : TextInputType.text,
                 textAlign: TextAlign.left, // ✅ always left aligned
                 textAlignVertical: TextAlignVertical.center,
                 style: const TextStyle(fontSize: 12, height: 1.2),
+
+                // readOnly: true,
                 readOnly: hint == "Remarks",
                 onTap: hint == "Remarks"
                     ? () async {
-                  await RemarksDialog.show(
-                    context,
-                    ctrl,
-                    title: "Remarks",
-                    hintText: "Remarks",
-                  );
+                        await RemarksDialog.show(
+                          context,
+                          ctrl,
+                          title: "Remarks",
+                          hintText: "Remarks",
+                          readOnly: true,
+                        );
 
-                  setState(() {}); // dialog close hone ke baad UI refresh
-                }
+                        setState(() {}); // dialog close hone ke baad UI refresh
+                      }
                     : null,
                 decoration: InputDecoration(
                   hintText: hint,
-                  hintStyle: TextStyle(fontSize: 11, color: Colors.grey.shade400),
+                  hintStyle: TextStyle(
+                    fontSize: 11,
+                    color: Colors.grey.shade400,
+                  ),
                   border: InputBorder.none,
                   isCollapsed: true,
 
@@ -1292,7 +1391,6 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                   ),
                 ),
               ),
-
             ],
           ),
         ),

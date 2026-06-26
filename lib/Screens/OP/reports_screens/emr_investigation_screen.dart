@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qc_hospital/Core/Theme/app_color.dart';
 import 'package:qc_hospital/Core/Theme/app_text_style.dart';
 import 'package:qc_hospital/Core/Utils/Appbar/op_appbar.dart';
+import 'package:qc_hospital/Core/Utils/Dialog/remarks_dialog2.dart';
 import 'package:qc_hospital/Core/Utils/NavigationBar/navigationbar.dart';
 import 'package:qc_hospital/Screens/IP/Quick_Action_Screen/EMR/ip_emr.dart';
 import 'package:qc_hospital/Screens/IP/ip_base_scaffold.dart';
@@ -39,6 +40,7 @@ class _EmrInvestigationScreenState extends State<EmrInvestigationScreen> {
     "PACS Reports",
     "Procedure Reports",
   ];
+  final TextEditingController remarkscontroller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +59,11 @@ class _EmrInvestigationScreenState extends State<EmrInvestigationScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            EmrListButton(patientName: widget.patientName, crn: widget.crn,mode: widget.mode,)
+            EmrListButton(
+              patientName: widget.patientName,
+              crn: widget.crn,
+              mode: widget.mode,
+            ),
           ],
         ),
         const SizedBox(height: 16),
@@ -92,8 +98,6 @@ class _EmrInvestigationScreenState extends State<EmrInvestigationScreen> {
       );
     }
   }
-
-
 
   Widget _buildTabs() {
     return Container(
@@ -221,7 +225,7 @@ class _EmrInvestigationScreenState extends State<EmrInvestigationScreen> {
                           "V",
                           "Blood-Plain",
                           "Blood-Plain",
-                          "",
+                          remarkscontroller,
                         ),
                       ],
                     ),
@@ -245,7 +249,8 @@ class _EmrInvestigationScreenState extends State<EmrInvestigationScreen> {
     String status,
     String spec,
     String test,
-    String rem,
+    // String remarkscontroller,
+    TextEditingController remarkscontroller,
   ) {
     return SizedBox(
       width: 250, // Slightly wider for this data
@@ -281,8 +286,89 @@ class _EmrInvestigationScreenState extends State<EmrInvestigationScreen> {
           _buildDivider(),
           _buildRightTextCell(test, 55),
           _buildDivider(),
-          _buildRightInputCell(rem, 55),
+          // _buildRightInputCell(rem, 55),
+          _buildInputCell(remarkscontroller, isNumeric: true, hint: 'Remarks'),
         ],
+      ),
+    );
+  }
+
+  Widget _buildInputCell(
+    TextEditingController ctrl, {
+    bool isNumeric = false,
+    String hint = "",
+    bool isLast = false,
+  }) {
+    return Container(
+      height: 55,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+
+      child: GestureDetector(
+        // --- ADDED: Triggers Remarks Modal ---
+        onTap: hint == "Remarks"
+            ? () async {
+                await RemarksDialog.show(
+                  context,
+                  ctrl,
+                  title: "Remarks",
+                  hintText: "Remarks",
+                  readOnly: true,
+                );
+
+                setState(() {}); // dialog close hone ke baad UI refresh
+              }
+            : null,
+        child: Container(
+          height: 38,
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey.shade300),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Stack(
+            children: [
+              TextField(
+                controller: ctrl,
+                keyboardType: isNumeric
+                    ? TextInputType.number
+                    : TextInputType.text,
+                textAlign: TextAlign.left, // ✅ always left aligned
+                textAlignVertical: TextAlignVertical.center,
+                style: const TextStyle(fontSize: 12, height: 1.2),
+
+                // readOnly: true,
+                readOnly: hint == "Remarks",
+                onTap: hint == "Remarks"
+                    ? () async {
+                        await RemarksDialog.show(
+                          context,
+                          ctrl,
+                          title: "Remarks",
+                          hintText: "Remarks",
+                          readOnly: true,
+                        );
+
+                        setState(() {}); // dialog close hone ke baad UI refresh
+                      }
+                    : null,
+                decoration: InputDecoration(
+                  hintText: hint,
+                  hintStyle: TextStyle(
+                    fontSize: 11,
+                    color: Colors.grey.shade400,
+                  ),
+                  border: InputBorder.none,
+                  isCollapsed: true,
+
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 8,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -570,6 +656,7 @@ class _EmrInvestigationScreenState extends State<EmrInvestigationScreen> {
           borderRadius: BorderRadius.circular(6),
         ),
         child: TextField(
+          readOnly: true,
           // --- ADD THESE TWO LINES TO FIX THE STUCK BLACK DOT ---
           enableInteractiveSelection: false,
           contextMenuBuilder: (_, __) => const SizedBox.shrink(),

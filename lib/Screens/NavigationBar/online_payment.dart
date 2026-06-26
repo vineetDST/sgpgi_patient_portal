@@ -44,7 +44,6 @@ class OnlinePayment extends StatefulWidget {
 }
 
 class _OpConsultationState extends State<OnlinePayment> {
-
   late int _currentTabIndex;
 
   @override
@@ -59,10 +58,7 @@ class _OpConsultationState extends State<OnlinePayment> {
     "General Tariff",
     "Investigation", // Example ke liye extra tabs
     "Part Payment",
-
   ];
-
-
 
   // Ek helper method tab switch karne ke liye
   void _switchTab(int index) {
@@ -102,7 +98,7 @@ class _OpConsultationState extends State<OnlinePayment> {
             fontSize: 12,
             onTabChanged: _switchTab, // Helper method call
           ),
-          const SizedBox(height: 16,),
+          const SizedBox(height: 16),
 
           // 🔥 FIX: Yahan se Expanded hata diya hai. Ab ye natural height lega.
           _tabViews[_currentTabIndex],
@@ -110,8 +106,8 @@ class _OpConsultationState extends State<OnlinePayment> {
       ),
     );
   }
-
 }
+
 class PaymentDetails extends StatelessWidget {
   // Callback function receive karne ke liye variable
   final VoidCallback onVerifyClicked;
@@ -151,7 +147,7 @@ class PaymentDetails extends StatelessWidget {
                 color: const Color(0xFF117A7A),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const TableText('Verify', color: Colors.white,),
+              child: const TableText('Verify', color: Colors.white),
             ),
           ),
           isLast: true,
@@ -167,148 +163,149 @@ class GeneralTariff extends StatefulWidget {
 }
 
 class _GeneralTariffState extends State<GeneralTariff> {
+  bool _action_a = false;
+  bool _action_b = false;
 
-  bool _action_a = false ;
-  bool _action_b = false ;
-
-  int _totalBalance = 150 ;
+  int _totalBalance = 150;
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: [
-        DetailTableWrapper(children: [
-          DetailRow(label: 'Tariff Name', text: 'CPP for Haemophilla -2 Unit'),
-          DetailRow(label: 'Qty.', text: '1.0'),
-          DetailRow(label: 'Price(Rs).', text: '$_totalBalance.00'),
-          DetailRow(label: 'Paid Amount', text: '0.00'),
-          DetailRow(label: 'Amount', text: '$_totalBalance.00'),
+        DetailTableWrapper(
+          children: [
+            DetailRow(
+              label: 'Tariff Name',
+              text: 'CPP for Haemophilla -2 Unit',
+            ),
+            DetailRow(label: 'Qty.', text: '1.0'),
+            DetailRow(label: 'Price(Rs).', text: '$_totalBalance.00'),
+            DetailRow(label: 'Paid Amount', text: '0.00'),
+            DetailRow(label: 'Amount', text: '$_totalBalance.00'),
 
+            DetailRow(
+              label: "Total Balance (Rs.)",
+              removePadding: true, // 🔥 important
+              customWidget: Container(
+                padding: EdgeInsets.only(left: 16),
+                alignment: Alignment.centerLeft,
+                width: double.infinity,
+                height: double.infinity,
 
-          DetailRow(
-
-
-            label: "Total Balance (Rs.)",
-            removePadding: true, // 🔥 important
-            customWidget: Container(
-              padding: EdgeInsets.only(left: 16),
-              alignment: Alignment.centerLeft,
-              width: double.infinity,
-              height: double.infinity,
-
-              color: Colors.yellow,
-              child: const Text(
-                "150.00",
-                style: const TextStyle(
-                  color: Colors.black87,
-                  fontSize: 14,
+                color: Colors.yellow,
+                child: const Text(
+                  "150.00",
+                  style: const TextStyle(color: Colors.black87, fontSize: 14),
                 ),
               ),
             ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide.none
-
-
+            Container(
+              decoration: BoxDecoration(
+                border: Border(bottom: BorderSide.none),
               ),
-            ),
-            child: IntrinsicHeight(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  // LEFT
-                  Container(
-                    width: 150,
+              child: IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // LEFT
+                    Container(
+                      width: 150,
 
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF0F8F8),
-                      border: Border(
-                        right: BorderSide(color: Colors.grey.shade300,width: 2),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(   // 🔥 FIX
-                          child: Center(
-                            child: GlobalCheckbox(
-                              label: '', // Label blank hai kyunki hum text par alag action chahte hain
-                              value: _action_a ?? false,
-                              onChanged: (bool newValue) {
-                                setState(() {
-                                  _action_a = newValue;
-                                  _action_b = newValue;
-
-                                });
-                              },
-                            ),
-                          ),
-                        ),
-
-                      ],
-                    ),
-                  ),
-
-                  // RIGHT
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                      padding: false
-                          ? EdgeInsets.zero
-                          : const EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 16,
                         vertical: 18,
                       ),
-                      alignment: Alignment.centerLeft,
-                      child: GlobalCheckbox(
-                        label: '', // Label blank hai kyunki hum text par alag action chahte hain
-                        value: _action_b ?? false,
-                        onChanged: (bool newValue) {
-                          setState(() {
-                            _action_b = newValue;
-                            _action_a = newValue;
-                          });
-                        },
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF0F8F8),
+                        border: Border(
+                          right: BorderSide(
+                            color: Colors.grey.shade300,
+                            width: 2,
+                          ),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            // 🔥 FIX
+                            child: Center(
+                              child: GlobalCheckbox(
+                                label:
+                                    '', // Label blank hai kyunki hum text par alag action chahte hain
+                                value: _action_a ?? false,
+                                onChanged: (bool newValue) {
+                                  setState(() {
+                                    _action_a = newValue;
+                                    _action_b = newValue;
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                ],
+
+                    // RIGHT
+                    Expanded(
+                      flex: 3,
+                      child: Container(
+                        padding: false
+                            ? EdgeInsets.zero
+                            : const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 18,
+                              ),
+                        alignment: Alignment.centerLeft,
+                        child: GlobalCheckbox(
+                          label:
+                              '', // Label blank hai kyunki hum text par alag action chahte hain
+                          value: _action_b ?? false,
+                          onChanged: (bool newValue) {
+                            setState(() {
+                              _action_b = newValue;
+                              _action_a = newValue;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          )
-
-
-        ],),
-        const SizedBox(height: 16,),
-        AppSaveButton(text: 'Make Payment',onPressed: (){
-
-          if (_action_b) { // Aapki purani condition
-            // Dialog ko dynamic values ke sath call kar rahe hain
-            _showPaymentSummaryDialog(
-              context: context,
-              transactionForm: 'Billing Against General Tariff', // Ya jo bhi is tab ka naam ho
-              payableNowAmount: _totalBalance, // Dynamic amount 1
-              totalAmount: _totalBalance,     // Dynamic amount 2 (Yellow box wala)
-            );
-          } else {
-            scaffoldMessenger(
+          ],
+        ),
+        const SizedBox(height: 16),
+        AppSaveButton(
+          text: 'Make Payment',
+          onPressed: () {
+            if (_action_b) {
+              // Aapki purani condition
+              // Dialog ko dynamic values ke sath call kar rahe hain
+              _showPaymentSummaryDialog(
+                context: context,
+                transactionForm:
+                    'Billing Against General Tariff', // Ya jo bhi is tab ka naam ho
+                payableNowAmount: _totalBalance, // Dynamic amount 1
+                totalAmount:
+                    _totalBalance, // Dynamic amount 2 (Yellow box wala)
+              );
+            } else {
+              scaffoldMessenger(
                 context,
                 title: 'General Tariff',
                 message: 'Please select checkbox',
-                type: NotificationType.error);
-          }
-        },),
-        const SizedBox(height: 16,),
+                type: NotificationType.error,
+              );
+            }
+          },
+        ),
+        const SizedBox(height: 16),
       ],
     );
   }
 
   // Dialog open karne ka function (Image ke UI ke according)
-
-
 }
 
 class Investigation extends StatefulWidget {
@@ -336,7 +333,7 @@ class _InvestigationState extends State<Investigation> {
   int _amount1 = 85;
   int _amount2 = 85;
 
-  int _totalBalance = 0 ;
+  int _totalBalance = 0;
 
   // 🔥 Ye function Master checkbox aur Total Amount ko update karega
   void _updateState() {
@@ -353,7 +350,7 @@ class _InvestigationState extends State<Investigation> {
 
   @override
   Widget build(BuildContext context) {
-    _totalBalance = _amount1 + _amount2 ;
+    _totalBalance = _amount1 + _amount2;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -364,7 +361,7 @@ class _InvestigationState extends State<Investigation> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SharedComponents.buildFormLabel("From Date",  ),
+                  SharedComponents.buildFormLabel("From Date"),
                   const SizedBox(height: 8),
                   AppDateField(
                     controller: fromController,
@@ -384,12 +381,12 @@ class _InvestigationState extends State<Investigation> {
                 ],
               ),
             ),
-            const SizedBox(width: 16,),
+            const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SharedComponents.buildFormLabel("To Date",  ),
+                  SharedComponents.buildFormLabel("To Date"),
                   const SizedBox(height: 8),
                   AppDateField(
                     controller: toController,
@@ -408,161 +405,151 @@ class _InvestigationState extends State<Investigation> {
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
-        const SizedBox(height: 16,),
+        const SizedBox(height: 16),
 
         // Search Button
         Center(
           child: SizedBox(
-              width: 120,
-              height: 40,
-              child: AppSaveButton(text: 'Search',onPressed: (){},)),
+            width: 120,
+            height: 40,
+            child: AppSaveButton(text: 'Search', onPressed: () {}),
+          ),
         ),
 
-
-        const SizedBox(height: 16,),
+        const SizedBox(height: 16),
 
         // 🔥 FIX: Yahan table ke aas-paas se Expanded hata diya hai.
         // Ab table jitni lambi hogi, page utna lamba ho jayega aur Scaffold use scroll karega.
         ScrollableDataTable(
-            tableLabels: [
-              TableLabel(text: 'Requisition No.'),
-              TableLabel(text: 'Requisition Date'),
-              TableLabel(text: 'Investigation'),
-              TableLabel(text: 'Order By'),
-              TableLabel(text: 'To Location'),
-              TableLabel(text: 'Amount(Rs.)'),
-              TableLabel(text: 'Total Balance (Rs.)'),
-              TableLabel(
-                customWidget: Row(
-                  children: [
-                    Expanded(
-                      child: Center(
-                        child: GlobalCheckbox(
-                          label: '',
-                          value: _action_a,
-                          onChanged: (bool newValue) {
-                            setState(() {
-                              _action_a = newValue;
-                              // Master par click hua to dono child ko same value do
-                              _action_b = newValue;
-                              _action_c = newValue;
-                              _updateState(); // Amount update karne ke liye call karo
-                            });
-                          },
-                        ),
+          tableLabels: [
+            TableLabel(text: 'Requisition No.'),
+            TableLabel(text: 'Requisition Date'),
+            TableLabel(text: 'Investigation'),
+            TableLabel(text: 'Order By'),
+            TableLabel(text: 'To Location'),
+            TableLabel(text: 'Amount(Rs.)'),
+            TableLabel(text: 'Total Balance (Rs.)'),
+            TableLabel(
+              customWidget: Row(
+                children: [
+                  Expanded(
+                    child: Center(
+                      child: GlobalCheckbox(
+                        label: '',
+                        value: _action_a,
+                        onChanged: (bool newValue) {
+                          setState(() {
+                            _action_a = newValue;
+                            // Master par click hua to dono child ko same value do
+                            _action_b = newValue;
+                            _action_c = newValue;
+                            _updateState(); // Amount update karne ke liye call karo
+                          });
+                        },
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ],
-            rowValues: [
-              [
-                const TableText('ORDER_7654321'),
-                const TableText('ORDER_7654321'),
-              ],
-              [
-                const TableText('08-Jun-2026'),
-                const TableText('08-Jun-2026'),
-              ],
-              [
-                const TableText('05. S. Creatinine'),
-                const TableText('05. S. Creatinine'),
-              ],
-              [
-                const TableText('Admin'),
-                const TableText('Admin'),
-              ],
-              [
-                const TableText('Clinical History'),
-                const TableText('Clinical History'),
-              ],
-              [
-                  TableText('$_amount1.00'),
-                 TableText('$_amount2.00'),
-              ],
-              [
-                NoRightBorderCell(
-                  child: NoPaddingCell(
-                    child: Container(
-                      padding: const EdgeInsets.only(left: 16),
-                      alignment: Alignment.centerLeft,
-                      width: double.infinity,
-                      height: double.infinity,
-                      color: Colors.yellow,
-                      child:   Text("$_totalBalance.00", style: TextStyle(color: Colors.black87, fontSize: 14)),
-                    ),
                   ),
-                ),
-                NoPaddingCell(
+                ],
+              ),
+            ),
+          ],
+          rowValues: [
+            [
+              const TableText('ORDER_7654321'),
+              const TableText('ORDER_7654321'),
+            ],
+            [const TableText('08-Jun-2026'), const TableText('08-Jun-2026')],
+            [
+              const TableText('05. S. Creatinine'),
+              const TableText('05. S. Creatinine'),
+            ],
+            [const TableText('Admin'), const TableText('Admin')],
+            [
+              const TableText('Clinical History'),
+              const TableText('Clinical History'),
+            ],
+            [TableText('$_amount1.00'), TableText('$_amount2.00')],
+            [
+              NoRightBorderCell(
+                child: NoPaddingCell(
                   child: Container(
                     padding: const EdgeInsets.only(left: 16),
                     alignment: Alignment.centerLeft,
                     width: double.infinity,
                     height: double.infinity,
                     color: Colors.yellow,
-
+                    child: Text(
+                      "$_totalBalance.00",
+                      style: TextStyle(color: Colors.black87, fontSize: 14),
+                    ),
                   ),
-                )
-              ],
-              [
-                // RIGHT CHECKBOX 1
-                GlobalCheckbox(
-                  label: '',
-                  value: _action_b,
-                  onChanged: (bool newValue) {
-                    setState(() {
-                      _action_b = newValue;
-                      _updateState(); // Check master and update amount
-                    });
-                  },
                 ),
-                // RIGHT CHECKBOX 2
-                GlobalCheckbox(
-                  label: '',
-                  value: _action_c,
-                  onChanged: (bool newValue) {
-                    setState(() {
-                      _action_c = newValue;
-                      _updateState(); // Check master and update amount
-                    });
-                  },
+              ),
+              NoPaddingCell(
+                child: Container(
+                  padding: const EdgeInsets.only(left: 16),
+                  alignment: Alignment.centerLeft,
+                  width: double.infinity,
+                  height: double.infinity,
+                  color: Colors.yellow,
                 ),
-              ]
-
-            ]),
-        const SizedBox(height: 16,),
+              ),
+            ],
+            [
+              // RIGHT CHECKBOX 1
+              GlobalCheckbox(
+                label: '',
+                value: _action_b,
+                onChanged: (bool newValue) {
+                  setState(() {
+                    _action_b = newValue;
+                    _updateState(); // Check master and update amount
+                  });
+                },
+              ),
+              // RIGHT CHECKBOX 2
+              GlobalCheckbox(
+                label: '',
+                value: _action_c,
+                onChanged: (bool newValue) {
+                  setState(() {
+                    _action_c = newValue;
+                    _updateState(); // Check master and update amount
+                  });
+                },
+              ),
+            ],
+          ],
+        ),
+        const SizedBox(height: 16),
         AppSaveButton(
           text: 'Make Payment',
           onPressed: () {
             // Agar ek bhi select kiya hai to aage badho
             if (_action_b || _action_c) {
-
-              if(_action_b)
-                 _totalBalance = _amount1;
-              if(_action_c)
-                _totalBalance = _amount2;
-              if(_action_b && _action_c)
-                _totalBalance = _amount1 + _amount2;
+              if (_action_b) _totalBalance = _amount1;
+              if (_action_c) _totalBalance = _amount2;
+              if (_action_b && _action_c) _totalBalance = _amount1 + _amount2;
               _showPaymentSummaryDialog(
                 context: context,
-                transactionForm: 'Investigation Billing',
+                transactionForm: 'Billing Against Investigation',
                 payableNowAmount: _totalBalance,
                 totalAmount: _totalBalance,
               );
             } else {
               scaffoldMessenger(
-                  context,
-                  title: 'Make Payment',
-                  message: 'Please select at least one investigation item',
-                  type: NotificationType.error);
+                context,
+                title: 'Make Payment',
+                message: 'Please select at least one investigation item',
+                type: NotificationType.error,
+              );
             }
           },
         ),
-        const SizedBox(height: 16,),
+        const SizedBox(height: 16),
       ],
     );
   }
@@ -574,140 +561,143 @@ class PartPayment extends StatefulWidget {
 }
 
 class _PartPaymentState extends State<PartPayment> {
-
-  bool _action_a = false ;
-  bool _action_b = false ;
-  int _totalBalance = 2000 ;
+  bool _action_a = false;
+  bool _action_b = false;
+  int _totalBalance = 2000;
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: [
-        DetailTableWrapper(children: [
-          DetailRow(label: 'Head', text: 'Part Payment'),
-          DetailRow(label: 'Date of Req.', text: '08-06-2026'),
-          DetailRow(label: 'Req. No.', text: 'REQ9876'),
-          DetailRow(label: 'Req. Department', text: 'Endrocine Surgery'),
-          DetailRow(label: 'Requested By', text: 'Admin'),
-          DetailRow(label: 'Requested Amount', text: '$_totalBalance.00'),
+        DetailTableWrapper(
+          children: [
+            DetailRow(label: 'Head', text: 'Part Payment'),
+            DetailRow(label: 'Date of Req.', text: '08-06-2026'),
+            DetailRow(label: 'Req. No.', text: 'REQ9876'),
+            DetailRow(label: 'Req. Department', text: 'Endrocine Surgery'),
+            DetailRow(label: 'Requested By', text: 'Admin'),
+            DetailRow(label: 'Requested Amount', text: '$_totalBalance.00'),
 
+            DetailRow(
+              label: "Total Balance (Rs.)",
+              removePadding: true, // 🔥 important
+              customWidget: Container(
+                padding: EdgeInsets.only(left: 16),
+                alignment: Alignment.centerLeft,
+                width: double.infinity,
+                height: double.infinity,
 
-          DetailRow(
-
-
-            label: "Total Balance (Rs.)",
-            removePadding: true, // 🔥 important
-            customWidget: Container(
-              padding: EdgeInsets.only(left: 16),
-              alignment: Alignment.centerLeft,
-              width: double.infinity,
-              height: double.infinity,
-
-              color: Colors.yellow,
-              child:   Text(
-                "$_totalBalance.00",
-                style: const TextStyle(
-                  color: Colors.black87,
-                  fontSize: 14,
+                color: Colors.yellow,
+                child: Text(
+                  "$_totalBalance.00",
+                  style: const TextStyle(color: Colors.black87, fontSize: 14),
                 ),
               ),
             ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              border: Border(
-                  bottom: BorderSide.none
-
-
+            Container(
+              decoration: BoxDecoration(
+                border: Border(bottom: BorderSide.none),
               ),
-            ),
-            child: IntrinsicHeight(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  // LEFT
-                  Container(
-                    width: 150,
+              child: IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // LEFT
+                    Container(
+                      width: 150,
 
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF0F8F8),
-                      border: Border(
-                        right: BorderSide(color: Colors.grey.shade300,width: 2),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(   // 🔥 FIX
-                          child: Center(
-                            child: GlobalCheckbox(
-                              label: '', // Label blank hai kyunki hum text par alag action chahte hain
-                              value: _action_a ?? false,
-                              onChanged: (bool newValue) {
-                                setState(() {
-
-                                  _action_a = newValue; // Checkbox ka state update
-                                  _action_b = newValue; // Checkbox ka state update
-                                });
-                              },
-                            ),
-                          ),
-                        ),
-
-                      ],
-                    ),
-                  ),
-
-                  // RIGHT
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                      padding: false
-                          ? EdgeInsets.zero
-                          : const EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 16,
                         vertical: 18,
                       ),
-                      alignment: Alignment.centerLeft,
-                      child: GlobalCheckbox(
-                        label: '', // Label blank hai kyunki hum text par alag action chahte hain
-                        value: _action_b ?? false,
-                        onChanged: (bool newValue) {
-                          setState(() {
-                            _action_a = newValue; // Checkbox ka state update
-                            _action_b = newValue; // Checkbox ka state update
-                          });
-                        },
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF0F8F8),
+                        border: Border(
+                          right: BorderSide(
+                            color: Colors.grey.shade300,
+                            width: 2,
+                          ),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            // 🔥 FIX
+                            child: Center(
+                              child: GlobalCheckbox(
+                                label:
+                                    '', // Label blank hai kyunki hum text par alag action chahte hain
+                                value: _action_a ?? false,
+                                onChanged: (bool newValue) {
+                                  setState(() {
+                                    _action_a =
+                                        newValue; // Checkbox ka state update
+                                    _action_b =
+                                        newValue; // Checkbox ka state update
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                ],
+
+                    // RIGHT
+                    Expanded(
+                      flex: 3,
+                      child: Container(
+                        padding: false
+                            ? EdgeInsets.zero
+                            : const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 18,
+                              ),
+                        alignment: Alignment.centerLeft,
+                        child: GlobalCheckbox(
+                          label:
+                              '', // Label blank hai kyunki hum text par alag action chahte hain
+                          value: _action_b ?? false,
+                          onChanged: (bool newValue) {
+                            setState(() {
+                              _action_a = newValue; // Checkbox ka state update
+                              _action_b = newValue; // Checkbox ka state update
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          )
-
-
-        ],),
-        const SizedBox(height: 16,),
-        AppSaveButton(text: 'Make Payment',onPressed: (){
-          if (_action_b) { // Aapki purani condition
-            // Dialog ko dynamic values ke sath call kar rahe hain
-            _showPaymentSummaryDialog(
-              context: context,
-              transactionForm: 'Billing Against General Tariff', // Ya jo bhi is tab ka naam ho
-              payableNowAmount: _totalBalance, // Dynamic amount 1
-              totalAmount: _totalBalance,     // Dynamic amount 2 (Yellow box wala)
-            );
-          } else {
-            scaffoldMessenger(
+          ],
+        ),
+        const SizedBox(height: 16),
+        AppSaveButton(
+          text: 'Make Payment',
+          onPressed: () {
+            if (_action_b) {
+              // Aapki purani condition
+              // Dialog ko dynamic values ke sath call kar rahe hain
+              _showPaymentSummaryDialog(
+                context: context,
+                transactionForm:
+                    'Billing Against Part Payment', // Ya jo bhi is tab ka naam ho
+                payableNowAmount: _totalBalance, // Dynamic amount 1
+                totalAmount:
+                    _totalBalance, // Dynamic amount 2 (Yellow box wala)
+              );
+            } else {
+              scaffoldMessenger(
                 context,
                 title: 'Part Payment',
                 message: 'Please select checkbox',
-                type: NotificationType.error);
-          }
-        },),
-        const SizedBox(height: 16,),
+                type: NotificationType.error,
+              );
+            }
+          },
+        ),
+        const SizedBox(height: 16),
       ],
     );
   }
@@ -728,13 +718,8 @@ void _showPaymentSummaryDialog({
     builder: (context) {
       return Dialog(
         backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        insetPadding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 24,
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
         child: StatefulBuilder(
           builder: (context, setSidebarState) {
             return SingleChildScrollView(
@@ -743,7 +728,10 @@ void _showPaymentSummaryDialog({
                 children: [
                   // Dialog Header
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
                     decoration: const BoxDecoration(
                       color: Color(0xFFD0F0E8), // Light greenish background
                       borderRadius: BorderRadius.only(
@@ -770,7 +758,10 @@ void _showPaymentSummaryDialog({
                   ),
 
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 16,
+                    ),
                     child: DetailTableWrapper(
                       children: [
                         // 🔥 Dynamic Transaction Form Name
@@ -782,7 +773,11 @@ void _showPaymentSummaryDialog({
                           label: 'Payment Mode',
                           customWidget: InnnerDropdown(
                             value: _card,
-                            items: ['CC(Credit Card)', 'DC(Debit Card)', 'Cash'],
+                            items: [
+                              'CC(Credit Card)',
+                              'DC(Debit Card)',
+                              'Cash',
+                            ],
                             onChanged: (val) {
                               setSidebarState(() {
                                 _card = val;
@@ -797,11 +792,13 @@ void _showPaymentSummaryDialog({
                         ),
                         DetailRow(
                           label: 'Action',
-                          customWidget: AppDeleteIcon(parentContext: context,onDeleteConfirmed: (){
-                            print("delete");
-                             Navigator.pop(context);
-
-                          },),
+                          customWidget: AppDeleteIcon(
+                            parentContext: context,
+                            onDeleteConfirmed: () {
+                              print("delete");
+                              Navigator.pop(context);
+                            },
+                          ),
                           removePadding: true,
                         ),
                         DetailRow(
@@ -838,7 +835,7 @@ void _showPaymentSummaryDialog({
                       },
                     ),
                   ),
-                  const SizedBox(height: 16,),
+                  const SizedBox(height: 16),
                 ],
               ),
             );
@@ -848,10 +845,3 @@ void _showPaymentSummaryDialog({
     },
   );
 }
-
-
-
-
-
-
-

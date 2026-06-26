@@ -22,26 +22,10 @@ class _OpDrawerState extends State<OpDrawer> {
   int _expandedIndex = -1;
 
   final List<Map<String, dynamic>> _menuData = [
-    {
-      'title': 'PED Balance',
-      'icon': 'ped_balance',
-
-    },
-    {
-      'title': 'Account Statement',
-      'icon': 'acc_stmt',
-
-    },
-    {
-      'title': 'Investigation Orders',
-      'icon': 'investigation',
-
-    },
-    {
-      'title': 'Duplicate Receipt',
-      'icon': 'duplicate',
-
-    },
+    {'title': 'PED Balance', 'icon': 'ped_balance'},
+    {'title': 'Account Statement', 'icon': 'acc_stmt'},
+    {'title': 'Investigation Orders', 'icon': 'investigation'},
+    {'title': 'Duplicate Receipt', 'icon': 'duplicate'},
   ];
 
   String name = DummyData.dummyProfile['name'];
@@ -51,34 +35,36 @@ class _OpDrawerState extends State<OpDrawer> {
   Widget build(BuildContext context) {
     return Drawer(
       elevation: 0,
-      backgroundColor: Colors.white, // Drawer ka base background white
+      // backgroundColor: Colors.white, // Drawer ka base background white
       width: MediaQuery.of(context).size.width * 0.75,
-      child: Column(
-        children: [
-          // --- TOP SECTION (Gradient Setup) ---
-          Expanded(
-            child: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    AppColor.colorC7F9CC, // Light Green
-                    AppColor.colorBEE9E8, // Light Teal/Blue
-                  ],
-                ),
-              ),
-              // SafeArea top ke liye zaroori hai (status bar avoid karne ke liye)
+      child: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              AppColor.colorC7F9CC, // Light Green
+              AppColor.colorBEE9E8, // Light Teal/Blue
+            ],
+          ),
+        ),
+        // SafeArea top ke liye zaroori hai (status bar avoid karne ke liye)
+        child: Column(
+          children: [
+            // --- TOP SECTION (Gradient Setup) ---
+            Expanded(
               child: SafeArea(
                 bottom: false, // Niche ki safe area yahan allow mat karo
                 child: Column(
                   children: [
-                    const SizedBox(height: 24,),
+                    const SizedBox(height: 24),
                     Row(
                       children: [
                         Expanded(
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 24.0,
+                            ),
                             child: Row(
                               children: [
                                 // Profile Image
@@ -92,7 +78,9 @@ class _OpDrawerState extends State<OpDrawer> {
                                       width: 2,
                                     ),
                                     image: const DecorationImage(
-                                      image: AssetImage("assets/op_profile.png"),
+                                      image: AssetImage(
+                                        "assets/op_profile.png",
+                                      ),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -142,7 +130,7 @@ class _OpDrawerState extends State<OpDrawer> {
                       ],
                     ),
 
-                    const SizedBox(height: 16,),
+                    const SizedBox(height: 16),
                     // --- Menu List ---
                     Expanded(
                       child: ListView.builder(
@@ -157,31 +145,33 @@ class _OpDrawerState extends State<OpDrawer> {
                 ),
               ),
             ),
-          ),
 
-          // --- BOTTOM SECTION (White Background for Logout) ---
-          Container(
-            color: Colors.white, // Isko explicitly white diya hai
-            child: SafeArea(
-              top: false, // Top safe area pehle hi handle ho chuki hai
-              child: ListTile(
-                leading: const Icon(Icons.logout, color: Colors.red),
-                title: const Text(
-                  "Logout",
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20,
+            // --- BOTTOM SECTION (White Background for Logout) ---
+            Container(
+              color: Colors.transparent,
+              // Isko explicitly white diya hai
+              child: SafeArea(
+                top: false, // Top safe area pehle hi handle ho chuki hai
+                child: ListTile(
+                  horizontalTitleGap: 1,
+                  leading: const Icon(Icons.logout, color: Colors.red),
+                  title: Text(
+                    "Logout",
+                    style: TextStyle(
+                      color: AppColor.color1E1E1E,
+                      fontWeight: FontWeight.w400,
+                      fontSize: MediaQuery.of(context).size.height * 0.018,
+                    ),
                   ),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    _showLogoutDialog(context);
+                  },
                 ),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  _showLogoutDialog(context);
-                },
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -189,8 +179,12 @@ class _OpDrawerState extends State<OpDrawer> {
   Widget _buildMenuItem(int index) {
     final item = _menuData[index];
     final bool isOpen = _expandedIndex == index;
-    final Color titleColor = isOpen ? AppColor.color117A7A : AppColor.color1E1E1E;
-    final Color iconColor = isOpen ? AppColor.color117A7A : AppColor.color1E1E1E;
+    final Color titleColor = isOpen
+        ? AppColor.color117A7A
+        : AppColor.color1E1E1E;
+    final Color iconColor = isOpen
+        ? AppColor.color117A7A
+        : AppColor.color1E1E1E;
 
     return InkWell(
       onTap: () {
@@ -198,13 +192,13 @@ class _OpDrawerState extends State<OpDrawer> {
         int? targetTabIndex;
 
         if (index == 0) {
-          targetScreen =  PedBalance(patientName: name, crn: crn);
+          targetScreen = PedBalance(patientName: name, crn: crn);
         } else if (index == 1) {
-          targetScreen =   AccStmt(patientName: name, crn: crn);
+          targetScreen = AccStmt(patientName: name, crn: crn);
         } else if (index == 2) {
-          targetScreen =   InvestigationOrder(patientName: name, crn: crn);
+          targetScreen = InvestigationOrder(patientName: name, crn: crn);
         } else if (index == 3) {
-          targetScreen =   DuplicateRecepits(patientName: name, crn: crn);
+          targetScreen = DuplicateRecepits(patientName: name, crn: crn);
         }
 
         if (targetScreen != null) {
@@ -263,7 +257,11 @@ class _OpDrawerState extends State<OpDrawer> {
                   alignment: Alignment.topRight,
                   child: GestureDetector(
                     onTap: () => Navigator.of(context).pop(),
-                    child: const Icon(Icons.close, size: 26, color: Color(0xFF001533)),
+                    child: const Icon(
+                      Icons.close,
+                      size: 26,
+                      color: Color(0xFF001533),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -310,7 +308,13 @@ class _OpDrawerState extends State<OpDrawer> {
                       child: ElevatedButton(
                         onPressed: () {
                           Navigator.of(context).pop();
-                           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) =>  LoginScreen(loginby: '',)), (route) => false);
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => LoginScreen(loginby: ''),
+                            ),
+                            (route) => false,
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFFC00000),

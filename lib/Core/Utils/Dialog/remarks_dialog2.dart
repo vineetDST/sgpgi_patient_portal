@@ -3,11 +3,12 @@ import 'package:flutter/services.dart';
 
 class RemarksDialog {
   static Future<void> show(
-      BuildContext context,
-      TextEditingController controller, {
-        String title = "Remarks",
-        String hintText = "Remarks",
-      }) {
+    BuildContext context,
+    TextEditingController controller, {
+    String title = "Remarks",
+    String hintText = "Remarks",
+    bool readOnly = false,
+  }) {
     return showDialog(
       context: context,
       builder: (context) => Dialog(
@@ -51,6 +52,7 @@ class RemarksDialog {
                     TextField(
                       controller: controller,
                       maxLines: 5,
+                      readOnly: readOnly,
                       decoration: InputDecoration(
                         hintText: hintText ?? title,
                         hintStyle: const TextStyle(color: Colors.grey),
@@ -59,7 +61,8 @@ class RemarksDialog {
                       ),
                       inputFormatters: [
                         TextInputFormatter.withFunction((oldValue, newValue) {
-                          final lineCount = '\n'.allMatches(newValue.text).length + 1;
+                          final lineCount =
+                              '\n'.allMatches(newValue.text).length + 1;
 
                           if (lineCount > 5) {
                             return oldValue; // 6th line allow nahi karega
