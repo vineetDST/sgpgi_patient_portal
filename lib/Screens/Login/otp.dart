@@ -20,12 +20,26 @@ class _LoginScreenState extends State<Otp> {
   @override
   void initState() {
     super.initState();
-    // Jaise hi page open hoga, pehla OTP chala jayega
-    sendInitialOtp();
+    // UI build hone ke turant baad pop-up aur OTP trigger karega
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      sendInitialOtp();
+    });
   }
 
-  void sendInitialOtp() async {
+  Future<void> sendInitialOtp() async {
+    if (context.mounted) {
+      scaffoldMessenger(
+        context,
+        title: "OTP Sent",
+        message: 'OTP has been sent to your registered mobile number',
+        type: NotificationType.success,
+      );
+    }
+    await Future.delayed(const Duration(seconds: 2));
+
+    // 3. Aapka global OTP generate karne wala function call kiya
     await sendOTP();
+
   }
   @override
   Widget build(BuildContext context) {
@@ -155,7 +169,7 @@ class _LoginScreenState extends State<Otp> {
                               ),
                             ),
                             onPressed: () {
-                              sendOTP();
+                              sendInitialOtp();
                             },
                             child: const Text(
                               'Resend',

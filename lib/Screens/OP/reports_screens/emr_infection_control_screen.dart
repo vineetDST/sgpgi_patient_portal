@@ -103,58 +103,61 @@ class _EmrInfectionControlScreenState extends State<EmrInfectionControlScreen> {
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: Colors.grey.shade300),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 140,
-            decoration: BoxDecoration(
-              color: const Color(0xFFEAF9F9),
-              border: Border(right: BorderSide(color: Colors.grey.shade300)),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 140,
+              decoration: BoxDecoration(
+                color: const Color(0xFFEAF9F9),
+                border: Border(right: BorderSide(color: Colors.grey.shade300)),
+              ),
+              child: Column(
+                children: [
+                  _buildLeftCell("Room", 60),
+                  _buildDivider(),
+                  _buildLeftCell("Category", 60),
+                  _buildDivider(),
+                  _buildLeftCell("Status", 60),
+                  _buildDivider(),
+                  _buildLeftCell("Infection Type", 60),
+                  _buildDivider(),
+                  _buildLeftCell("Outcome", 60),
+                  _buildDivider(),
+                  _buildLeftCell("Recorded Date", 60),
+                ],
+              ),
             ),
-            child: Column(
-              children: [
-                _buildLeftCell("Room", 60),
-                _buildDivider(),
-                _buildLeftCell("Category", 60),
-                _buildDivider(),
-                _buildLeftCell("Status", 60),
-                _buildDivider(),
-                _buildLeftCell("Infection Type", 60),
-                _buildDivider(),
-                _buildLeftCell("Outcome", 60),
-                _buildDivider(),
-                _buildLeftCell("Recorded Date", 60),
-              ],
-            ),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: IntrinsicWidth(
-                child: SizedBox(
-                  width: 250,
-                  child: Column(
-                    children: [
-                      // Empty cells as per mockup
-                      _buildRightTextCell("", 60),
-                      _buildDivider(),
-                      _buildRightTextCell("", 60),
-                      _buildDivider(),
-                      _buildRightTextCell("", 60),
-                      _buildDivider(),
-                      _buildRightTextCell("", 60),
-                      _buildDivider(),
-                      _buildRightTextCell("", 60),
-                      _buildDivider(),
-                      _buildRightTextCell("", 60),
-                    ],
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: IntrinsicWidth(
+                  child: SizedBox(
+                    width: 250,
+                    child: Column(
+                      children: [
+                        // Empty cells as per mockup
+                        _buildRightTextCell("", 60),
+                        _buildDivider(),
+                        _buildRightTextCell("", 60),
+                        _buildDivider(),
+                        _buildRightTextCell("", 60),
+                        _buildDivider(),
+                        _buildRightTextCell("", 60),
+                        _buildDivider(),
+                        _buildRightTextCell("", 60),
+                        _buildDivider(),
+                        _buildRightTextCell("", 60),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

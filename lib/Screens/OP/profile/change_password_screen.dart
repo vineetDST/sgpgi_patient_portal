@@ -62,6 +62,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             controller: _oldPasswordCtrl,
             hintText: "Enter the Old Password",
             obscureText: true,
+
           ),
           const SizedBox(height: 16),
 
@@ -83,32 +84,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           ),
           const SizedBox(height: 16),
 
-          // _buildInputField("User Login Id", _loginIdCtrl, readOnly: true),
-          // const SizedBox(height: 16),
-          // _buildInputField(
-          //   "Old Password",
-          //   _oldPasswordCtrl,
-          //   hint: "Enter the old Password",
-          //   obscureText: true,
-          // ),
-          // const SizedBox(height: 16),
-          // _buildInputField(
-          //   "New Password",
-          //   _newPasswordCtrl,
-          //   hint: "Enter the New Password",
-          //   obscureText: true,
-          // ),
-          // const SizedBox(height: 16),
-          // _buildInputField(
-          //   "Confirm Password",
-          //   _confirmPasswordCtrl,
-          //   hint: "Enter the Confirm Password",
-          //   obscureText: true,
-          // ),
 
-          // const SizedBox(height: 40),
-
-          // Save Button
           SizedBox(
             width: double.infinity,
             height: 48,
@@ -179,9 +155,25 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     }
     else {
       DummyData.password = cnfPwd.toString();
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-        return LoginScreen(loginby: '');
-      }), (route) => false) ;
+      scaffoldMessenger(
+        context,
+        title: "Change Password",
+        message: 'Password is changed sucessfully',
+        type: NotificationType.success,
+      );
+
+      Future.delayed(const Duration(seconds: 3), () {
+
+        if (context.mounted) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return LoginScreen(loginby: '');
+            }),
+                (route) => false,
+          );
+        }
+      });
     }
 
 

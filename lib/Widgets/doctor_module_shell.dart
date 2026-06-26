@@ -46,7 +46,7 @@ class DoctorModuleShellState extends State<DoctorModuleShell> {
   // 2. Define the 4 Root Screens for the Doctor tabs
   final List<Widget> _rootScreens = [
     const DashboardVisitsScreen(),
-    const OnlinePayment(patientName: 'Ram Sharma', crn: "2025000653"), // Default empty OP root
+    const OnlinePayment(patientName: 'Ram Sharma', crn: "2025000653",initialTabIndex: 3,), // Default empty OP root
     const InvestigtionReport(patientName: "Ram Sharma", crn: "2025000653"), // Default empty OP root
     const EmrScreen(
       patientName: "Ram Sharma",

@@ -9,7 +9,7 @@ void scaffoldMessenger(
       required String title,
       required String message,
       required NotificationType type,
-      Duration duration = const Duration(seconds: 3), // Thoda duration badhaya taaki user padh sake
+      Duration duration = const Duration(seconds: 2), // Thoda duration badhaya taaki user padh sake
     }) {
   final overlay = Overlay.of(context);
   late OverlayEntry barrierEntry;

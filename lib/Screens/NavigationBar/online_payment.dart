@@ -4,12 +4,15 @@ import 'package:qc_hospital/Core/Utils/Appbar/op_appbar.dart';
 import 'package:qc_hospital/Core/Utils/Button/save.dart';
 import 'package:qc_hospital/Core/Utils/Check_Radio_Button/check_box.dart';
 import 'package:qc_hospital/Core/Utils/Datepicker/app_date_picker.dart';
+import 'package:qc_hospital/Core/Utils/Dropdown/innner_dropdown.dart';
+import 'package:qc_hospital/Core/Utils/Icon_Action/delete.dart';
 import 'package:qc_hospital/Core/Utils/Tab/switching_tab.dart';
 import 'package:qc_hospital/Core/Utils/Table/detail_row.dart';
 import 'package:qc_hospital/Core/Utils/Table/detail_row_wrapper.dart';
 import 'package:qc_hospital/Core/Utils/Table/scrollable_table.dart';
 import 'package:qc_hospital/Core/Utils/Table/table_text.dart';
 import 'package:qc_hospital/Core/Utils/custom_calendar_dialog.dart';
+import 'package:qc_hospital/Core/Utils/scaffold_messenger.dart';
 
 // --- Import the Base Shell to access the Master Drawer Key ---
 import 'package:qc_hospital/Widgets/doctor_module_shell.dart';
@@ -59,16 +62,30 @@ class _OpConsultationState extends State<OnlinePayment> {
 
   ];
 
-  final List<Widget> _tabViews = [
-    PaymentDetails(),
-    GeneralTariff(),
-    Investigation(),
-    PartPayment(),
 
-  ];
+
+  // Ek helper method tab switch karne ke liye
+  void _switchTab(int index) {
+    setState(() {
+      _currentTabIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+
+    final List<Widget> _tabViews = [
+      PaymentDetails(
+        onVerifyClicked: () {
+          // Part Payment tab index 3 par hai (0-based index)
+          _switchTab(3);
+        },
+      ),
+      GeneralTariff(),
+      Investigation(),
+      PartPayment(),
+    ];
     return ClinicalBaseScaffold(
       title: "Make Online Payment",
       showDrawer: true,
@@ -83,11 +100,7 @@ class _OpConsultationState extends State<OnlinePayment> {
             tabs: _myTabs,
             currentIndex: _currentTabIndex,
             fontSize: 12,
-            onTabChanged: (index) {
-              setState(() {
-                _currentTabIndex = index;
-              });
-            },
+            onTabChanged: _switchTab, // Helper method call
           ),
           const SizedBox(height: 16,),
 
@@ -100,36 +113,52 @@ class _OpConsultationState extends State<OnlinePayment> {
 
 }
 class PaymentDetails extends StatelessWidget {
+  // Callback function receive karne ke liye variable
+  final VoidCallback onVerifyClicked;
+
+  // Constructor me callback required kar diya hai
+  const PaymentDetails({super.key, required this.onVerifyClicked});
+
   @override
   Widget build(BuildContext context) {
+    return DetailTableWrapper(
+      children: [
+        DetailRow(label: 'Transaction No', text: '056789'),
+        DetailRow(label: 'SBI Ref No', text: '--'),
+        DetailRow(label: 'Pay Type', text: 'Part Payment'),
+        DetailRow(label: 'Transaction Date', text: 'Jun 8, 2026'),
+        DetailRow(label: 'Amount', text: '2000.00'),
 
-    return DetailTableWrapper(children: [
-      DetailRow(label: 'Transaction No', text: '056789'),
-      DetailRow(label: 'SBI Ref No', text: '--'),
-      DetailRow(label: 'Pay Type', text: 'Part Payment'),
-      DetailRow(label: 'Transaction Date', text: 'Jun 8, 2026'),
-      DetailRow(label: 'Amount', text: '2000.00'),
-
-
-      DetailRow(label: 'Status', customWidget: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        decoration: BoxDecoration(
-          color: Color(0xFFFFECB3),
-          borderRadius: BorderRadius.circular(12),
+        DetailRow(
+          label: 'Status',
+          customWidget: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            decoration: BoxDecoration(
+              color: const Color(0xFFFFECB3),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const TableText('Pending'),
+          ),
         ),
-        child: const TableText('Pending'),
-      ),),
-      DetailRow(label: 'SBI Verified', customWidget: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        decoration: BoxDecoration(
-          color: Color(0xFF117A7A),
-          borderRadius: BorderRadius.circular(12),
+
+        DetailRow(
+          label: 'SBI Verified',
+          customWidget: GestureDetector(
+            onTap: onVerifyClicked, // Click hone par tab switch trigger hoga
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              decoration: BoxDecoration(
+                color: const Color(0xFF117A7A),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const TableText('Verify', color: Colors.white,),
+            ),
+          ),
+          isLast: true,
         ),
-        child: const TableText('Verify',color: Colors.white,),
-      ),isLast: true,),
-    ],);
+      ],
+    );
   }
-
 }
 
 class GeneralTariff extends StatefulWidget {
@@ -141,6 +170,8 @@ class _GeneralTariffState extends State<GeneralTariff> {
 
   bool _action_a = false ;
   bool _action_b = false ;
+
+  int _totalBalance = 150 ;
   @override
   Widget build(BuildContext context) {
 
@@ -149,9 +180,9 @@ class _GeneralTariffState extends State<GeneralTariff> {
         DetailTableWrapper(children: [
           DetailRow(label: 'Tariff Name', text: 'CPP for Haemophilla -2 Unit'),
           DetailRow(label: 'Qty.', text: '1.0'),
-          DetailRow(label: 'Price(Rs).', text: '150.00'),
+          DetailRow(label: 'Price(Rs).', text: '$_totalBalance.00'),
           DetailRow(label: 'Paid Amount', text: '0.00'),
-          DetailRow(label: 'Amount', text: '0.00'),
+          DetailRow(label: 'Amount', text: '$_totalBalance.00'),
 
 
           DetailRow(
@@ -208,8 +239,9 @@ class _GeneralTariffState extends State<GeneralTariff> {
                               value: _action_a ?? false,
                               onChanged: (bool newValue) {
                                 setState(() {
+                                  _action_a = newValue;
+                                  _action_b = newValue;
 
-                                  _action_a = newValue; // Checkbox ka state update
                                 });
                               },
                             ),
@@ -236,8 +268,8 @@ class _GeneralTariffState extends State<GeneralTariff> {
                         value: _action_b ?? false,
                         onChanged: (bool newValue) {
                           setState(() {
-
-                            _action_b = newValue; // Checkbox ka state update
+                            _action_b = newValue;
+                            _action_a = newValue;
                           });
                         },
                       ),
@@ -253,11 +285,30 @@ class _GeneralTariffState extends State<GeneralTariff> {
         const SizedBox(height: 16,),
         AppSaveButton(text: 'Make Payment',onPressed: (){
 
+          if (_action_b) { // Aapki purani condition
+            // Dialog ko dynamic values ke sath call kar rahe hain
+            _showPaymentSummaryDialog(
+              context: context,
+              transactionForm: 'Billing Against General Tariff', // Ya jo bhi is tab ka naam ho
+              payableNowAmount: _totalBalance, // Dynamic amount 1
+              totalAmount: _totalBalance,     // Dynamic amount 2 (Yellow box wala)
+            );
+          } else {
+            scaffoldMessenger(
+                context,
+                title: 'General Tariff',
+                message: 'Please select checkbox',
+                type: NotificationType.error);
+          }
         },),
         const SizedBox(height: 16,),
       ],
     );
   }
+
+  // Dialog open karne ka function (Image ke UI ke according)
+
+
 }
 
 class Investigation extends StatefulWidget {
@@ -282,8 +333,27 @@ class _InvestigationState extends State<Investigation> {
   bool _action_b = false;
   bool _action_c = false;
 
+  int _amount1 = 85;
+  int _amount2 = 85;
+
+  int _totalBalance = 0 ;
+
+  // 🔥 Ye function Master checkbox aur Total Amount ko update karega
+  void _updateState() {
+    setState(() {
+      // Agar dono right true hain, tabhi left true hoga
+      _action_a = (_action_b && _action_c);
+
+      // Amount calculate karo jo selected hain
+      _totalBalance = 0;
+      if (_action_b) _totalBalance += _amount1;
+      if (_action_c) _totalBalance += _amount2;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    _totalBalance = _amount1 + _amount2 ;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -294,7 +364,7 @@ class _InvestigationState extends State<Investigation> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SharedComponents.buildFormLabel("From Date", isRequired: true),
+                  SharedComponents.buildFormLabel("From Date",  ),
                   const SizedBox(height: 8),
                   AppDateField(
                     controller: fromController,
@@ -319,7 +389,7 @@ class _InvestigationState extends State<Investigation> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SharedComponents.buildFormLabel("To Date", isRequired: true),
+                  SharedComponents.buildFormLabel("To Date",  ),
                   const SizedBox(height: 8),
                   AppDateField(
                     controller: toController,
@@ -344,7 +414,13 @@ class _InvestigationState extends State<Investigation> {
         const SizedBox(height: 16,),
 
         // Search Button
-        AppSaveButton(text: 'Search',onPressed: (){}),
+        Center(
+          child: SizedBox(
+              width: 120,
+              height: 40,
+              child: AppSaveButton(text: 'Search',onPressed: (){},)),
+        ),
+
 
         const SizedBox(height: 16,),
 
@@ -370,6 +446,10 @@ class _InvestigationState extends State<Investigation> {
                           onChanged: (bool newValue) {
                             setState(() {
                               _action_a = newValue;
+                              // Master par click hua to dono child ko same value do
+                              _action_b = newValue;
+                              _action_c = newValue;
+                              _updateState(); // Amount update karne ke liye call karo
                             });
                           },
                         ),
@@ -401,8 +481,8 @@ class _InvestigationState extends State<Investigation> {
                 const TableText('Clinical History'),
               ],
               [
-                const TableText('85.00'),
-                const TableText('85.00'),
+                  TableText('$_amount1.00'),
+                 TableText('$_amount2.00'),
               ],
               [
                 NoRightBorderCell(
@@ -413,7 +493,7 @@ class _InvestigationState extends State<Investigation> {
                       width: double.infinity,
                       height: double.infinity,
                       color: Colors.yellow,
-                      child: const Text("170.00", style: TextStyle(color: Colors.black87, fontSize: 14)),
+                      child:   Text("$_totalBalance.00", style: TextStyle(color: Colors.black87, fontSize: 14)),
                     ),
                   ),
                 ),
@@ -429,26 +509,59 @@ class _InvestigationState extends State<Investigation> {
                 )
               ],
               [
+                // RIGHT CHECKBOX 1
                 GlobalCheckbox(
                   label: '',
                   value: _action_b,
                   onChanged: (bool newValue) {
-                    setState(() { _action_b = newValue; });
+                    setState(() {
+                      _action_b = newValue;
+                      _updateState(); // Check master and update amount
+                    });
                   },
                 ),
+                // RIGHT CHECKBOX 2
                 GlobalCheckbox(
                   label: '',
                   value: _action_c,
                   onChanged: (bool newValue) {
-                    setState(() { _action_c = newValue; });
+                    setState(() {
+                      _action_c = newValue;
+                      _updateState(); // Check master and update amount
+                    });
                   },
                 ),
               ]
+
             ]),
         const SizedBox(height: 16,),
-        AppSaveButton(text: 'Make Payment',onPressed: (){
+        AppSaveButton(
+          text: 'Make Payment',
+          onPressed: () {
+            // Agar ek bhi select kiya hai to aage badho
+            if (_action_b || _action_c) {
 
-        },),
+              if(_action_b)
+                 _totalBalance = _amount1;
+              if(_action_c)
+                _totalBalance = _amount2;
+              if(_action_b && _action_c)
+                _totalBalance = _amount1 + _amount2;
+              _showPaymentSummaryDialog(
+                context: context,
+                transactionForm: 'Investigation Billing',
+                payableNowAmount: _totalBalance,
+                totalAmount: _totalBalance,
+              );
+            } else {
+              scaffoldMessenger(
+                  context,
+                  title: 'Make Payment',
+                  message: 'Please select at least one investigation item',
+                  type: NotificationType.error);
+            }
+          },
+        ),
         const SizedBox(height: 16,),
       ],
     );
@@ -464,6 +577,7 @@ class _PartPaymentState extends State<PartPayment> {
 
   bool _action_a = false ;
   bool _action_b = false ;
+  int _totalBalance = 2000 ;
   @override
   Widget build(BuildContext context) {
 
@@ -475,7 +589,7 @@ class _PartPaymentState extends State<PartPayment> {
           DetailRow(label: 'Req. No.', text: 'REQ9876'),
           DetailRow(label: 'Req. Department', text: 'Endrocine Surgery'),
           DetailRow(label: 'Requested By', text: 'Admin'),
-          DetailRow(label: 'Requested Amount', text: '2000.00'),
+          DetailRow(label: 'Requested Amount', text: '$_totalBalance.00'),
 
 
           DetailRow(
@@ -490,8 +604,8 @@ class _PartPaymentState extends State<PartPayment> {
               height: double.infinity,
 
               color: Colors.yellow,
-              child: const Text(
-                "2000.00",
+              child:   Text(
+                "$_totalBalance.00",
                 style: const TextStyle(
                   color: Colors.black87,
                   fontSize: 14,
@@ -534,6 +648,7 @@ class _PartPaymentState extends State<PartPayment> {
                                 setState(() {
 
                                   _action_a = newValue; // Checkbox ka state update
+                                  _action_b = newValue; // Checkbox ka state update
                                 });
                               },
                             ),
@@ -560,7 +675,7 @@ class _PartPaymentState extends State<PartPayment> {
                         value: _action_b ?? false,
                         onChanged: (bool newValue) {
                           setState(() {
-
+                            _action_a = newValue; // Checkbox ka state update
                             _action_b = newValue; // Checkbox ka state update
                           });
                         },
@@ -576,12 +691,162 @@ class _PartPaymentState extends State<PartPayment> {
         ],),
         const SizedBox(height: 16,),
         AppSaveButton(text: 'Make Payment',onPressed: (){
-
+          if (_action_b) { // Aapki purani condition
+            // Dialog ko dynamic values ke sath call kar rahe hain
+            _showPaymentSummaryDialog(
+              context: context,
+              transactionForm: 'Billing Against General Tariff', // Ya jo bhi is tab ka naam ho
+              payableNowAmount: _totalBalance, // Dynamic amount 1
+              totalAmount: _totalBalance,     // Dynamic amount 2 (Yellow box wala)
+            );
+          } else {
+            scaffoldMessenger(
+                context,
+                title: 'Part Payment',
+                message: 'Please select checkbox',
+                type: NotificationType.error);
+          }
         },),
         const SizedBox(height: 16,),
       ],
     );
   }
+}
+
+// Function me ab required parameters add kar diye gaye hain
+void _showPaymentSummaryDialog({
+  required BuildContext context,
+  required String transactionForm, // Tab ke hisaab se form ka naam
+  required int payableNowAmount, // Payable amount
+  required int totalAmount, // Yellow box wala amount
+}) {
+  String _card = 'CC(Credit Card)';
+
+  showDialog(
+    context: context,
+    barrierColor: Colors.black.withOpacity(0.1),
+    builder: (context) {
+      return Dialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        insetPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 24,
+        ),
+        child: StatefulBuilder(
+          builder: (context, setSidebarState) {
+            return SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Dialog Header
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFD0F0E8), // Light greenish background
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(8.0),
+                        topRight: Radius.circular(8.0),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Payment Details Summary',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () => Navigator.of(context).pop(),
+                          child: const Icon(Icons.close),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
+                    child: DetailTableWrapper(
+                      children: [
+                        // 🔥 Dynamic Transaction Form Name
+                        DetailRow(
+                          label: 'Transaction Form',
+                          text: transactionForm,
+                        ),
+                        DetailRow(
+                          label: 'Payment Mode',
+                          customWidget: InnnerDropdown(
+                            value: _card,
+                            items: ['CC(Credit Card)', 'DC(Debit Card)', 'Cash'],
+                            onChanged: (val) {
+                              setSidebarState(() {
+                                _card = val;
+                              });
+                            },
+                          ),
+                        ),
+                        // 🔥 Dynamic Payable Now Amount
+                        DetailRow(
+                          label: 'Payable Now',
+                          text: '$payableNowAmount.00',
+                        ),
+                        DetailRow(
+                          label: 'Action',
+                          customWidget: AppDeleteIcon(parentContext: context,onDeleteConfirmed: (){
+                            print("delete");
+                             Navigator.pop(context);
+
+                          },),
+                          removePadding: true,
+                        ),
+                        DetailRow(
+                          isLast: true,
+                          label: 'Amount(Rs.)',
+                          removePadding: true,
+                          customWidget: Container(
+                            padding: const EdgeInsets.only(left: 16),
+                            alignment: Alignment.centerLeft,
+                            width: double.infinity,
+                            height: double.infinity,
+                            color: Colors.yellow,
+                            child: Text(
+                              '$totalAmount.00', // 🔥 Dynamic Total Amount
+                              style: const TextStyle(
+                                color: Colors.black87,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(
+                    width: 130,
+                    height: 35,
+                    child: AppSaveButton(
+                      size: 12,
+                      text: 'SBI Payment',
+                      onPressed: () {
+                        // Payment Logic yahan aayega
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 16,),
+                ],
+              ),
+            );
+          },
+        ),
+      );
+    },
+  );
 }
 
 

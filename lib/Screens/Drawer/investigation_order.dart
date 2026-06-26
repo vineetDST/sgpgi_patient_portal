@@ -1,36 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:qc_hospital/Core/Data/dummy_data.dart';
-import 'package:qc_hospital/Core/Theme/app_text_style.dart';
-import 'package:qc_hospital/Core/Utils/Appbar/op_appbar.dart';
 import 'package:qc_hospital/Core/Utils/Button/save.dart';
 import 'package:qc_hospital/Core/Utils/Check_Radio_Button/check_box.dart';
 import 'package:qc_hospital/Core/Utils/Check_Radio_Button/custom_radio_button.dart';
-import 'package:qc_hospital/Core/Utils/Check_Radio_Button/radio_button.dart';
 import 'package:qc_hospital/Core/Utils/Datepicker/app_date_picker.dart';
 import 'package:qc_hospital/Core/Utils/Dialog/remarks_dialog.dart';
-import 'package:qc_hospital/Core/Utils/Dropdown/expanded_dropdown.dart';
 import 'package:qc_hospital/Core/Utils/Dropdown/functional_dropdown.dart';
 import 'package:qc_hospital/Core/Utils/Dropdown/innner_dropdown.dart';
 import 'package:qc_hospital/Core/Utils/Expansion/expansion_frame.dart';
-import 'package:qc_hospital/Core/Utils/Tab/switching_tab.dart';
 import 'package:qc_hospital/Core/Utils/Table/detail_row.dart';
 import 'package:qc_hospital/Core/Utils/Table/detail_row_wrapper.dart';
 import 'package:qc_hospital/Core/Utils/Table/scrollable_table.dart';
 import 'package:qc_hospital/Core/Utils/Table/table_text.dart';
 import 'package:qc_hospital/Core/Utils/custom_calendar_dialog.dart';
-
-// --- Import the Base Shell to access the Master Drawer Key ---
-import 'package:qc_hospital/Widgets/doctor_module_shell.dart';
 import 'package:qc_hospital/Widgets/clinical_base_scaffold.dart';
-
-// --- Imports for the routed screens ---
 import 'package:qc_hospital/Screens/OP/clinical_histories/shared_clinical_components.dart';
-import 'package:qc_hospital/Screens/OP/clinical_history_screen.dart';
-import 'package:qc_hospital/Screens/OP/clinical_summary_screen.dart';
-import 'package:qc_hospital/Screens/OP/allergy/allergy_screen.dart';
-import 'package:qc_hospital/Screens/OP/vital_signs/vital_signs_screen.dart';
-import 'package:qc_hospital/Screens/OP/examinations/examination_screen.dart';
-import 'package:qc_hospital/Screens/OP/cpoe_screen.dart';
+
 
 class InvestigationOrder extends StatefulWidget {
   final String patientName;
@@ -211,114 +196,24 @@ class _OpConsultationState extends State<InvestigationOrder> {
     return CustomExpansionFrame(
       title: 'Test Details',
       children: [
+        DetailTableWrapper(
+          children: [
+            DetailRow(label: 'Test Name', text: '01. S. Glocuse(F)'),
+            DetailRow(label: 'Service Center', text: 'Clinical Chemistry'),
+            DetailRow(label: 'Test Date', text: '08-06-2025 15:00 PM'),
 
-        ScrollableDataTable(
-            labels: [
-              'Test Name',
-              'Service Center',
-              'Test Date',
-              'Collected Date',
-              'Test On',
-              'Specimen',
-              'Test Status',
-              'Lab Sample ID',
-              'Print',
-            ],
-            rowValues: [
-              [
-                TableText('01. S. Glocuse(F)'),
-                TableText('01. S. Glocuse(F)'),
-              ],
-              [
-                TableText('Clinical Chemistry'),
-                TableText('85.00'),
-              ],
-              [
-                TableText('08-06-2025 15:00 PM'),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Color(0xFFBDDAFF),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const TableText('Ordered'),
-                ),
-              ],
-              [
-                TableText('08-06-2025 15:00 PM'),
-                InnnerDropdown(
-                    value: actionDetail,
-                    items: [
-                      'Elective',
-                      'Emergency',
-                      'Immediate'
+            DetailRow(label: 'Test On', text: '--'),
+            DetailRow(label: 'Specimen', text: 'Clinical Chemistry'),
 
-                    ],
-                    onChanged: (val) {
-                      setState(() {
-                        actionDetail = val;
-                      });
-                    }
-                ),
-              ],
-              [
-                TableText('Blood Pain'),
-                InnnerDropdown(
-                    value: actionDetail2,
-                    items: [
-                      'Radiology',
-                      'Clinical Chemistry',
-
-                    ],
-                    onChanged: (val) {
-                      setState(() {
-                        actionDetail2 = val;
-                      });
-                    }
-                ),
-              ],
-              [
-                TableText('Blood Pain'),
-                CustomRemarksField(
-
-                  title: "Blood Pain",
-                  hintText: "Blood Pain",
-                  onChanged: (value) {
-                    print("User ne type kiya: $value");
-                    // Yahan aap value ko apne API model ya variables me save kar sakte hain
-                  },
-                ),
-              ],
-              [
-                TableText('Report Validated'),
-                CustomRemarksField(
-
-                  title: "Order Remarks",
-                  hintText: "Order Remarks",
-                  onChanged: (value) {
-                    print("User ne type kiya: $value");
-                    // Yahan aap value ko apne API model ya variables me save kar sakte hain
-                  },
-                ),
-              ],
-              [
-                TableText('L1987654334567'),
-                const SizedBox()
-              ],
-              [
-                CustomRadioButton(
-                  selected: isSelected,
-                  onTap: () {
-                    setState(() {
-                      isSelected = !isSelected;
-                    });
-                  },
-                ),
-              ],
-
-            ]),
+            DetailRow(label: 'Lab ID', text: '--'),
+            DetailRow(
+              isLast: true,
+              label: 'Test Status',
+              text: 'Paid',
+            ),
+          ],
+        ),
         const SizedBox(height: 16,),
-
       ],
     );
   }
@@ -327,136 +222,39 @@ class _OpConsultationState extends State<InvestigationOrder> {
     return CustomExpansionFrame(
       title: 'Requistion Details',
       children: [
-
-        ScrollableDataTable(
-            labels: [
-              'Req. No.',
-              'Req. Date',
-              'Service Center',
-              'Service Department',
-              'Requested By',
-              'Print',
-            ],
-            rowValues: [
-              [
-                Text(
-                  'ORDER_7654321',
-
-                  style: TextStyle(decoration: TextDecoration.underline,fontSize: 13, color: const Color(0xFF117A7A)),
-
+        DetailTableWrapper(
+          children: [
+            DetailRow(
+              label: 'Req. No.',
+              customWidget: const Text(
+                'ORDER_7654321',
+                style: TextStyle(
+                  decoration: TextDecoration.underline,
+                  fontSize: 13,
+                  color: Color(0xFF117A7A),
                 ),
-                Text(
-                  'ORDER_7654321',
-
-                  style: TextStyle(decoration: TextDecoration.underline,fontSize: 13, color: const Color(0xFF117A7A)),
-
-                ),
-                Text(
-                  'ORDER_7654321',
-
-                  style: TextStyle(decoration: TextDecoration.underline,fontSize: 13, color: const Color(0xFF117A7A)),
-
-                ),
-                Text(
-                  'ORDER_7654321',
-
-                  style: TextStyle(decoration: TextDecoration.underline,fontSize: 13, color: const Color(0xFF117A7A)),
-
-                ),
-                Text(
-                  'ORDER_7654321',
-
-                  style: TextStyle(decoration: TextDecoration.underline,fontSize: 13, color: const Color(0xFF117A7A)),
-
-                ),
-              ],
-              [
-                TableText('08-06-2025'),
-                TableText('08-06-2025'),
-                TableText('08-06-2025'),
-                TableText('08-06-2025'),
-                TableText('08-06-2025'),
-              ],
-              [
-                TableText('Clinical Chemistry'),
-                TableText('Cross Match'),
-                TableText('Clinical Chemistry'),
-                TableText('Dialysis'),
-                TableText('CR/Pain X-Ray'),
-              ],
-              [
-                TableText('Pathology'),
-                TableText('Transfusion Medicine'),
-                TableText('Pathology'),
-                TableText('Nephrology'),
-                TableText('Radiodiagnosis'),
-
-              ],
-              [
-                TableText('Admin'),
-                TableText('Admin'),
-                TableText('Admin'),
-                TableText('Admin'),
-                TableText('Admin'),
-
-              ],
-              [
-                GlobalCheckbox(
-                  label: '', // Label blank hai kyunki hum text par alag action chahte hain
-                  value: _action_a ?? false,
-                  onChanged: (bool newValue) {
-                    setState(() {
-
-                      _action_a = newValue; // Checkbox ka state update
-                    });
-                  },
-                ),
-                GlobalCheckbox(
-                  label: '', // Label blank hai kyunki hum text par alag action chahte hain
-                  value: _action_b ?? false,
-                  onChanged: (bool newValue) {
-                    setState(() {
-
-                      _action_b = newValue; // Checkbox ka state update
-                    });
-                  },
-                ),
-                GlobalCheckbox(
-                  label: '', // Label blank hai kyunki hum text par alag action chahte hain
-                  value: _action_c ?? false,
-                  onChanged: (bool newValue) {
-                    setState(() {
-
-                      _action_c = newValue; // Checkbox ka state update
-                    });
-                  },
-                ),
-                GlobalCheckbox(
-                  label: '', // Label blank hai kyunki hum text par alag action chahte hain
-                  value: _action_d ?? false,
-                  onChanged: (bool newValue) {
-                    setState(() {
-
-                      _action_d = newValue; // Checkbox ka state update
-                    });
-                  },
-                ),
-                GlobalCheckbox(
-                  label: '', // Label blank hai kyunki hum text par alag action chahte hain
-                  value: _action_e ?? false,
-                  onChanged: (bool newValue) {
-                    setState(() {
-
-                      _action_e = newValue; // Checkbox ka state update
-                    });
-                  },
-                ),
-              ],
-
-
-            ]),
+              ),
+            ),
+            DetailRow(label: 'Req. Date', text: '08-06-2025'),
+            DetailRow(label: 'Service Center', text: 'Clinical Chemistry'),
+            DetailRow(label: 'Service Department', text: 'Pathology'),
+            DetailRow(label: 'Requested By', text: 'Admin'),
+            DetailRow(
+              isLast: true,
+              label: 'Print',
+              customWidget: GlobalCheckbox(
+                label: '', // Label blank
+                value: _action_a ?? false,
+                onChanged: (bool newValue) {
+                  setState(() {
+                    _action_a = newValue;
+                  });
+                },
+              ),
+            ),
+          ],
+        ),
         const SizedBox(height: 16,),
-
       ],
     );
   }

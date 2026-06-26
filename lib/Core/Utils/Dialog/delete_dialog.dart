@@ -57,7 +57,7 @@ Future<bool?> showDeleteDialog(BuildContext context) {
                 const SizedBox(width: 12),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () => Navigator.pop(context,true),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFC60000),
                       padding: const EdgeInsets.symmetric(vertical: 14),

@@ -199,7 +199,7 @@ class _EmrDocumentsScreenState extends State<EmrDocumentsScreen> {
           ),
         ),
 
-        AppDeleteIcon(),
+
       ],
     ),
   );

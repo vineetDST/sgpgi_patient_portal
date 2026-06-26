@@ -91,38 +91,23 @@ class _OpConsultationState extends State<DuplicateRecepits> {
       patientName: widget.patientName,
       crn: widget.crn,
       activeQuickAction: 'Admission',
-      isScroll: false,
+
 
       // 3. Yahan humne ek fixed height de di hai, ab koi RenderFlex error nahi aayega!
       child: Column(
         children: [
 
-          // 4. Upar ka content Expanded + Scrollable rahega
-          Expanded(
-            child: SingleChildScrollView(
-              // padding: const EdgeInsets.only(bottom: 20), // Thodi bottom padding taaki content button se na chipke
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 70),
-                  _buildPatientBillList(),
-                  const SizedBox(height: 16),
 
-                  _buildinvestigationRefund(),
-                  const SizedBox(height: 16),
 
-                  _buildDischarge(),
-                ],
-              ),
-            ),
-          ),
+          _buildPatientBillList(),
+          const SizedBox(height: 16),
 
-          // 5. Ye button Column ke end me, yani available height ke bottom me fix rahega
-          Container(
-            color: Colors.transparent,
-            padding:  EdgeInsets.only(bottom: screenHeight * 0.13,top: 16 ),
-            child: AppSaveButton(text: 'Print',onPressed: () {},),
-          ),
+          _buildinvestigationRefund(),
+          const SizedBox(height: 16),
+
+          _buildDischarge(),
+
+
 
         ],
       ),
@@ -133,100 +118,43 @@ class _OpConsultationState extends State<DuplicateRecepits> {
     return CustomExpansionFrame(
       title: 'Patient Bill List',
       children: [
-
-        ScrollableDataTable(
-            labels: [
-              'CR No.',
-              'Name',
-              'Receipt No.',
-              'Bill Date',
-              'Bill Amount',
-              'Receipt Type',
-              'Print',
-            ],
-            rowValues: [
-              [
-                TableText('4567890'),
-                TableText('0.1. S. Glucose(F)'),
-              ],
-              [
-                TableText('Atul Yadav'),
-                TableText('85.00'),
-              ],
-              [
-                TableText('26-7654321'),
-
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Color(0xFFBDDAFF),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const TableText('Ordered'),
-                ),
-              ],
-              [
-                TableText('08-06-2025 15:00 PM'),
-                InnnerDropdown(
-                    value: actionDetail,
-                    items: [
-                      'Elective',
-                      'Emergency',
-                      'Immediate'
-
-                    ],
-                    onChanged: (val) {
-                      setState(() {
-                        actionDetail = val;
-                      });
-                    }
-                ),
-
-              ],
-              [
-                TableText('190.00'),
-                InnnerDropdown(
-                    value: actionDetail2,
-                    items: [
-                      'Radiology',
-                      'Clinical Chemistry',
-
-                    ],
-                    onChanged: (val) {
-                      setState(() {
-                        actionDetail2 = val;
-                      });
-                    }
-                ),
-              ],
-              [
-                TableText('Investigation'),
-                CustomRemarksField(
-
-                  title: "Blood Pain",
-                  hintText: "Blood Pain",
-                  onChanged: (value) {
-                    print("User ne type kiya: $value");
-                    // Yahan aap value ko apne API model ya variables me save kar sakte hain
-                  },
-                ),
-              ],
-              [
-                const Icon(Icons.print, color: Colors.black87, size: 20),
-                CustomRemarksField(
-
-                  title: "Order Remarks",
-                  hintText: "Order Remarks",
-                  onChanged: (value) {
-                    print("User ne type kiya: $value");
-                    // Yahan aap value ko apne API model ya variables me save kar sakte hain
-                  },
-                ),
-              ],
-
-
-
-            ]),
+        DetailTableWrapper(
+          children: [
+            DetailRow(
+              label: 'CR No.',
+              text: '4567890',
+            ),
+            DetailRow(
+              label: 'Name',
+              text: 'Atul Yadav',
+            ),
+            DetailRow(
+              label: 'Receipt No.',
+              text: '26-7654321',
+            ),
+            DetailRow(
+              label: 'Bill Date',
+              text: '08-06-2025 15:00 PM',
+            ),
+            DetailRow(
+              label: 'Bill Amount',
+              text: '190.00',
+            ),
+            DetailRow(
+              label: 'Receipt Type',
+              text: 'Investigation',
+            ),
+            // Print icon ke liye customWidget use kiya hai
+            DetailRow(
+              label: 'Print',
+              isLast: true, // Last item me bottom border hatane ke liye
+              customWidget: const Align(
+                alignment: Alignment.centerLeft,
+                child: Icon(Icons.print, color: Colors.black87, size: 20),
+              ),
+            ),
+          ],
+        ),
         const SizedBox(height: 16,),
       ],
     );
@@ -238,102 +166,22 @@ class _OpConsultationState extends State<DuplicateRecepits> {
     return CustomExpansionFrame(
       title: 'Investigation Refund Bill List',
       children: [
-
-        ScrollableDataTable(
-            labels: [
-              'CR No.',
-              'Name',
-              'Refund No.',
-              'Refund Date',
-              'Refund Amount',
-              'Service Center',
-              'Print',
-            ],
-            rowValues: [
-              [
-                TableText('--'),
-                TableText('0.1. S. Glucose(F)'),
-              ],
-              [
-                TableText('--'),
-                TableText('85.00'),
-              ],
-              [
-                TableText('--'),
-
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Color(0xFFBDDAFF),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const TableText('Ordered'),
-                ),
-              ],
-              [
-                TableText('--'),
-                InnnerDropdown(
-                    value: actionDetail,
-                    items: [
-                      'Elective',
-                      'Emergency',
-                      'Immediate'
-
-                    ],
-                    onChanged: (val) {
-                      setState(() {
-                        actionDetail = val;
-                      });
-                    }
-                ),
-
-              ],
-              [
-                TableText('--'),
-                InnnerDropdown(
-                    value: actionDetail2,
-                    items: [
-                      'Radiology',
-                      'Clinical Chemistry',
-
-                    ],
-                    onChanged: (val) {
-                      setState(() {
-                        actionDetail2 = val;
-                      });
-                    }
-                ),
-              ],
-              [
-                TableText('--'),
-                CustomRemarksField(
-
-                  title: "Blood Pain",
-                  hintText: "Blood Pain",
-                  onChanged: (value) {
-                    print("User ne type kiya: $value");
-                    // Yahan aap value ko apne API model ya variables me save kar sakte hain
-                  },
-                ),
-              ],
-              [
-                const Icon(Icons.print, color: Colors.black87, size: 20),
-                CustomRemarksField(
-
-                  title: "Order Remarks",
-                  hintText: "Order Remarks",
-                  onChanged: (value) {
-                    print("User ne type kiya: $value");
-                    // Yahan aap value ko apne API model ya variables me save kar sakte hain
-                  },
-                ),
-              ],
-
-
-
-            ]),
+        DetailTableWrapper(
+          children: [
+            DetailRow(label: 'CR No.', text: '--'),
+            DetailRow(label: 'Name', text: '--'),
+            DetailRow(label: 'Refund No.', text: '--'),
+            DetailRow(label: 'Refund Date', text: '--'),
+            DetailRow(label: 'Refund Amount', text: '--'),
+            DetailRow(label: 'Service Center', text: '--'),
+            DetailRow(
+              isLast: true,
+              label: 'Print',
+              customWidget: const Icon(Icons.print, color: Colors.black87, size: 20),
+            ),
+          ],
+        ),
         const SizedBox(height: 16,),
-
       ],
     );
   }
@@ -342,102 +190,22 @@ class _OpConsultationState extends State<DuplicateRecepits> {
     return CustomExpansionFrame(
       title: 'Discharge Bill List',
       children: [
-
-        ScrollableDataTable(
-            labels: [
-              'CR No.',
-              'Name',
-              'Invoice No.',
-              'Invoice Date',
-              'Invoice Amount',
-              'Service Center',
-              'Print',
-            ],
-            rowValues: [
-              [
-                TableText('45678'),
-                TableText('0.1. S. Glucose(F)'),
-              ],
-              [
-                TableText('Atul Yadav'),
-                TableText('85.00'),
-              ],
-              [
-                TableText('REF-87654321'),
-
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Color(0xFFBDDAFF),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const TableText('Ordered'),
-                ),
-              ],
-              [
-                TableText('08-Jun-2026'),
-                InnnerDropdown(
-                    value: actionDetail,
-                    items: [
-                      'Elective',
-                      'Emergency',
-                      'Immediate'
-
-                    ],
-                    onChanged: (val) {
-                      setState(() {
-                        actionDetail = val;
-                      });
-                    }
-                ),
-
-              ],
-              [
-                TableText('1,240.00'),
-                InnnerDropdown(
-                    value: actionDetail2,
-                    items: [
-                      'Radiology',
-                      'Clinical Chemistry',
-
-                    ],
-                    onChanged: (val) {
-                      setState(() {
-                        actionDetail2 = val;
-                      });
-                    }
-                ),
-              ],
-              [
-                TableText('1604 Endrocine Surgery Ward 2'),
-                CustomRemarksField(
-
-                  title: "Blood Pain",
-                  hintText: "Blood Pain",
-                  onChanged: (value) {
-                    print("User ne type kiya: $value");
-                    // Yahan aap value ko apne API model ya variables me save kar sakte hain
-                  },
-                ),
-              ],
-              [
-                const Icon(Icons.print, color: Colors.black87, size: 20),
-                CustomRemarksField(
-
-                  title: "Order Remarks",
-                  hintText: "Order Remarks",
-                  onChanged: (value) {
-                    print("User ne type kiya: $value");
-                    // Yahan aap value ko apne API model ya variables me save kar sakte hain
-                  },
-                ),
-              ],
-
-
-
-            ]),
+        DetailTableWrapper(
+          children: [
+            DetailRow(label: 'CR No.', text: '45678'),
+            DetailRow(label: 'Name', text: 'Atul Yadav'),
+            DetailRow(label: 'Invoice No.', text: 'REF-87654321'),
+            DetailRow(label: 'Invoice Date', text: '08-Jun-2026'),
+            DetailRow(label: 'Invoice Amount', text: '1,240.00'),
+            DetailRow(label: 'Service Center', text: '1604 Endrocine Surgery Ward 2'),
+            DetailRow(
+              isLast: true,
+              label: 'Print',
+              customWidget: const Icon(Icons.print, color: Colors.black87, size: 20),
+            ),
+          ],
+        ),
         const SizedBox(height: 16,),
-
       ],
     );
   }

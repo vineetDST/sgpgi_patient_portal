@@ -30,16 +30,11 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController continueController = TextEditingController();
 
-  @override
-  void initState(){
-    super.initState();
 
-    // crnoController.text = 'Asgar';
-    // passwordController.text = 'Asgar@123';
-
-  }
   @override
   Widget build(BuildContext context) {
+    crnoController.text = 'Asgar';
+    passwordController.text = 'Asgar@123';
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Stack(

@@ -1,25 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:qc_hospital/Core/Theme/app_text_style.dart';
-import 'package:qc_hospital/Core/Utils/Appbar/op_appbar.dart';
 import 'package:qc_hospital/Core/Utils/Datepicker/app_date_picker.dart';
 import 'package:qc_hospital/Core/Utils/Dropdown/expanded_dropdown.dart';
-import 'package:qc_hospital/Core/Utils/Tab/switching_tab.dart';
-import 'package:qc_hospital/Core/Utils/Table/detail_row.dart';
-import 'package:qc_hospital/Core/Utils/Table/detail_row_wrapper.dart';
 import 'package:qc_hospital/Core/Utils/custom_calendar_dialog.dart';
-
-// --- Import the Base Shell to access the Master Drawer Key ---
-import 'package:qc_hospital/Widgets/doctor_module_shell.dart';
 import 'package:qc_hospital/Widgets/clinical_base_scaffold.dart';
-
-// --- Imports for the routed screens ---
 import 'package:qc_hospital/Screens/OP/clinical_histories/shared_clinical_components.dart';
-import 'package:qc_hospital/Screens/OP/clinical_history_screen.dart';
-import 'package:qc_hospital/Screens/OP/clinical_summary_screen.dart';
-import 'package:qc_hospital/Screens/OP/allergy/allergy_screen.dart';
-import 'package:qc_hospital/Screens/OP/vital_signs/vital_signs_screen.dart';
-import 'package:qc_hospital/Screens/OP/examinations/examination_screen.dart';
-import 'package:qc_hospital/Screens/OP/cpoe_screen.dart';
 
 class AccStmt extends StatefulWidget {
   final String patientName;
@@ -73,7 +57,7 @@ class _OpConsultationState extends State<AccStmt> {
                   children: [
                     Align(
                         alignment: Alignment.centerLeft,
-                        child: SharedComponents.buildFormLabel("From Date",isRequired: true)),
+                        child: SharedComponents.buildFormLabel("From Date",)),
                     const SizedBox(height: 8),
                     AppDateField(
                       controller: fromController,
@@ -103,7 +87,7 @@ class _OpConsultationState extends State<AccStmt> {
                   children: [
                     Align(
                         alignment: Alignment.centerLeft,
-                        child: SharedComponents.buildFormLabel("To Date",isRequired: true)),
+                        child: SharedComponents.buildFormLabel("To Date",)),
                     const SizedBox(height: 8),
                     AppDateField(
                       controller: toController,

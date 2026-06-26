@@ -214,10 +214,31 @@ class _LoginScreenState extends State<ForgetPassword> {
       _showError(context, 'New Password & Confirm Password should be same');
     }
     else {
+      // DummyData.password = cnfPwd.toString();
+      // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
+      //    return LoginScreen(loginby: '');
+      // }), (route) => false) ;
+
       DummyData.password = cnfPwd.toString();
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-         return LoginScreen(loginby: '');
-      }), (route) => false) ;
+      scaffoldMessenger(
+        context,
+        title: "Forget Password",
+        message: 'Password is changed sucessfully',
+        type: NotificationType.success,
+      );
+
+      Future.delayed(const Duration(seconds: 3), () {
+
+        if (context.mounted) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return LoginScreen(loginby: '');
+            }),
+                (route) => false,
+          );
+        }
+      });
     }
 
 
