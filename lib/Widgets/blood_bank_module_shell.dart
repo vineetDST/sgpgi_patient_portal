@@ -119,7 +119,12 @@ class BloodBankModuleShellState extends State<BloodBankModuleShell> {
         ),
 
         // The Doctor-specific footer (Now visible across all screens)
-        bottomNavigationBar: BloodBankBottomNavigationbar(
+        bottomNavigationBar: SafeArea(
+  top: false,
+  left: false,
+  right: false,
+  maintainBottomViewPadding: true,
+  child: BloodBankBottomNavigationbar(
           currentIndex: _currentIndex,
           backgroundColor: Colors.transparent,
           notificationBadge: 2,
@@ -132,6 +137,7 @@ class BloodBankModuleShellState extends State<BloodBankModuleShell> {
               setState(() => _currentIndex = index);
             }
           },
+        ),
         ),
       ),
     );

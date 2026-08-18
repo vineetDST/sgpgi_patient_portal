@@ -124,7 +124,12 @@ class DoctorModuleShellState extends State<DoctorModuleShell> {
 
         // The Doctor-specific footer (Now visible across all screens)
         // The Doctor-specific footer
-        bottomNavigationBar: HospitalBottomNavigationBar(
+        bottomNavigationBar: SafeArea(
+  top: false,
+  left: false,
+  right: false,
+  maintainBottomViewPadding: true,
+  child: HospitalBottomNavigationBar(
           currentIndex: _currentIndex,
           backgroundColor: Colors.transparent,
           notificationBadge: 2,
@@ -147,6 +152,7 @@ class DoctorModuleShellState extends State<DoctorModuleShell> {
               setState(() => _currentIndex = index);
             }
           },
+        ),
         ),
       ),
     );
