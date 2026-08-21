@@ -142,7 +142,7 @@ class _DashboardVisitsScreenState extends State<DashboardVisitsScreen> {
             Expanded(
               child: SummaryCardComponent(
                 title: "Total Visit",
-                units: "$totalCount Units",
+                units: "$totalCount",
                 backgroundColor: const Color(0xFFD0F0C0),
                 onTap: () => setState(() => _activeFilter = "Total"),
               ),
@@ -151,7 +151,7 @@ class _DashboardVisitsScreenState extends State<DashboardVisitsScreen> {
             Expanded(
               child: SummaryCardComponent(
                 title: "IP Visit",
-                units: "$ipCount Units",
+                units: "$ipCount",
                 backgroundColor: const Color(0xFFADD8E6),
                 onTap: () => setState(() => _activeFilter = "IP"),
               ),
@@ -160,7 +160,7 @@ class _DashboardVisitsScreenState extends State<DashboardVisitsScreen> {
             Expanded(
               child: SummaryCardComponent(
                 title: "OP Visit",
-                units: "$opCount Units",
+                units: "$opCount",
                 backgroundColor: const Color(0xFFE6E6FA),
                 onTap: () => setState(() => _activeFilter = "OP"),
               ),

@@ -26,6 +26,47 @@ class OnlineRegistration extends StatefulWidget {
 }
 
 class _OnlineRegistrationState extends State<OnlineRegistration> {
+
+  void _calculateAge(DateTime dob) {
+  final today = DateTime.now();
+
+  int years = today.year - dob.year;
+  int months = today.month - dob.month;
+  int days = today.day - dob.day;
+
+  if (days < 0) {
+    months--;
+
+    final previousMonth = DateTime(
+      today.year,
+      today.month,
+      0,
+    );
+
+    days += previousMonth.day;
+  }
+
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
+
+  setState(() {
+    if (years > 0) {
+      // Example: 24 years
+      _ageCtrl.text = years.toString();
+      _ageUnit = 'Years';
+    } else if (months > 0) {
+      // Example: 7 months
+      _ageCtrl.text = months.toString();
+      _ageUnit = 'Months';
+    } else {
+      // Example: 18 days
+      _ageCtrl.text = days.toString();
+      _ageUnit = 'Days';
+    }
+  });
+}
   // --- Global Declaration Checkbox ---
   bool _action_a = true;
   bool _action_b = true;
@@ -61,12 +102,20 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
   List<String> _availableStates = ['--Select--'];
   List<String> _availableCities = ['--Select--'];
 
+  String? _correspondenceCountry = '--Select--';
+String? _correspondenceState = '--Select--';
+String? _correspondenceCity = '--Select--';
+
+List<String> _correspondenceStates = ['--Select--'];
+List<String> _correspondenceCities = ['--Select--'];
+
   bool _sameAsPresentAddress = true; // Correspondence Checkbox
 
   String formatDate(DateTime date) {
+    print("Formatting date: $date");
     return "${date.day.toString().padLeft(2, '0')}-"
         "${date.month.toString().padLeft(2, '0')}-"
-        "${date.year.toString().substring(2)}";
+        "${date.year.toString().padLeft(4, '0')}";
   }
 
   final _mobileCtrl = TextEditingController();
@@ -311,30 +360,23 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
 
           controller: dobController,
           onTap: () async {
-            DateTime? pickedDate = await CustomCalendarDialog.show(
-              context,
-              initialDate: dobDate ?? DateTime.now(),
-            );
-            if (pickedDate != null) {
-              setState(() {
-                dobDate = pickedDate;
-                dobController.text = formatDate(pickedDate);
-              });
-            }
-          },
+            // final today = DateTime.now();
+  DateTime? pickedDate = await CustomCalendarDialog.show(
+    context,
+    initialDate: dobDate ?? DateTime.now(),
+    // lastDate: DateTime.now(),
+  );
+
+  if (pickedDate != null) {
+    dobDate = pickedDate;
+    dobController.text = formatDate(pickedDate);
+
+    _calculateAge(pickedDate);
+  }
+},
         ),
         const SizedBox(height: 16),
 
-        SharedComponents.buildFormLabel('Marital Status'),
-        const SizedBox(height: 8),
-        FunctionalDropdown(
-          enabled: DummyData.registration == 0 ? true : false,
-          value: _maritalStatus,
-          hint: '--Select--',
-          items: DummyData.maritalStatus ?? ['Married', 'Unmarried'],
-          onChanged: (val) => setState(() => _maritalStatus = val),
-        ),
-        const SizedBox(height: 16),
 
         SharedComponents.buildFormLabel('Age', isRequired: true),
         const SizedBox(height: 8),
@@ -342,7 +384,8 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
           children: [
             Expanded(
               child: SharedComponents.buildTextField(
-                readOnly: DummyData.registration == 0 ? false : true,
+                // readOnly: DummyData.registration == 0 ? false : true,
+                readOnly: true,
                 controller: _ageCtrl,
                 hintText: 'Enter the Age',
                 keyboardType: TextInputType.number,
@@ -352,14 +395,25 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
 
             Expanded(
               child: ExpandedDropdown(
-                enabled: DummyData.registration == 0 ? true : false,
-
+                // enabled: DummyData.registration == 0 ? true : false,
+                enabled: false,
                 value: _ageUnit,
                 items: DummyData.ageUnits,
                 onChanged: (v) => setState(() => _ageUnit = v),
               ),
             ),
           ],
+        ),
+        const SizedBox(height: 16),
+        
+        SharedComponents.buildFormLabel('Marital Status'),
+        const SizedBox(height: 8),
+        FunctionalDropdown(
+          enabled: DummyData.registration == 0 ? true : false,
+          value: _maritalStatus,
+          hint: '--Select--',
+          items: DummyData.maritalStatus ?? ['Married', 'Unmarried'],
+          onChanged: (val) => setState(() => _maritalStatus = val),
         ),
         const SizedBox(height: 16),
 
@@ -654,17 +708,135 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
         Row(
           children: [
             GlobalCheckbox(
-              enabled: DummyData.registration == 0 ? true : false,
-
-              crossAxisAlignment: CrossAxisAlignment.center,
-              label: 'Same as Present address',
-              value: _sameAsPresentAddress,
-              onChanged: (bool newValue) =>
-                  setState(() => _sameAsPresentAddress = newValue),
+               enabled: DummyData.registration == 0,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      label: 'Same as Present address',
+      value: _sameAsPresentAddress,
+      onChanged: (bool newValue) {
+        setState(() {
+          _sameAsPresentAddress = newValue;
+        });
+      },
             ),
           ],
         ),
+        const SizedBox(height: 16),
+        if (!_sameAsPresentAddress) ...[
+  SharedComponents.buildFormLabel('House No'),
+  const SizedBox(height: 8),
+
+  SharedComponents.buildTextField(
+    readOnly: DummyData.registration == 0 ? false : true,
+    hintText: 'Enter the House No',
+  ),
+
+  const SizedBox(height: 16),
+
+  SharedComponents.buildFormLabel('Street'),
+  const SizedBox(height: 8),
+
+  SharedComponents.buildTextField(
+    readOnly: DummyData.registration == 0 ? false : true,
+    hintText: 'Enter the Street',
+  ),
+
+  const SizedBox(height: 16),
+
+  SharedComponents.buildFormLabel('Locality', isRequired: true),
+  const SizedBox(height: 8),
+
+  SharedComponents.buildTextField(
+    readOnly: DummyData.registration == 0 ? false : true,
+    hintText: 'Enter the Locality',
+  ),
+
+  const SizedBox(height: 16),
+
+  SharedComponents.buildFormLabel('Country', isRequired: true),
+  const SizedBox(height: 8),
+
+  FunctionalDropdown(
+    enabled: DummyData.registration == 0 ? true : false,
+    value: _correspondenceCountry,
+    hint: '--Select--',
+    items: DummyData.countries1,
+    onChanged: (val) {
+      setState(() {
+        _correspondenceCountry = val;
+        _correspondenceState = '--Select--';
+        _correspondenceCity = '--Select--';
+      });
+    },
+  ),
+
+  const SizedBox(height: 16),
+
+  SharedComponents.buildFormLabel('State', isRequired: true),
+  const SizedBox(height: 8),
+
+  FunctionalDropdown(
+    enabled: DummyData.registration == 0 ? true : false,
+    value: _correspondenceState,
+    hint: '--Select--',
+    items: _correspondenceStates,
+    onChanged: (val) {
+      setState(() {
+        _correspondenceState = val;
+      });
+    },
+  ),
+
+  const SizedBox(height: 16),
+
+  SharedComponents.buildFormLabel('City'),
+  const SizedBox(height: 8),
+
+  FunctionalDropdown(
+    enabled: DummyData.registration == 0 ? true : false,
+    value: _correspondenceCity,
+    hint: '--Select--',
+    items: _correspondenceCities,
+    onChanged: (val) {
+      setState(() {
+        _correspondenceCity = val;
+      });
+    },
+  ),
+
+  const SizedBox(height: 16),
+
+  SharedComponents.buildFormLabel('Pin'),
+  const SizedBox(height: 8),
+
+  SharedComponents.buildTextField(
+    readOnly: DummyData.registration == 0 ? false : true,
+    hintText: 'Enter the Pin',
+    keyboardType: TextInputType.number,
+  ),
+
+  const SizedBox(height: 16),
+
+  SharedComponents.buildFormLabel('Phone'),
+  const SizedBox(height: 8),
+
+  SharedComponents.buildTextField(
+    readOnly: DummyData.registration == 0 ? false : true,
+    hintText: 'Enter the Phone',
+    keyboardType: TextInputType.phone,
+  ),
+  const SizedBox(height: 16),
+
+  // --- Nearest Rly. Stn. ---
+        SharedComponents.buildFormLabel('Nearest Rly. Stn.', isRequired: true),
         const SizedBox(height: 8),
+        SharedComponents.buildTextField(
+          readOnly: DummyData.registration == 0 ? false : true,
+          // controller: _rlyStnCtrl,
+          hintText: 'Enter the Nearest Rly. Stn',
+        ),
+        const SizedBox(height: 24),
+
+],
       ],
     );
   }
@@ -708,7 +880,7 @@ class _OnlineRegistrationState extends State<OnlineRegistration> {
         ),
         const SizedBox(height: 16),
 
-        SharedComponents.buildFormLabel('RelationShip', isRequired: true),
+        SharedComponents.buildFormLabel('Relationship', isRequired: true),
         const SizedBox(height: 8),
         FunctionalDropdown(
           enabled: DummyData.registration == 0 ? true : false,

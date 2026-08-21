@@ -121,7 +121,7 @@ class _OpConsultationState extends State<InvestigtionReport> {
             // 5. Ye button Column ke end me, yani available height ke bottom me fix rahega
             Container(
               color: Colors.transparent,
-              padding:  EdgeInsets.only(bottom: screenHeight * 0.13,top: 16 ),
+              padding:  EdgeInsets.only(bottom: screenHeight * 0.16,top: 16 ),
               child: AppSaveButton(text: 'Print',onPressed: () {},),
             ),
 

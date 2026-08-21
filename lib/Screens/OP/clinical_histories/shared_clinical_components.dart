@@ -350,15 +350,15 @@ class SharedComponents {
   }
 
   // --- FORM HELPERS ---
-  static Widget buildFormLabel(String text, {bool isRequired = false}) {
+  static Widget buildFormLabel(String text, {bool isRequired = false ,bool highlight = false}) {
     return Align(
       alignment: Alignment.centerLeft,
       child: RichText(
         text: TextSpan(
           text: text,
-          style: const TextStyle(
-            fontSize: 13,
-            // fontWeight: FontWeight.w500,
+          style: TextStyle(
+            fontSize: highlight ? 13 : 13,
+            fontWeight: highlight ? FontWeight.w500 : FontWeight.w400,
             color: Colors.black87,
           ),
           children: isRequired

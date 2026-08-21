@@ -428,7 +428,7 @@ class _InvestigationState extends State<Investigation> {
             TableLabel(text: 'Requisition No.'),
             TableLabel(text: 'Requisition Date'),
             TableLabel(text: 'Investigation'),
-            TableLabel(text: 'Order By'),
+            TableLabel(text: 'Ordered By'),
             TableLabel(text: 'To Location'),
             TableLabel(text: 'Amount(Rs.)'),
             TableLabel(text: 'Total Balance (Rs.)'),
@@ -697,7 +697,7 @@ class _PartPaymentState extends State<PartPayment> {
             }
           },
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 40),
       ],
     );
   }
@@ -766,7 +766,7 @@ void _showPaymentSummaryDialog({
                       children: [
                         // 🔥 Dynamic Transaction Form Name
                         DetailRow(
-                          label: 'Transaction Form',
+                          label: 'Transaction From',
                           text: transactionForm,
                         ),
                         DetailRow(
@@ -835,7 +835,7 @@ void _showPaymentSummaryDialog({
                       },
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 24),
                 ],
               ),
             );

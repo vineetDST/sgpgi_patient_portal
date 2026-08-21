@@ -146,7 +146,7 @@ class _OnlineRegistrationState extends State<OpdSchedule> {
                   ],
                 ),
                 const SizedBox(height: 24),
-                SharedComponents.buildFormLabel('N : New Visit F : Follow Up'),
+                SharedComponents.buildFormLabel('F-Follow up & N-New visit', highlight: true),
                 const SizedBox(height: 8),
                 const SizedBox(height: 16),
 

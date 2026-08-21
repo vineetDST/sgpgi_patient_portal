@@ -55,47 +55,275 @@ class _HospitalBottomNavigationBarState
     {'icon': 'emrmenu', 'label': 'EMR'},
   ];
 
+  double _getPosition(int index) {
+  if (_length <= 0) {
+    return 0.0;
+  }
+
+  if (index < 0) {
+    return 0.0;
+  }
+
+  return index / _length;
+}
+
   @override
-  void initState() {
-    super.initState();
-    _length = _navItems.length;
-    _pos = widget.currentIndex / _length;
-    _startingPos = widget.currentIndex / _length;
+
+  @override
+void initState() {
+  super.initState();
+_length = _navItems.length;
+  if (widget.currentIndex == -1) {
+    _pos = 0.0;
+    _startingPos = 0.0;
+    _endingIndex = 0;
+    _icon = const SizedBox.shrink();
+    _buttonHide = 1.0;
+  } else {
+    final position = _getPosition(widget.currentIndex);
+
+    _pos = position;
+    _startingPos = position;
     _endingIndex = widget.currentIndex;
-    _icon = _buildIconWithBadge(widget.currentIndex, isFloating: true);
 
-    _animationController = AnimationController(vsync: this, value: _pos);
-    _animationController.addListener(() {
-      setState(() {
-        _pos = _animationController.value;
-        final endingPos = _endingIndex / _length;
-        final middle = (endingPos + _startingPos) / 2;
-        if ((endingPos - _pos).abs() < (_startingPos - _pos).abs()) {
-          _icon = _buildIconWithBadge(_endingIndex, isFloating: true);
-        }
-        _buttonHide = (1 - ((middle - _pos) / (_startingPos - middle)).abs())
-            .abs();
-      });
-    });
+    _icon = _buildIconWithBadge(
+      widget.currentIndex,
+      isFloating: true,
+    );
   }
+
+  _animationController = AnimationController(
+    vsync: this,
+    duration: widget.animationDuration,
+  );
+
+  _animationController.value = _pos;
+
+  _animationController.addListener(() {
+    if (!mounted) return;
+
+    final value = _animationController.value;
+
+  if (!value.isFinite) return;
+
+  setState(() {
+    _pos = value;
+  });
+  });
+  }
+
+//   void initState() {
+//     super.initState();
+//     _length = _navItems.length;
+//     // _pos = widget.currentIndex / _length;
+//     // _startingPos = widget.currentIndex / _length;
+//     // _endingIndex = widget.currentIndex;
+//     // _icon = _buildIconWithBadge(widget.currentIndex, isFloating: true);
+//     if (widget.currentIndex == -1) {
+//   _pos = 0;
+//   _startingPos = 0;
+//   _endingIndex = 0;
+//   _icon = const SizedBox.shrink(); // No active icon
+// } else {
+//   _pos = widget.currentIndex / _length;
+//   _startingPos = widget.currentIndex / _length;
+//   _endingIndex = widget.currentIndex;
+//   _icon = _buildIconWithBadge(
+//     widget.currentIndex,
+//     isFloating: true,
+//   );
+// }
+
+//     _animationController = AnimationController(vsync: this, value: _pos);
+//     _animationController.addListener(() {
+//       setState(() {
+//         // _pos = _animationController.value;
+//         final value = _animationController.value;
+
+//         if (value.isFinite) {
+//           _pos = value;
+//         }
+//         final endingPos = _endingIndex / _length;
+//         final middle = (endingPos + _startingPos) / 2;
+//         if ((endingPos - _pos).abs() < (_startingPos - _pos).abs()) {
+//           _icon = _buildIconWithBadge(_endingIndex, isFloating: true);
+//         }
+//         _buttonHide = (1 - ((middle - _pos) / (_startingPos - middle)).abs())
+//             .abs();
+//       });
+//     });
+//   }
 
   @override
-  void didUpdateWidget(HospitalBottomNavigationBar oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.currentIndex != widget.currentIndex) {
-      final newPosition = widget.currentIndex / _length;
-      _startingPos = _pos;
-      _endingIndex = widget.currentIndex;
-      _animationController.animateTo(
-        newPosition,
-        duration: widget.animationDuration,
-        curve: widget.animationCurve,
-      );
-    }
-    if (!_animationController.isAnimating) {
-      _icon = _buildIconWithBadge(_endingIndex, isFloating: true);
-    }
+  // void didUpdateWidget(HospitalBottomNavigationBar oldWidget) {
+  //   super.didUpdateWidget(oldWidget);
+  //   if (oldWidget.currentIndex != widget.currentIndex) {
+  //     final newPosition = widget.currentIndex / _length;
+  //     _startingPos = _pos;
+  //     _endingIndex = widget.currentIndex;
+  //     _animationController.animateTo(
+  //       newPosition,
+  //       duration: widget.animationDuration,
+  //       curve: widget.animationCurve,
+  //     );
+  //   }
+  //   if (!_animationController.isAnimating) {
+  //     _icon = _buildIconWithBadge(_endingIndex, isFloating: true);
+  //   }
+  // }
+  @override
+// void didUpdateWidget(HospitalBottomNavigationBar oldWidget) {
+//   super.didUpdateWidget(oldWidget);
+
+//   if (oldWidget.currentIndex != widget.currentIndex) {
+//     // No active navigation item
+//     if (widget.currentIndex == -1) {
+//       setState(() {
+//         _icon = const SizedBox.shrink();
+//         _buttonHide = 1;
+//       });
+
+//       return;
+//     }
+
+//     // Normal active navigation item
+//     final newPosition = widget.currentIndex / _length;
+
+//     _startingPos = _pos;
+//     _endingIndex = widget.currentIndex;
+
+//     _animationController.animateTo(
+//       newPosition,
+//       duration: widget.animationDuration,
+//       curve: widget.animationCurve,
+//     );
+//   }
+
+//   if (!_animationController.isAnimating &&
+//       widget.currentIndex != -1) {
+//     _icon = _buildIconWithBadge(
+//       widget.currentIndex,
+//       isFloating: true,
+//     );
+//   }
+// }
+@override
+// void didUpdateWidget(
+//   HospitalBottomNavigationBar oldWidget,
+// ) {
+//   super.didUpdateWidget(oldWidget);
+
+//   if (oldWidget.currentIndex != widget.currentIndex) {
+
+//     // No active button
+//     if (widget.currentIndex == -1) {
+//       _animationController.stop();
+
+//       setState(() {
+//         _icon = const SizedBox.shrink();
+//         _buttonHide = 1;
+//       });
+
+//       return;
+//     }
+
+//     // Normal active button
+//     final newPosition =
+//         widget.currentIndex / _length;
+
+//     _startingPos = _pos;
+//     _endingIndex = widget.currentIndex;
+
+//     _animationController.animateTo(
+//       newPosition,
+//       duration: widget.animationDuration,
+//       curve: widget.animationCurve,
+//     );
+//   }
+
+//   if (!_animationController.isAnimating &&
+//       widget.currentIndex != -1) {
+//     _icon = _buildIconWithBadge(
+//       widget.currentIndex,
+//       isFloating: true,
+//     );
+//   }
+// }
+@override
+void didUpdateWidget(
+  HospitalBottomNavigationBar oldWidget,
+) {
+  super.didUpdateWidget(oldWidget);
+
+  if (oldWidget.currentIndex == widget.currentIndex) {
+    return;
   }
+
+  // ==========================================================
+  // NO ACTIVE BUTTON
+  // ==========================================================
+  if (widget.currentIndex == -1) {
+    _animationController.stop();
+
+    setState(() {
+      _buttonHide = 1.0;
+      // _icon = const SizedBox.shrink();
+    });
+
+    return;
+  }
+
+  // ==========================================================
+  // -1 -> REAL INDEX
+  // ==========================================================
+  if (oldWidget.currentIndex == -1) {
+    final newPosition =
+        widget.currentIndex / _length;
+
+    // IMPORTANT:
+    // Do not animate from the old tab position.
+    // Start directly at the requested index.
+    _animationController.value = newPosition;
+
+    setState(() {
+      _pos = newPosition;
+      _startingPos = newPosition;
+      _endingIndex = widget.currentIndex;
+
+      _buttonHide = 0.0;
+
+      _icon = _buildIconWithBadge(
+        widget.currentIndex,
+        isFloating: true,
+      );
+    });
+
+    return;
+  }
+
+  // ==========================================================
+  // NORMAL INDEX -> NORMAL INDEX
+  // ==========================================================
+
+  final newPosition =
+      widget.currentIndex / _length;
+
+  _startingPos = _pos;
+  _endingIndex = widget.currentIndex;
+
+  _animationController.animateTo(
+    newPosition,
+    duration: widget.animationDuration,
+    curve: widget.animationCurve,
+  );
+
+  setState(() {
+    _icon = _buildIconWithBadge(
+      widget.currentIndex,
+      isFloating: true,
+    );
+  });
+}
 
   @override
   void dispose() {
@@ -182,14 +410,21 @@ class _HospitalBottomNavigationBarState
                   clipBehavior: Clip.none,
                   alignment: Alignment.bottomCenter,
                   children: <Widget>[
+                    if (widget.currentIndex != -1)
                     // Floating circle with the active icon
+                    // final safePos = _pos.isFinite ? _pos : 0.0;
                     Positioned(
                       bottom: -45 - (75.0 - widget.height),
+                      
                       left: textDirection == TextDirection.rtl
                           ? null
-                          : 20 + (_pos * (maxWidth - 40)),
+                           : 20 +
+              ((_pos.isFinite ? _pos : 0.0) *
+                  (maxWidth - 40)),
                       right: textDirection == TextDirection.rtl
-                          ? 20 + (_pos * (maxWidth - 40))
+                           ? 20 +
+              ((_pos.isFinite ? _pos : 0.0) *
+                  (maxWidth - 40))
                           : null,
                       width: (maxWidth - 40) / _length,
                       child: Center(
@@ -207,6 +442,7 @@ class _HospitalBottomNavigationBarState
                       ),
                     ),
 
+
                     // Curved background bar
                     Positioned(
                       left: 0,
@@ -222,7 +458,7 @@ class _HospitalBottomNavigationBarState
                             textDirection,
                             widget.shadowColor,
                             MediaQuery.of(context).size,
-                            _endingIndex,
+                            widget.currentIndex, // Pass the current index to determine the curve style
                           ),
                           child: Container(height: 60.0),
                         ),
@@ -244,7 +480,8 @@ class _HospitalBottomNavigationBarState
                                 children: items.asMap().entries.map((entry) {
                                   return _NavButton(
                                     onTap: _buttonTap,
-                                    position: _pos,
+                                    // position: _pos,
+                                      position: widget.currentIndex == -1 ? -1 : _pos,
                                     length: _length,
                                     index: entry.key,
                                     child: Center(child: entry.value),
@@ -349,6 +586,17 @@ class _NavCustomPainter extends CustomPainter {
     Path path;
 
     // Use corresponding blood bank curves based on index
+    if (styleIndex == -1) {
+  // No active navigation item.
+  // Draw a normal flat navigation bar.
+  path = Path()
+    ..addRRect(
+       RRect.fromRectAndRadius(
+        Offset.zero & size,
+        const Radius.circular(15),
+      ),
+    );
+} else {
     switch (styleIndex) {
       case 0:
         path = _buildHomePath(radius, size);
@@ -365,6 +613,7 @@ class _NavCustomPainter extends CustomPainter {
       default:
         path = _buildHomePath(radius, size);
     }
+}
 
     canvas.drawPath(path, shadowPaint);
     canvas.drawPath(path, paint);

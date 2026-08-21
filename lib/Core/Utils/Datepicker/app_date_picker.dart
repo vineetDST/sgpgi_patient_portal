@@ -51,7 +51,7 @@ class AppDateField extends StatelessWidget {
       // Date Format: dd/mm/yyyy (Aap ise apne hisaab se change kar sakte hain)
       controller.text = "${now.day.toString().padLeft(2, '0')}-"
           "${now.month.toString().padLeft(2, '0')}-"
-          "${now.year.toString().substring(2)}";
+          "${now.year.toString().padLeft(4, '0')}";
     }
   }
 

@@ -34,6 +34,8 @@ class DoctorModuleShell extends StatefulWidget {
 class DoctorModuleShellState extends State<DoctorModuleShell> {
   int _currentIndex = 0;
 
+int _bottomNavIndex = 0;
+
   // 1. Create a Navigator key for each of the 4 Doctor tabs
   final List<GlobalKey<NavigatorState>> _navigatorKeys = [
     GlobalKey<NavigatorState>(),
@@ -64,6 +66,9 @@ class DoctorModuleShellState extends State<DoctorModuleShell> {
 
   // Helper to push screens INSIDE the active tab
   void pushToCurrentTab(Widget screen) {
+     setState(() {
+    _bottomNavIndex = -1;
+  });
     _navigatorKeys[_currentIndex].currentState?.push(
       MaterialPageRoute(builder: (context) => screen),
     );
@@ -130,28 +135,48 @@ class DoctorModuleShellState extends State<DoctorModuleShell> {
   right: false,
   maintainBottomViewPadding: true,
   child: HospitalBottomNavigationBar(
-          currentIndex: _currentIndex,
+          currentIndex: _bottomNavIndex,
           backgroundColor: Colors.transparent,
           notificationBadge: 2,
-          onTap: (index) {
-            if (index == _currentIndex) {
-              // Same tab click: Reset to root
-              _navigatorKeys[index].currentState?.popUntil(
-                    (route) => route.isFirst,
-              );
-            } else {
-              // 👉 NEW LOGIC FOR TESTER:
-              // Doosre tab par jaane se pehle, current tab ki history clear kar do.
-              // Isse agar Tab 3 me 'Ped Balance' khula tha, toh wo close ho jayega aur
-              // tester ko wapas Tab 3 par aane par fresh EMR Screen milegi.
-              _navigatorKeys[_currentIndex].currentState?.popUntil(
-                    (route) => route.isFirst,
-              );
+          // onTap: (index) {
+          //   if (index == _currentIndex) {
+          //     // Same tab click: Reset to root
+          //     _navigatorKeys[index].currentState?.popUntil(
+          //           (route) => route.isFirst,
+          //     );
+          //   } else {
+          //     // 👉 NEW LOGIC FOR TESTER:
+          //     // Doosre tab par jaane se pehle, current tab ki history clear kar do.
+          //     // Isse agar Tab 3 me 'Ped Balance' khula tha, toh wo close ho jayega aur
+          //     // tester ko wapas Tab 3 par aane par fresh EMR Screen milegi.
+          //     _navigatorKeys[_currentIndex].currentState?.popUntil(
+          //           (route) => route.isFirst,
+          //     );
 
-              // Ab naye tab par switch karein
-              setState(() => _currentIndex = index);
-            }
-          },
+          //     // Ab naye tab par switch karein
+          //     setState(() => _currentIndex = index);
+          //   }
+          // },
+          onTap: (index) {
+  if (index == _currentIndex) {
+    _navigatorKeys[index]
+        .currentState
+        ?.popUntil((route) => route.isFirst);
+
+    setState(() {
+      _bottomNavIndex = index;
+    });
+  } else {
+    _navigatorKeys[_currentIndex]
+        .currentState
+        ?.popUntil((route) => route.isFirst);
+
+    setState(() {
+      _currentIndex = index;
+      _bottomNavIndex = index;
+    });
+  }
+},
         ),
         ),
       ),
