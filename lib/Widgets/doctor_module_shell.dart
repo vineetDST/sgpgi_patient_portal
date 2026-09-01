@@ -65,10 +65,23 @@ int _bottomNavIndex = 0;
   }
 
   // Helper to push screens INSIDE the active tab
-  void pushToCurrentTab(Widget screen) {
-     setState(() {
-    _bottomNavIndex = -1;
-  });
+  void pushToCurrentTab(Widget screen,  [int index = 100]) {
+  //    setState(() {
+  //   _bottomNavIndex = -1;
+  // });
+  print("Pushing to current tab: $index");
+
+  if(index == 100) {
+      setState(() {
+        _bottomNavIndex = -1;
+      });
+    }
+    else{
+      setState(() {
+        _bottomNavIndex = _currentIndex;
+      });
+    }
+
     _navigatorKeys[_currentIndex].currentState?.push(
       MaterialPageRoute(builder: (context) => screen),
     );

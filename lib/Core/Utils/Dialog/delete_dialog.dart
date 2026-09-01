@@ -14,7 +14,7 @@ Future<bool?> showDeleteDialog(BuildContext context) {
             Align(
               alignment: Alignment.topRight,
               child: GestureDetector(
-                onTap: () => Navigator.pop(context),
+                onTap: () => Navigator.pop(context,false),
                 child: const Icon(Icons.close),
               ),
             ),
@@ -41,7 +41,7 @@ Future<bool?> showDeleteDialog(BuildContext context) {
               children: [
                 Expanded(
                   child: OutlinedButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () => Navigator.pop(context, false),
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
@@ -57,7 +57,7 @@ Future<bool?> showDeleteDialog(BuildContext context) {
                 const SizedBox(width: 12),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () => Navigator.pop(context,true),
+                    onPressed: () => Navigator.pop(context, true),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFC60000),
                       padding: const EdgeInsets.symmetric(vertical: 14),

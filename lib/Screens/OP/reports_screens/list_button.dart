@@ -259,7 +259,7 @@ class _EmrExpandableRowState extends State<_EmrExpandableRow> {
                   final screenBuilder = _screenMap[subItem];
                   if (screenBuilder != null) {
                     doctorShellKey.currentState?.pushToCurrentTab(
-                      screenBuilder(widget.patientName, widget.crn, widget.screen_mode),
+                      screenBuilder(widget.patientName, widget.crn, widget.screen_mode),4
                     );
                   } else {
                     debugPrint("No screen mapping found for: $subItem");

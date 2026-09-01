@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qc_hospital/Core/Utils/Dialog/delete_dialog.dart';
+import 'package:qc_hospital/Core/Utils/scaffold_messenger.dart';
+
 
 
 class AppDeleteIcon extends StatelessWidget {
@@ -10,11 +12,14 @@ class AppDeleteIcon extends StatelessWidget {
 
   final BuildContext? parentContext;
 
+  final EdgeInsets padding ;
+
   const AppDeleteIcon({
     Key? key,
     this.onDeleteConfirmed,
     this.iconSize = 15.0,
     this.parentContext,
+    this.padding = const EdgeInsets.all(12),
   }) : super(key: key);
 
   @override
@@ -29,13 +34,19 @@ class AppDeleteIcon extends StatelessWidget {
         if (result == true) {
 
           onDeleteConfirmed?.call();
-        } else {
-
-          print("Cancel");
+         // Show notification at bottom
+          scaffoldMessenger(
+            context,
+            title: "Successfully Deleted",
+            message: "Deleted Successfully",
+            type: NotificationType.success,
+          );
+        
         }
       },
       child: Container(
-        padding: EdgeInsets.all(12),
+        // padding: EdgeInsets.all(12),
+        padding: padding,
         color: Colors.transparent,
         child: Image.asset(
           'assets/deleteicon.png',
