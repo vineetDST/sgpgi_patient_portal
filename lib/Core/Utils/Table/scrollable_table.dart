@@ -136,54 +136,68 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
                 // 2. RIGHT SCROLLABLE AREA
                 // ==========================================
                 Expanded(
-                  child: SingleChildScrollView(
-                    controller: _scrollController,
-                    scrollDirection: Axis.horizontal,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ...List.generate(currentLabels.length, (rowIndex) {
-                          bool isHeader = widget.isFirstRowHeader && rowIndex == 0;
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Stack(
+                          alignment: Alignment.bottomLeft,
+                        children: [
+                          SingleChildScrollView(
+                          controller: _scrollController,
+                          scrollDirection: Axis.horizontal,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ...List.generate(currentLabels.length, (rowIndex) {
+                                bool isHeader = widget.isFirstRowHeader && rowIndex == 0;
 
-                          return Row(
-                            children: List.generate(
-                                widget.rowValues[rowIndex].length,
-                                    (colIndex) {
+                                return Row(
+                                  children: List.generate(
+                                      widget.rowValues[rowIndex].length,
+                                          (colIndex) {
 
-                                  // 🔥 NAYA LOGIC WIDGET KO UNWRAP KARNE KE LIYE
-                                  Widget cellWidget = widget.rowValues[rowIndex][colIndex];
-                                  bool shouldRemovePadding = false;
-                                  bool shouldRemoveRightBorder = false;
+                                        // 🔥 NAYA LOGIC WIDGET KO UNWRAP KARNE KE LIYE
+                                        Widget cellWidget = widget.rowValues[rowIndex][colIndex];
+                                        bool shouldRemovePadding = false;
+                                        bool shouldRemoveRightBorder = false;
 
-                                  // While loop check karega agar wrapper nested hain
-                                  while (cellWidget is NoPaddingCell || cellWidget is NoRightBorderCell) {
-                                    if (cellWidget is NoPaddingCell) {
-                                      shouldRemovePadding = true;
-                                      cellWidget = cellWidget.child;
-                                    }
-                                    if (cellWidget is NoRightBorderCell) {
-                                      shouldRemoveRightBorder = true;
-                                      cellWidget = cellWidget.child;
-                                    }
-                                  }
+                                        // While loop check karega agar wrapper nested hain
+                                        while (cellWidget is NoPaddingCell || cellWidget is NoRightBorderCell) {
+                                          if (cellWidget is NoPaddingCell) {
+                                            shouldRemovePadding = true;
+                                            cellWidget = cellWidget.child;
+                                          }
+                                          if (cellWidget is NoRightBorderCell) {
+                                            shouldRemoveRightBorder = true;
+                                            cellWidget = cellWidget.child;
+                                          }
+                                        }
 
-                                  bool isLastColOfThisRow = colIndex == widget.rowValues[rowIndex].length - 1;
+                                        bool isLastColOfThisRow = colIndex == widget.rowValues[rowIndex].length - 1;
 
-                                  return _buildCell(
-                                    width: widget.dataColumnWidth,
-                                    isLastRow: rowIndex == currentLabels.length - 1,
-                                    isLastCol: isLastColOfThisRow,
-                                    removePadding: shouldRemovePadding,
-                                    forceNoRightBorder: shouldRemoveRightBorder, // 🔥 FLAG PASS KIYA
-                                    bgColor: isHeader ? const Color(0xFF117A7A) : Colors.white,
-                                    borderColor: isHeader ? Colors.white : Colors.grey.shade300,
-                                    child: cellWidget, // Unwrap kiya hua actual widget
-                                  );
-                                }),
-                          );
-                        }),
-                      ],
-                    ),
+                                        return _buildCell(
+                                          width: widget.dataColumnWidth,
+                                          isLastRow: rowIndex == currentLabels.length - 1,
+                                          isLastCol: isLastColOfThisRow,
+                                          removePadding: shouldRemovePadding,
+                                          forceNoRightBorder: shouldRemoveRightBorder, // 🔥 FLAG PASS KIYA
+                                          bgColor: isHeader ? const Color(0xFF117A7A) : Colors.white,
+                                          borderColor: isHeader ? Colors.white : Colors.grey.shade300,
+                                          child: cellWidget, // Unwrap kiya hua actual widget
+                                        );
+                                      }),
+                                );
+                              }),
+                            ],
+                          ),
+                        ),
+                          SizedBox(
+                            height: 20.0, // Scrollbar container height
+                            child: _buildCustomDraggableScrollbar(),
+                          ),
+                        ]
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -277,6 +291,62 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
       height: 32,
       decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: Colors.grey.shade300)),
       child: Icon(icon, size: 20, color: isDisabled ? Colors.grey.shade400 : Colors.black87),
+    );
+  }
+
+  Widget _buildCustomDraggableScrollbar() {
+    return AnimatedBuilder(
+      animation: _scrollController,
+      builder: (context, child) {
+        double maxScroll = 0;
+        double currentScroll = 0;
+
+        // 🔥 FIX: 'hasContentDimensions' add kiya taaki null dimensions par crash na ho
+        if (_scrollController.hasClients && _scrollController.position.hasContentDimensions) {
+          maxScroll = _scrollController.position.maxScrollExtent;
+          currentScroll = _scrollController.offset;
+        }
+
+        // Percentage calculate karein, 0 se 1 ke beech
+        double scrollFraction = maxScroll > 0 ? (currentScroll / maxScroll).clamp(0.0, 1.0) : 0.0;
+
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            double trackWidth = constraints.maxWidth;
+            double thumbWidth = 60.0; // Scrollbar thumb ki lambai
+            double maxThumbOffset = (trackWidth - thumbWidth).clamp(0.0, double.infinity);
+            double thumbOffset = scrollFraction * maxThumbOffset; // X-axis par shift
+
+            return GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onHorizontalDragUpdate: (details) {
+                if (maxScroll <= 0) return;
+
+                double dragFraction = details.delta.dx / maxThumbOffset;
+                double newScroll = _scrollController.offset + (dragFraction * maxScroll);
+                _scrollController.jumpTo(newScroll.clamp(0.0, maxScroll));
+              },
+              child: Container(
+                width: trackWidth,
+                color: Colors.transparent,
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                child: Transform.translate(
+                  offset: Offset(thumbOffset, 0),
+                  child: Container(
+                    height: 6.0,
+                    width: thumbWidth,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }
