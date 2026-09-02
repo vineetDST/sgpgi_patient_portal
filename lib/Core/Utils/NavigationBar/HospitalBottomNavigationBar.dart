@@ -26,7 +26,7 @@ class HospitalBottomNavigationBar extends StatefulWidget {
     this.backgroundColor = Colors.transparent,
     this.animationCurve = Curves.easeOut,
     this.animationDuration = const Duration(milliseconds: 300),
-    this.height = 90.0,
+    this.height = 85.0,
     this.maxWidth,
     this.shadowColor = Colors.grey,
   }) : super(key: key);

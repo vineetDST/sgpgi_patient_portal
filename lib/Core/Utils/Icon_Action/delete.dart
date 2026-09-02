@@ -39,7 +39,7 @@ class AppDeleteIcon extends StatelessWidget {
             context,
             title: "Successfully Deleted",
             message: "Deleted Successfully",
-            type: NotificationType.success,
+            type: NotificationType.error,
           );
         
         }
