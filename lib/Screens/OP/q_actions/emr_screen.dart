@@ -11,6 +11,10 @@ import 'package:qc_hospital/Screens/OP/reports_screens/list_button.dart';
 import 'package:qc_hospital/Widgets/clinical_base_scaffold.dart';
 import 'package:qc_hospital/Screens/IP/ip_base_scaffold.dart';
 
+import 'package:qc_hospital/Core/Utils/Table/scrollable_table.dart';
+import 'package:qc_hospital/Core/Utils/Table/table_text.dart';
+import 'package:qc_hospital/Core/Utils/Table/table_status_pill.dart';
+
 import 'package:qc_hospital/Core/Utils/Sub_Screen/OP/op_action.dart';
 import 'package:qc_hospital/Core/Utils/Sub_Screen/IP/ip_action_button.dart';
 
@@ -364,340 +368,479 @@ class _EmrScreenState extends State<EmrScreen> {
   // ==========================================
   // SYNCHRONIZED SCROLLING TABLES
   // ==========================================
-
-  Widget _buildMedicationHistoryTable() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 120,
-              decoration: BoxDecoration(
-                color: const Color(0xFFEAF9F9),
-                border: Border(right: BorderSide(color: Colors.grey.shade300)),
-              ),
-              child: Column(
-                children: [
-                  _buildLeftCell("Medication", 60),
-                  _buildDivider(),
-                  _buildLeftCell("Dosages", 60),
-                  _buildDivider(),
-                  _buildLeftCell("Frequency", 60),
-                  _buildDivider(),
-                  _buildLeftCell("Status", 60),
-                  _buildDivider(),
-                  _buildLeftCell("Duration", 60),
-                  _buildDivider(),
-                  _buildLeftCell("Remarks", 60),
-                ],
-              ),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: IntrinsicHeight(
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 150,
-                        child: Column(
-                          children: [
-                            _buildRightTextCell("Diabetics", 60),
-                            _buildDivider(),
-                            _buildRightTextCell("500 mg", 60),
-                            _buildDivider(),
-                            _buildRightTextCell("Daily", 60),
-                            _buildDivider(),
-                            _buildRightGreenPill("Active", 60),
-                            _buildDivider(),
-                            _buildRightTextCell("1 Week", 60),
-                            _buildDivider(),
-                            _buildRightTextCell("-", 60),
-                          ],
-                        ),
-                      ),
-                      Container(width: 1, color: Colors.grey.shade300),
-                      SizedBox(
-                        width: 150,
-                        child: Column(
-                          children: [
-                            _buildRightTextCell("Diabetics", 60),
-                            _buildDivider(),
-                            _buildRightTextCell("500 mg", 60),
-                            _buildDivider(),
-                            _buildRightTextCell("Daily", 60),
-                            _buildDivider(),
-                            _buildRightGreenPill("Active", 60),
-                            _buildDivider(),
-                            _buildRightTextCell("1 Week", 60),
-                            _buildDivider(),
-                            _buildRightTextCell("-", 60),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+    Widget _buildMedicationHistoryTable() {
+      return ScrollableDataTable(
+        tableLabels: [
+          TableLabel(text: 'Medication'),
+          TableLabel(text: 'Dosages'),
+          TableLabel(text: 'Frequency'),
+          TableLabel(text: 'Status'),
+          TableLabel(text: 'Duration'),
+          TableLabel(text: 'Remarks'),
+        ],
+        rowValues: [
+          [
+            const TableText('Diabetics'),
+            const TableText('Diabetics'),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildImmunizationHistoryTable() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 160,
-              decoration: BoxDecoration(
-                color: const Color(0xFFEAF9F9),
-                border: Border(right: BorderSide(color: Colors.grey.shade300)),
-              ),
-              child: Column(
-                children: [
-                  _buildLeftCell("Immunization", 60),
-                  _buildDivider(),
-                  _buildLeftCell("Status", 60),
-                  _buildDivider(),
-                  _buildLeftCell("Age at\nImmunization(Yrs)", 75),
-                  _buildDivider(),
-                  _buildLeftCell("Duration(Yrs)", 60),
-                ],
-              ),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: IntrinsicHeight(
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 150,
-                        child: Column(
-                          children: [
-                            _buildRightTextCell("Heptatitis A", 60),
-                            _buildDivider(),
-                            _buildRightGreenPill("Given", 60),
-                            _buildDivider(),
-                            _buildRightTextCell("62", 75),
-                            _buildDivider(),
-                            _buildRightTextCell("1 Year", 60),
-                          ],
-                        ),
-                      ),
-                      Container(width: 1, color: Colors.grey.shade300),
-                      SizedBox(
-                        width: 150,
-                        child: Column(
-                          children: [
-                            _buildRightTextCell("Heptatitis B", 60),
-                            _buildDivider(),
-                            _buildRightGreenPill("Given", 60),
-                            _buildDivider(),
-                            _buildRightTextCell("62", 75),
-                            _buildDivider(),
-                            _buildRightTextCell("1 Year", 60),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+          [
+            const TableText('500 mg'),
+            const TableText('500 mg'),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFamilyHistoryTable() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 140,
-              decoration: BoxDecoration(
-                color: const Color(0xFFEAF9F9),
-                border: Border(right: BorderSide(color: Colors.grey.shade300)),
-              ),
-              child: Column(
-                children: [
-                  _buildLeftCell("Relationship", 60),
-                  _buildDivider(),
-                  _buildLeftCell("Survival Status", 60),
-                  _buildDivider(),
-                  _buildLeftCell("Age(Yrs)", 60),
-                  _buildDivider(),
-                  _buildLeftCell("Illness", 60),
-                  _buildDivider(),
-                  _buildLeftCell("Duration(Yrs)", 60),
-                  _buildDivider(),
-                  _buildLeftCell("Age at Death(Yrs)", 60),
-                  _buildDivider(),
-                  _buildLeftCell("Cause of Death", 60),
-                ],
-              ),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: IntrinsicHeight(
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 150,
-                        child: Column(
-                          children: [
-                            _buildRightTextCell("Father", 60),
-                            _buildDivider(),
-                            _buildRightGreenPill("Alive", 60),
-                            _buildDivider(),
-                            _buildRightTextCell("62", 60),
-                            _buildDivider(),
-                            _buildRightTextCell("Cancer", 60),
-                            _buildDivider(),
-                            _buildRightTextCell("1 Year", 60),
-                            _buildDivider(),
-                            _buildRightTextCell("-", 60),
-                            _buildDivider(),
-                            _buildRightTextCell("-", 60),
-                          ],
-                        ),
-                      ),
-                      Container(width: 1, color: Colors.grey.shade300),
-                      SizedBox(
-                        width: 150,
-                        child: Column(
-                          children: [
-                            _buildRightTextCell("Mother", 60),
-                            _buildDivider(),
-                            _buildRightGreenPill("Alive", 60),
-                            _buildDivider(),
-                            _buildRightTextCell("62", 60),
-                            _buildDivider(),
-                            _buildRightTextCell("Cancer", 60),
-                            _buildDivider(),
-                            _buildRightTextCell("1 Year", 60),
-                            _buildDivider(),
-                            _buildRightTextCell("-", 60),
-                            _buildDivider(),
-                            _buildRightTextCell("-", 60),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+          [
+            const TableText('Daily'),
+            const TableText('Daily'),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildAllergyHistoryTable() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 140,
-              decoration: BoxDecoration(
-                color: const Color(0xFFEAF9F9),
-                border: Border(right: BorderSide(color: Colors.grey.shade300)),
-              ),
-              child: Column(
-                children: [
-                  _buildLeftCell("Visit No", 60),
-                  _buildDivider(),
-                  _buildLeftCell("Allergy Category", 60),
-                  _buildDivider(),
-                  _buildLeftCell("Allergic To", 60),
-                  _buildDivider(),
-                  _buildLeftCell("Status", 60),
-                ],
-              ),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: IntrinsicHeight(
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 150,
-                        child: Column(
-                          children: [
-                            _buildRightTextCell("OP-003", 60),
-                            _buildDivider(),
-                            _buildRightTextCell("Drug", 60),
-                            _buildDivider(),
-                            _buildRightTextCell("PROPANOL OL", 60),
-                            _buildDivider(),
-                            _buildRightGreenPill("Active", 60),
-                          ],
-                        ),
-                      ),
-                      Container(width: 1, color: Colors.grey.shade300),
-                      SizedBox(
-                        width: 150,
-                        child: Column(
-                          children: [
-                            _buildRightTextCell("OP-003", 60),
-                            _buildDivider(),
-                            _buildRightTextCell("Food", 60),
-                            _buildDivider(),
-                            _buildRightTextCell("Gluten", 60),
-                            _buildDivider(),
-                            _buildRightGreenPill("Active", 60),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+          [
+      const TableStatusPill('Active'),
+      const TableStatusPill('Active'),
+    ],
+          [
+            const TableText('1 Week'),
+            const TableText('1 Week'),
           ],
-        ),
-      ),
-    );
-  }
+          [
+            const TableText('-'),
+            const TableText('-'),
+          ],
+        ],
+      );
+    }
+
+    Widget _buildImmunizationHistoryTable() {
+      return ScrollableDataTable(
+        tableLabels: [
+          TableLabel(text: 'Immunization'),
+          TableLabel(text: 'Status'),
+          TableLabel(text: 'Age at Immunization(Yrs)'),
+          TableLabel(text: 'Duration(Yrs)'),
+        ],
+        rowValues: [
+          [
+            const TableText('Heptatitis A'),
+            const TableText('Heptatitis B'),
+          ],
+          [
+      const TableStatusPill('Given'),
+      const TableStatusPill('Given'),
+    ],
+          [
+            const TableText('62'),
+            const TableText('62'),
+          ],
+          [
+            const TableText('1 Year'),
+            const TableText('1 Year'),
+          ],
+        ],
+      );
+    }
+
+    Widget _buildFamilyHistoryTable() {
+      return ScrollableDataTable(
+        tableLabels: [
+          TableLabel(text: 'Relationship'),
+          TableLabel(text: 'Survival Status'),
+          TableLabel(text: 'Age(Yrs)'),
+          TableLabel(text: 'Illness'),
+          TableLabel(text: 'Duration(Yrs)'),
+          TableLabel(text: 'Age at Death(Yrs)'),
+          TableLabel(text: 'Cause of Death'),
+        ],
+        rowValues: [
+          [
+            const TableText('Father'),
+            const TableText('Mother'),
+          ],
+          [
+            const TableStatusPill('Alive'),
+            const TableStatusPill('Alive'),
+          ],
+          [
+            const TableText('62'),
+            const TableText('62'),
+          ],
+          [
+            const TableText('Cancer'),
+            const TableText('Cancer'),
+          ],
+          [
+            const TableText('1 Year'),
+            const TableText('1 Year'),
+          ],
+          [
+            const TableText('-'),
+            const TableText('-'),
+          ],
+          [
+            const TableText('-'),
+            const TableText('-'),
+          ],
+        ],
+      );
+    }
+
+    Widget _buildAllergyHistoryTable() {
+      return ScrollableDataTable(
+        tableLabels: [
+          TableLabel(text: 'Visit No'),
+          TableLabel(text: 'Allergy Category'),
+          TableLabel(text: 'Allergic To'),
+          TableLabel(text: 'Status'),
+        ],
+        rowValues: [
+          [
+            const TableText('OP-003'),
+            const TableText('OP-003'),
+          ],
+          [
+            const TableText('Drug'),
+            const TableText('Food'),
+          ],
+          [
+            const TableText('PROPANOL OL'),
+            const TableText('Gluten'),
+          ],
+          [
+            const TableStatusPill('Active'),
+            const TableStatusPill('Active'),
+          ],
+        ],
+      );
+    }
+  // Widget _buildMedicationHistoryTable() {
+  //   return Container(
+  //     decoration: BoxDecoration(
+  //       color: Colors.white,
+  //       borderRadius: BorderRadius.circular(8),
+  //       border: Border.all(color: Colors.grey.shade300),
+  //     ),
+  //     child: ClipRRect(
+  //       borderRadius: BorderRadius.circular(8),
+  //       child: Row(
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           Container(
+  //             width: 120,
+  //             decoration: BoxDecoration(
+  //               color: const Color(0xFFEAF9F9),
+  //               border: Border(right: BorderSide(color: Colors.grey.shade300)),
+  //             ),
+  //             child: Column(
+  //               children: [
+  //                 _buildLeftCell("Medication", 60),
+  //                 _buildDivider(),
+  //                 _buildLeftCell("Dosages", 60),
+  //                 _buildDivider(),
+  //                 _buildLeftCell("Frequency", 60),
+  //                 _buildDivider(),
+  //                 _buildLeftCell("Status", 60),
+  //                 _buildDivider(),
+  //                 _buildLeftCell("Duration", 60),
+  //                 _buildDivider(),
+  //                 _buildLeftCell("Remarks", 60),
+  //               ],
+  //             ),
+  //           ),
+  //           Expanded(
+  //             child: SingleChildScrollView(
+  //               scrollDirection: Axis.horizontal,
+  //               child: IntrinsicHeight(
+  //                 child: Row(
+  //                   children: [
+  //                     SizedBox(
+  //                       width: 150,
+  //                       child: Column(
+  //                         children: [
+  //                           _buildRightTextCell("Diabetics", 60),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("500 mg", 60),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("Daily", 60),
+  //                           _buildDivider(),
+  //                           _buildRightGreenPill("Active", 60),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("1 Week", 60),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("-", 60),
+  //                         ],
+  //                       ),
+  //                     ),
+  //                     Container(width: 1, color: Colors.grey.shade300),
+  //                     SizedBox(
+  //                       width: 150,
+  //                       child: Column(
+  //                         children: [
+  //                           _buildRightTextCell("Diabetics", 60),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("500 mg", 60),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("Daily", 60),
+  //                           _buildDivider(),
+  //                           _buildRightGreenPill("Active", 60),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("1 Week", 60),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("-", 60),
+  //                         ],
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  // Widget _buildImmunizationHistoryTable() {
+  //   return Container(
+  //     decoration: BoxDecoration(
+  //       color: Colors.white,
+  //       borderRadius: BorderRadius.circular(8),
+  //       border: Border.all(color: Colors.grey.shade300),
+  //     ),
+  //     child: ClipRRect(
+  //       borderRadius: BorderRadius.circular(8),
+  //       child: Row(
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           Container(
+  //             width: 160,
+  //             decoration: BoxDecoration(
+  //               color: const Color(0xFFEAF9F9),
+  //               border: Border(right: BorderSide(color: Colors.grey.shade300)),
+  //             ),
+  //             child: Column(
+  //               children: [
+  //                 _buildLeftCell("Immunization", 60),
+  //                 _buildDivider(),
+  //                 _buildLeftCell("Status", 60),
+  //                 _buildDivider(),
+  //                 _buildLeftCell("Age at\nImmunization(Yrs)", 75),
+  //                 _buildDivider(),
+  //                 _buildLeftCell("Duration(Yrs)", 60),
+  //               ],
+  //             ),
+  //           ),
+  //           Expanded(
+  //             child: SingleChildScrollView(
+  //               scrollDirection: Axis.horizontal,
+  //               child: IntrinsicHeight(
+  //                 child: Row(
+  //                   children: [
+  //                     SizedBox(
+  //                       width: 150,
+  //                       child: Column(
+  //                         children: [
+  //                           _buildRightTextCell("Heptatitis A", 60),
+  //                           _buildDivider(),
+  //                           _buildRightGreenPill("Given", 60),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("62", 75),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("1 Year", 60),
+  //                         ],
+  //                       ),
+  //                     ),
+  //                     Container(width: 1, color: Colors.grey.shade300),
+  //                     SizedBox(
+  //                       width: 150,
+  //                       child: Column(
+  //                         children: [
+  //                           _buildRightTextCell("Heptatitis B", 60),
+  //                           _buildDivider(),
+  //                           _buildRightGreenPill("Given", 60),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("62", 75),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("1 Year", 60),
+  //                         ],
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  // Widget _buildFamilyHistoryTable() {
+  //   return Container(
+  //     decoration: BoxDecoration(
+  //       color: Colors.white,
+  //       borderRadius: BorderRadius.circular(8),
+  //       border: Border.all(color: Colors.grey.shade300),
+  //     ),
+  //     child: ClipRRect(
+  //       borderRadius: BorderRadius.circular(8),
+  //       child: Row(
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           Container(
+  //             width: 140,
+  //             decoration: BoxDecoration(
+  //               color: const Color(0xFFEAF9F9),
+  //               border: Border(right: BorderSide(color: Colors.grey.shade300)),
+  //             ),
+  //             child: Column(
+  //               children: [
+  //                 _buildLeftCell("Relationship", 60),
+  //                 _buildDivider(),
+  //                 _buildLeftCell("Survival Status", 60),
+  //                 _buildDivider(),
+  //                 _buildLeftCell("Age(Yrs)", 60),
+  //                 _buildDivider(),
+  //                 _buildLeftCell("Illness", 60),
+  //                 _buildDivider(),
+  //                 _buildLeftCell("Duration(Yrs)", 60),
+  //                 _buildDivider(),
+  //                 _buildLeftCell("Age at Death(Yrs)", 60),
+  //                 _buildDivider(),
+  //                 _buildLeftCell("Cause of Death", 60),
+  //               ],
+  //             ),
+  //           ),
+  //           Expanded(
+  //             child: SingleChildScrollView(
+  //               scrollDirection: Axis.horizontal,
+  //               child: IntrinsicHeight(
+  //                 child: Row(
+  //                   children: [
+  //                     SizedBox(
+  //                       width: 150,
+  //                       child: Column(
+  //                         children: [
+  //                           _buildRightTextCell("Father", 60),
+  //                           _buildDivider(),
+  //                           _buildRightGreenPill("Alive", 60),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("62", 60),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("Cancer", 60),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("1 Year", 60),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("-", 60),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("-", 60),
+  //                         ],
+  //                       ),
+  //                     ),
+  //                     Container(width: 1, color: Colors.grey.shade300),
+  //                     SizedBox(
+  //                       width: 150,
+  //                       child: Column(
+  //                         children: [
+  //                           _buildRightTextCell("Mother", 60),
+  //                           _buildDivider(),
+  //                           _buildRightGreenPill("Alive", 60),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("62", 60),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("Cancer", 60),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("1 Year", 60),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("-", 60),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("-", 60),
+  //                         ],
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  // Widget _buildAllergyHistoryTable() {
+  //   return Container(
+  //     decoration: BoxDecoration(
+  //       color: Colors.white,
+  //       borderRadius: BorderRadius.circular(8),
+  //       border: Border.all(color: Colors.grey.shade300),
+  //     ),
+  //     child: ClipRRect(
+  //       borderRadius: BorderRadius.circular(8),
+  //       child: Row(
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           Container(
+  //             width: 140,
+  //             decoration: BoxDecoration(
+  //               color: const Color(0xFFEAF9F9),
+  //               border: Border(right: BorderSide(color: Colors.grey.shade300)),
+  //             ),
+  //             child: Column(
+  //               children: [
+  //                 _buildLeftCell("Visit No", 60),
+  //                 _buildDivider(),
+  //                 _buildLeftCell("Allergy Category", 60),
+  //                 _buildDivider(),
+  //                 _buildLeftCell("Allergic To", 60),
+  //                 _buildDivider(),
+  //                 _buildLeftCell("Status", 60),
+  //               ],
+  //             ),
+  //           ),
+  //           Expanded(
+  //             child: SingleChildScrollView(
+  //               scrollDirection: Axis.horizontal,
+  //               child: IntrinsicHeight(
+  //                 child: Row(
+  //                   children: [
+  //                     SizedBox(
+  //                       width: 150,
+  //                       child: Column(
+  //                         children: [
+  //                           _buildRightTextCell("OP-003", 60),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("Drug", 60),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("PROPANOL OL", 60),
+  //                           _buildDivider(),
+  //                           _buildRightGreenPill("Active", 60),
+  //                         ],
+  //                       ),
+  //                     ),
+  //                     Container(width: 1, color: Colors.grey.shade300),
+  //                     SizedBox(
+  //                       width: 150,
+  //                       child: Column(
+  //                         children: [
+  //                           _buildRightTextCell("OP-003", 60),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("Food", 60),
+  //                           _buildDivider(),
+  //                           _buildRightTextCell("Gluten", 60),
+  //                           _buildDivider(),
+  //                           _buildRightGreenPill("Active", 60),
+  //                         ],
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _buildLeftCell(String text, double height) => Container(
     height: height,

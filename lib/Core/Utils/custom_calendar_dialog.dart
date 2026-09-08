@@ -656,21 +656,76 @@ class _CustomCalendarDialogState extends State<CustomCalendarDialog> {
                 //     _selectedDate!.day ==
                 //         thisDay.day;
 
-              final today = DateTime.now();
+// THIS PART IS FOR FUTURE DATES DISABLED, BUT I WANT TO ENABLE FUTURE DATES SELECTION, SO I COMMENTED OUT THE ABOVE CODE AND ADDED BELOW CODE START
 
-final dateOnly = DateTime(
-  thisDay.year,
-  thisDay.month,
-  thisDay.day,
-);
+//               final today = DateTime.now();
 
-final todayOnly = DateTime(
-  today.year,
-  today.month,
-  today.day,
-);
+// final dateOnly = DateTime(
+//   thisDay.year,
+//   thisDay.month,
+//   thisDay.day,
+// );
 
-final isFutureDate = dateOnly.isAfter(todayOnly);
+// final todayOnly = DateTime(
+//   today.year,
+//   today.month,
+//   today.day,
+// );
+
+// final isFutureDate = dateOnly.isAfter(todayOnly);
+// final bool isSelected =
+//     _selectedDate != null &&
+//     _selectedDate!.year == thisDay.year &&
+//     _selectedDate!.month == thisDay.month &&
+//     _selectedDate!.day == thisDay.day;
+
+// return GestureDetector(
+//   onTap: isFutureDate
+//       ? null
+//       : () {
+//           setState(() {
+//             _selectedDate = thisDay;
+//           });
+
+//           Navigator.pop(
+//             context,
+//             _selectedDate,
+//           );
+//         },
+
+//                   child: Container(
+//                     alignment:
+//                         Alignment.center,
+
+//                     decoration:
+//                         isSelected
+//                             ? const BoxDecoration(
+//                                 color:
+//                                     Color(
+//                                   0xFF117A7A,
+//                                 ),
+//                                 shape:
+//                                     BoxShape.circle,
+//                               )
+//                             : null,
+
+//                     child: Text(
+//                       '$dayNumber',
+//                       style: TextStyle(
+//                         fontSize: 15,
+//                         fontWeight:
+//                             FontWeight.w500,
+//                         color: isSelected
+//     ? Colors.white
+//     : isFutureDate
+//         ? Colors.grey.shade300
+//         : const Color(0xFF16203A),
+//                       ),
+//                     ),
+//                   ),
+//                 );
+// THIS PART IS FOR FUTURE DATES DISABLED, BUT I WANT TO ENABLE FUTURE DATES SELECTION, SO I COMMENTED OUT THE ABOVE CODE AND ADDED BELOW CODE END
+
 final bool isSelected =
     _selectedDate != null &&
     _selectedDate!.year == thisDay.year &&
@@ -678,50 +733,36 @@ final bool isSelected =
     _selectedDate!.day == thisDay.day;
 
 return GestureDetector(
-  onTap: isFutureDate
-      ? null
-      : () {
-          setState(() {
-            _selectedDate = thisDay;
-          });
+  onTap: () {
+    setState(() {
+      _selectedDate = thisDay;
+    });
 
-          Navigator.pop(
-            context,
-            _selectedDate,
-          );
-        },
-
-                  child: Container(
-                    alignment:
-                        Alignment.center,
-
-                    decoration:
-                        isSelected
-                            ? const BoxDecoration(
-                                color:
-                                    Color(
-                                  0xFF117A7A,
-                                ),
-                                shape:
-                                    BoxShape.circle,
-                              )
-                            : null,
-
-                    child: Text(
-                      '$dayNumber',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight:
-                            FontWeight.w500,
-                        color: isSelected
-    ? Colors.white
-    : isFutureDate
-        ? Colors.grey.shade300
-        : const Color(0xFF16203A),
-                      ),
-                    ),
-                  ),
-                );
+    Navigator.pop(
+      context,
+      _selectedDate,
+    );
+  },
+  child: Container(
+    alignment: Alignment.center,
+    decoration: isSelected
+        ? const BoxDecoration(
+            color: Color(0xFF117A7A),
+            shape: BoxShape.circle,
+          )
+        : null,
+    child: Text(
+      '$dayNumber',
+      style: TextStyle(
+        fontSize: 15,
+        fontWeight: FontWeight.w500,
+        color: isSelected
+            ? Colors.white
+            : const Color(0xFF16203A),
+      ),
+    ),
+  ),
+);
               },
             ),
           ],

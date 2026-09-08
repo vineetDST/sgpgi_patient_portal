@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:qc_hospital/Core/Utils/Dialog/delete_dialog.dart';
 import 'package:qc_hospital/Core/Utils/scaffold_messenger.dart';
 
-
-
 class AppDeleteIcon extends StatelessWidget {
 
   final VoidCallback? onDeleteConfirmed;

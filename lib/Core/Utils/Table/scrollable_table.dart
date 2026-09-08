@@ -108,8 +108,8 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,        
                                   color: isHeader ? Colors.white : Colors.black87,
                                 ),
                               ),

@@ -9,6 +9,13 @@ import 'package:qc_hospital/Screens/OP/reports_screens/list_button.dart';
 import 'package:qc_hospital/Widgets/clinical_base_scaffold.dart';
 import 'package:qc_hospital/Core/Utils/Sub_Screen/OP/op_action.dart';
 import 'package:qc_hospital/Core/Utils/Sub_Screen/IP/ip_action_button.dart';
+import 'package:qc_hospital/Core/Utils/custom_calendar_dialog.dart';
+import 'package:qc_hospital/Core/Utils/Datepicker/app_date_picker.dart';
+
+import 'package:qc_hospital/Core/Utils/Table/scrollable_table.dart';
+import 'package:qc_hospital/Core/Utils/Table/table_text.dart';
+import 'package:qc_hospital/Core/Utils/Table/table_status_pill.dart';
+import 'package:qc_hospital/Core/Utils/Table/table_date_time.dart';
 
 import 'package:qc_hospital/Screens/OP/reports_screens/emr_list_screen.dart';
 
@@ -32,6 +39,26 @@ class EmrPrevVitalSignsScreen extends StatefulWidget {
 class _EmrPrevVitalSignsScreenState extends State<EmrPrevVitalSignsScreen> {
   int _bottomNavIndex = 1;
   int _currentTabIndex = 0; // 0: Previous Vital Sign, 1: Vital Sign Chart
+    final fromController = TextEditingController();
+  final toController = TextEditingController();
+
+  DateTime fromDate = DateTime(2025, 10, 8);
+  DateTime toDate = DateTime(2025, 10, 18);
+
+  String formatDate(DateTime date) {
+    return "${date.day.toString().padLeft(2, '0')}-"
+        "${date.month.toString().padLeft(2, '0')}-"
+        "${date.year.toString().substring(2)}";
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    fromController.text = formatDate(fromDate);
+    toController.text = formatDate(toDate);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -153,100 +180,156 @@ class _EmrPrevVitalSignsScreenState extends State<EmrPrevVitalSignsScreen> {
         const SizedBox(height: 8),
         SharedComponents.buildDropdown(hintText: "All"),
         const SizedBox(height: 16),
-
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Colors.grey.shade300),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 140,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFEAF9F9),
-                    border: Border(
-                      right: BorderSide(color: Colors.grey.shade300),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      _buildLeftCell("Date \u2192 Time", 60),
-                      _buildDivider(),
-                      _buildLeftCell("HEIGHT", 60),
-                      _buildDivider(),
-                      _buildLeftCell("WEIGHT", 60),
-                      _buildDivider(),
-                      _buildLeftCell("SYSTOLIC BP", 60),
-                      _buildDivider(),
-                      _buildLeftCell("DIASTOLIC BP", 60),
-                      _buildDivider(),
-                      _buildLeftCell("TEMP", 60),
-                      _buildDivider(),
-                      _buildLeftCell("SPO2", 60),
-                      _buildDivider(),
-                      _buildLeftCell("HEART RATE", 60),
-                      _buildDivider(),
-                      _buildLeftCell("BMI", 60),
-                    ],
-                  ),
+        ScrollableDataTable(
+            tableLabels: [
+              TableLabel(text: 'Date → Time'),
+              TableLabel(text: 'HEIGHT'),
+              TableLabel(text: 'WEIGHT'),
+              TableLabel(text: 'SYSTOLIC BP'),
+              TableLabel(text: 'DIASTOLIC BP'),
+              TableLabel(text: 'TEMP'),
+              TableLabel(text: 'SPO2'),
+              TableLabel(text: 'HEART RATE'),
+              TableLabel(text: 'BMI'),
+            ],
+            rowValues: [
+              [
+                const TableDateTime(
+                  date: '08-10-2025',
+                  time: '17:20',
                 ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: IntrinsicWidth(
-                      // 1. IntrinsicHeight lagaya taaki divider ko poori height mil sake
-                      child: IntrinsicHeight(
-                        child: Row(
-                          children: [
-                            _buildRightColumn(
-                              "08-10-2025",
-                              "17:20",
-                              "",
-                              "",
-                              "90",
-                              "70",
-                              "98",
-                              "",
-                              "",
-                              "14",
-                            ),
-
-                            // 2. Container ko hata kar VerticalDivider lagaya
-                            VerticalDivider(
-                              width: 1,
-                              thickness: 1,
-                              color: Colors.grey.shade300,
-                            ),
-
-                            _buildRightColumn(
-                              "09-10-2025",
-                              "10:00",
-                              "",
-                              "",
-                              "95",
-                              "75",
-                              "98.5",
-                              "",
-                              "",
-                              "14.5",
-                              isSecondCol: true,
-                            ),
-                            // Last column ke baad koi divider nahi hai, toh ye clean dikhega!
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                const TableDateTime(
+                  date: '09-10-2025',
+                  time: '10:00',
                 ),
               ],
-            ),
+              [
+                const TableText(''),
+                const TableText(''),
+              ],
+              [
+                const TableText(''),
+                const TableText(''),
+              ],
+              [
+                const TableText('90'),
+                const TableText('95'),
+              ],
+              [
+                const TableText('70'),
+                const TableText('75'),
+              ],
+              [
+                const TableText('98'),
+                const TableText('98.5'),
+              ],
+              [
+                const TableText(''),
+                const TableText(''),
+              ],
+              [
+                const TableText(''),
+                const TableText(''),
+              ],
+              [
+                const TableText('14'),
+                const TableText('14.5'),
+              ],
+            ],
           ),
-        ),
+        // Container(
+        //   decoration: BoxDecoration(
+        //     color: Colors.white,
+        //     borderRadius: BorderRadius.circular(8),
+        //     border: Border.all(color: Colors.grey.shade300),
+        //   ),
+        //   child: ClipRRect(
+        //     borderRadius: BorderRadius.circular(8),
+        //     child: Row(
+        //       crossAxisAlignment: CrossAxisAlignment.start,
+        //       children: [
+        //         Container(
+        //           width: 140,
+        //           decoration: BoxDecoration(
+        //             color: const Color(0xFFEAF9F9),
+        //             border: Border(
+        //               right: BorderSide(color: Colors.grey.shade300),
+        //             ),
+        //           ),
+        //           child: Column(
+        //             children: [
+        //               _buildLeftCell("Date \u2192 Time", 60),
+        //               _buildDivider(),
+        //               _buildLeftCell("HEIGHT", 60),
+        //               _buildDivider(),
+        //               _buildLeftCell("WEIGHT", 60),
+        //               _buildDivider(),
+        //               _buildLeftCell("SYSTOLIC BP", 60),
+        //               _buildDivider(),
+        //               _buildLeftCell("DIASTOLIC BP", 60),
+        //               _buildDivider(),
+        //               _buildLeftCell("TEMP", 60),
+        //               _buildDivider(),
+        //               _buildLeftCell("SPO2", 60),
+        //               _buildDivider(),
+        //               _buildLeftCell("HEART RATE", 60),
+        //               _buildDivider(),
+        //               _buildLeftCell("BMI", 60),
+        //             ],
+        //           ),
+        //         ),
+        //         Expanded(
+        //           child: SingleChildScrollView(
+        //             scrollDirection: Axis.horizontal,
+        //             child: IntrinsicWidth(
+        //               // 1. IntrinsicHeight lagaya taaki divider ko poori height mil sake
+        //               child: IntrinsicHeight(
+        //                 child: Row(
+        //                   children: [
+        //                     _buildRightColumn(
+        //                       "08-10-2025",
+        //                       "17:20",
+        //                       "",
+        //                       "",
+        //                       "90",
+        //                       "70",
+        //                       "98",
+        //                       "",
+        //                       "",
+        //                       "14",
+        //                     ),
+
+        //                     // 2. Container ko hata kar VerticalDivider lagaya
+        //                     VerticalDivider(
+        //                       width: 1,
+        //                       thickness: 1,
+        //                       color: Colors.grey.shade300,
+        //                     ),
+
+        //                     _buildRightColumn(
+        //                       "09-10-2025",
+        //                       "10:00",
+        //                       "",
+        //                       "",
+        //                       "95",
+        //                       "75",
+        //                       "98.5",
+        //                       "",
+        //                       "",
+        //                       "14.5",
+        //                       isSecondCol: true,
+        //                     ),
+        //                     // Last column ke baad koi divider nahi hai, toh ye clean dikhega!
+        //                   ],
+        //                 ),
+        //               ),
+        //             ),
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }
@@ -333,7 +416,25 @@ class _EmrPrevVitalSignsScreenState extends State<EmrPrevVitalSignsScreen> {
                 children: [
                   SharedComponents.buildFormLabel("From Date"),
                   const SizedBox(height: 8),
-                  _buildDatePickerField("08-10-25"),
+                  // _buildDatePickerField("08-10-25"),
+                  AppDateField(
+                    controller: fromController,
+                    onTap: () async {
+                      DateTime? pickedDate =
+                      await CustomCalendarDialog.show(
+                        context,
+                        initialDate: fromDate,
+                      );
+                      if (pickedDate != null) {
+                        setState(() {
+                          fromDate = pickedDate;
+                          fromController.text = formatDate(pickedDate);
+                        });
+                      }
+                      ;
+                    },
+
+                  ),
                 ],
               ),
             ),
@@ -344,7 +445,25 @@ class _EmrPrevVitalSignsScreenState extends State<EmrPrevVitalSignsScreen> {
                 children: [
                   SharedComponents.buildFormLabel("To Date"),
                   const SizedBox(height: 8),
-                  _buildDatePickerField("18-10-25"),
+                   AppDateField(
+                    controller: toController,
+                    onTap: () async {
+                      DateTime? pickedDate =
+                      await CustomCalendarDialog.show(
+                        context,
+                        initialDate: toDate,
+                      );
+                      if (pickedDate != null) {
+                        setState(() {
+                          toDate = pickedDate;
+                          toController.text = formatDate(pickedDate);
+                        });
+                      }
+                      ;
+                    },
+
+                  ),
+                  // _buildDatePickerField("18-10-25"),
                 ],
               ),
             ),
