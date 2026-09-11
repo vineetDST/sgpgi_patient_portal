@@ -133,7 +133,7 @@ class _BottomNotificationWidgetState extends State<_BottomNotificationWidget>
   Widget build(BuildContext context) {
     final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     return Positioned(
-      bottom: 140 + keyboardHeight,
+      bottom: 154 + keyboardHeight,
       left: 16,
       right: 16,
       child: SlideTransition(
