@@ -12,6 +12,8 @@ import 'package:qc_hospital/Core/Utils/NavigationBar/navigationbar.dart';
 import 'package:qc_hospital/Core/Utils/Table/detail_row.dart';
 import 'package:qc_hospital/Core/Utils/Table/detail_row_wrapper.dart';
 import 'package:qc_hospital/Core/Utils/Table/scrollable_table.dart';
+import 'package:qc_hospital/Core/Utils/Table/table_physical_exam_cell.dart';
+
 import 'package:qc_hospital/Core/Utils/Table/table_text.dart';
 import 'package:qc_hospital/Screens/IP/ip_base_scaffold.dart';
 import 'package:qc_hospital/Screens/OP/clinical_histories/shared_clinical_components.dart';
@@ -267,28 +269,30 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Physical Examination Section
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Colors.grey.shade300),
-          ),
-          child: Theme(
-            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-            child: ExpansionTile(
-              initiallyExpanded: true,
-              title: const Text(
-                "Physical Examination",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black87,
-                ),
-              ),
-              children: [_buildPhysicalExamTable()],
-            ),
-          ),
-        ),
+        // Container(
+        //   decoration: BoxDecoration(
+        //     color: Colors.white,
+        //     borderRadius: BorderRadius.circular(8),
+        //     border: Border.all(color: Colors.grey.shade300),
+        //   ),
+        //   child: Theme(
+        //     data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+        //     child: ExpansionTile(
+        //       initiallyExpanded: true,
+        //       title: const Text(
+        //         "Physical Examination",
+        //         style: TextStyle(
+        //           fontSize: 14,
+        //           fontWeight: FontWeight.w600,
+        //           color: Colors.black87,
+        //         ),
+        //       ),
+        //       children: [
+        _buildPhysicalExamTable(),
+        //         ],
+        //     ),
+        //   ),
+        // ),
         const SizedBox(height: 16),
 
         // Local Examination Section
@@ -314,144 +318,293 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
   // =========================================================================
   // 1. PHYSICAL EXAMINATION TABLE (Constraint 1 & physical.png)
   // =========================================================================
+  // Widget _buildPhysicalExamTable() {
+  //   const double rowHeight = 64.0;
+
+  //   return ClipRRect(
+  //     borderRadius: BorderRadiusGeometry.only(
+  //       bottomLeft: Radius.circular(8),
+  //       bottomRight: Radius.circular(8),
+  //     ),
+  //     child: Row(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         // LEFT FIXED COLUMN
+  //         Container(
+  //           width: 150,
+  //           decoration: BoxDecoration(
+  //             color: const Color(0xFFEAF9F9),
+  //             border: Border(
+  //               right: BorderSide(color: Colors.grey.shade300),
+  //               top: BorderSide(color: Colors.grey.shade300),
+  //             ),
+  //           ),
+  //           child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: [
+  //               _buildLeftCell("General\nAppearance", rowHeight),
+  //               _buildLeftCell("Nutritional Status", rowHeight),
+  //               _buildLeftCell("ENT/Oral Cravity", rowHeight),
+  //               _buildLeftCell("Pallor", rowHeight),
+  //               _buildLeftCell("Jaundice", rowHeight),
+  //               _buildLeftCell("Cyanosis", rowHeight),
+  //               _buildLeftCell("Clubbing", rowHeight),
+  //               _buildLeftCell("JVP", rowHeight),
+  //               _buildLeftCell("Edema", rowHeight),
+  //               _buildLeftCell("Lymph Node", rowHeight, isLast: true),
+  //             ],
+  //           ),
+  //         ),
+
+  //         // RIGHT SCROLLABLE COLUMN
+  //         Expanded(
+  //           child: Container(
+  //             decoration: BoxDecoration(
+  //               color: Colors.white,
+  //               border: Border(top: BorderSide(color: Colors.grey.shade300)),
+  //             ),
+  //             child: SingleChildScrollView(
+  //               scrollDirection: Axis.horizontal,
+  //               child: Column(
+  //                 crossAxisAlignment: CrossAxisAlignment.start,
+  //                 children: [
+  //                   _buildPhysicalRightCell(
+  //                     ["Normal", "Abnormal"],
+  //                     genApp,
+  //                     (val) => setState(() => genApp = val),
+  //                     rowHeight,
+  //                     _genAppRemController,
+  //                     enabled: false,
+  //                   ),
+  //                   _buildPhysicalRightCell(
+  //                     ["Good", "Adequate", "Reduced"],
+  //                     nutStatus,
+  //                     (val) => setState(() => nutStatus = val),
+  //                     rowHeight,
+  //                     _nutStatusRemController,
+  //                     enabled: false,
+  //                   ),
+  //                   _buildPhysicalRightCell(
+  //                     ["0", "+", "++", "+++"],
+  //                     ent,
+  //                     (val) => setState(() => ent = val),
+  //                     rowHeight,
+  //                     _entRemController,
+  //                     enabled: false,
+  //                   ),
+  //                   _buildPhysicalRightCell(
+  //                     ["No", "Yes"],
+  //                     pallor,
+  //                     (val) => setState(() => pallor = val),
+  //                     rowHeight,
+  //                     _pallorRemController,
+  //                     enabled: false,
+  //                   ),
+  //                   _buildPhysicalRightCell(
+  //                     ["No", "Yes"],
+  //                     jaundice,
+  //                     (val) => setState(() => jaundice = val),
+  //                     rowHeight,
+  //                     _jaundiceRemController,
+  //                     enabled: false,
+  //                   ),
+  //                   _buildPhysicalRightCell(
+  //                     ["No", "Yes"],
+  //                     cyanosis,
+  //                     (val) => setState(() => cyanosis = val),
+  //                     rowHeight,
+  //                     _cyanosisRemController,
+  //                     enabled: false,
+  //                   ),
+  //                   _buildPhysicalRightCell(
+  //                     ["No", "Yes"],
+  //                     clubbing,
+  //                     (val) => setState(() => clubbing = val),
+  //                     rowHeight,
+  //                     _clubbingRemController,
+  //                     enabled: false,
+  //                   ),
+  //                   _buildPhysicalRightCell(
+  //                     ["No", "Yes"],
+  //                     jvp,
+  //                     (val) => setState(() => jvp = val),
+  //                     rowHeight,
+  //                     _jvpRemController,
+  //                     enabled: false,
+  //                   ),
+  //                   _buildPhysicalRightCell(
+  //                     ["No", "Yes"],
+  //                     edema,
+  //                     (val) => setState(() => edema = val),
+  //                     rowHeight,
+  //                     _edemaRemController,
+  //                     enabled: false,
+  //                   ),
+  //                   _buildPhysicalRightCell(
+  //                     ["No", "Yes"],
+  //                     lymphNode,
+  //                     (val) => setState(() => lymphNode = val),
+  //                     rowHeight,
+  //                     _lymphNodeRemController,
+  //                     isLast: true,
+  //                     enabled: false,
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
   Widget _buildPhysicalExamTable() {
-    const double rowHeight = 64.0;
+    // const double rowHeight = 64.0;
 
-    return ClipRRect(
-      borderRadius: BorderRadiusGeometry.only(
-        bottomLeft: Radius.circular(8),
-        bottomRight: Radius.circular(8),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // LEFT FIXED COLUMN
-          Container(
-            width: 150,
-            decoration: BoxDecoration(
-              color: const Color(0xFFEAF9F9),
-              border: Border(
-                right: BorderSide(color: Colors.grey.shade300),
-                top: BorderSide(color: Colors.grey.shade300),
+    return CustomExpansionFrame(
+      title: 'Physical Examination',
+      initiallyExpanded: true,
+      children: [
+        ScrollableDataTable(
+          dataColumnWidth: 950.0,
+          tableLabels: [
+            TableLabel(text: 'General\nAppearance'),
+            TableLabel(text: 'Nutritional Status'),
+            TableLabel(text: 'ENT/Oral Cravity'),
+            TableLabel(text: 'Pallor'),
+            TableLabel(text: 'Jaundice'),
+            TableLabel(text: 'Cyanosis'),
+            TableLabel(text: 'Clubbing'),
+            TableLabel(text: 'JVP'),
+            TableLabel(text: 'Edema'),
+            TableLabel(text: 'Lymph Node'),
+          ],
+          rowValues: [
+            // General Appearance
+            [
+              TablePhysicalExamCell(
+                options: const ['Normal', 'Abnormal'],
+                groupValue: genApp,
+                onChanged: (val) {
+                  setState(() => genApp = val);
+                },
+                controller: _genAppRemController,
               ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildLeftCell("General\nAppearance", rowHeight),
-                _buildLeftCell("Nutritional Status", rowHeight),
-                _buildLeftCell("ENT/Oral Cravity", rowHeight),
-                _buildLeftCell("Pallor", rowHeight),
-                _buildLeftCell("Jaundice", rowHeight),
-                _buildLeftCell("Cyanosis", rowHeight),
-                _buildLeftCell("Clubbing", rowHeight),
-                _buildLeftCell("JVP", rowHeight),
-                _buildLeftCell("Edema", rowHeight),
-                _buildLeftCell("Lymph Node", rowHeight, isLast: true),
-              ],
-            ),
-          ),
+            ],
 
-          // RIGHT SCROLLABLE COLUMN
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border(top: BorderSide(color: Colors.grey.shade300)),
+            // Nutritional Status
+            [
+              TablePhysicalExamCell(
+                options: const ['Good', 'Adequate', 'Reduced'],
+                groupValue: nutStatus,
+                onChanged: (val) {
+                  setState(() => nutStatus = val);
+                },
+                controller: _nutStatusRemController,
               ),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildPhysicalRightCell(
-                      ["Normal", "Abnormal"],
-                      genApp,
-                      (val) => setState(() => genApp = val),
-                      rowHeight,
-                      _genAppRemController,
-                      enabled: false,
-                    ),
-                    _buildPhysicalRightCell(
-                      ["Good", "Adequate", "Reduced"],
-                      nutStatus,
-                      (val) => setState(() => nutStatus = val),
-                      rowHeight,
-                      _nutStatusRemController,
-                      enabled: false,
-                    ),
-                    _buildPhysicalRightCell(
-                      ["0", "+", "++", "+++"],
-                      ent,
-                      (val) => setState(() => ent = val),
-                      rowHeight,
-                      _entRemController,
-                      enabled: false,
-                    ),
-                    _buildPhysicalRightCell(
-                      ["No", "Yes"],
-                      pallor,
-                      (val) => setState(() => pallor = val),
-                      rowHeight,
-                      _pallorRemController,
-                      enabled: false,
-                    ),
-                    _buildPhysicalRightCell(
-                      ["No", "Yes"],
-                      jaundice,
-                      (val) => setState(() => jaundice = val),
-                      rowHeight,
-                      _jaundiceRemController,
-                      enabled: false,
-                    ),
-                    _buildPhysicalRightCell(
-                      ["No", "Yes"],
-                      cyanosis,
-                      (val) => setState(() => cyanosis = val),
-                      rowHeight,
-                      _cyanosisRemController,
-                      enabled: false,
-                    ),
-                    _buildPhysicalRightCell(
-                      ["No", "Yes"],
-                      clubbing,
-                      (val) => setState(() => clubbing = val),
-                      rowHeight,
-                      _clubbingRemController,
-                      enabled: false,
-                    ),
-                    _buildPhysicalRightCell(
-                      ["No", "Yes"],
-                      jvp,
-                      (val) => setState(() => jvp = val),
-                      rowHeight,
-                      _jvpRemController,
-                      enabled: false,
-                    ),
-                    _buildPhysicalRightCell(
-                      ["No", "Yes"],
-                      edema,
-                      (val) => setState(() => edema = val),
-                      rowHeight,
-                      _edemaRemController,
-                      enabled: false,
-                    ),
-                    _buildPhysicalRightCell(
-                      ["No", "Yes"],
-                      lymphNode,
-                      (val) => setState(() => lymphNode = val),
-                      rowHeight,
-                      _lymphNodeRemController,
-                      isLast: true,
-                      enabled: false,
-                    ),
-                  ],
-                ),
+            ],
+
+            // ENT / Oral Cavity
+            [
+              TablePhysicalExamCell(
+                options: const ['0', '+', '++', '+++'],
+                groupValue: ent,
+                onChanged: (val) {
+                  setState(() => ent = val);
+                },
+                controller: _entRemController,
               ),
-            ),
-          ),
-        ],
-      ),
+            ],
+
+            // Pallor
+            [
+              TablePhysicalExamCell(
+                options: const ['No', 'Yes'],
+                groupValue: pallor,
+                onChanged: (val) {
+                  setState(() => pallor = val);
+                },
+                controller: _pallorRemController,
+              ),
+            ],
+
+            // Jaundice
+            [
+              TablePhysicalExamCell(
+                options: const ['No', 'Yes'],
+                groupValue: jaundice,
+                onChanged: (val) {
+                  setState(() => jaundice = val);
+                },
+                controller: _jaundiceRemController,
+              ),
+            ],
+
+            // Cyanosis
+            [
+              TablePhysicalExamCell(
+                options: const ['No', 'Yes'],
+                groupValue: cyanosis,
+                onChanged: (val) {
+                  setState(() => cyanosis = val);
+                },
+                controller: _cyanosisRemController,
+              ),
+            ],
+
+            // Clubbing
+            [
+              TablePhysicalExamCell(
+                options: const ['No', 'Yes'],
+                groupValue: clubbing,
+                onChanged: (val) {
+                  setState(() => clubbing = val);
+                },
+                controller: _clubbingRemController,
+              ),
+            ],
+
+            // JVP
+            [
+              TablePhysicalExamCell(
+                options: const ['No', 'Yes'],
+                groupValue: jvp,
+                onChanged: (val) {
+                  setState(() => jvp = val);
+                },
+                controller: _jvpRemController,
+              ),
+            ],
+
+            // Edema
+            [
+              TablePhysicalExamCell(
+                options: const ['No', 'Yes'],
+                groupValue: edema,
+                onChanged: (val) {
+                  setState(() => edema = val);
+                },
+                controller: _edemaRemController,
+              ),
+            ],
+
+            // Lymph Node
+            [
+              TablePhysicalExamCell(
+                options: const ['No', 'Yes'],
+                groupValue: lymphNode,
+                onChanged: (val) {
+                  setState(() => lymphNode = val);
+                },
+                controller: _lymphNodeRemController,
+              ),
+            ],
+          ],
+        ),
+
+        const SizedBox(height: 16),
+      ],
     );
   }
 

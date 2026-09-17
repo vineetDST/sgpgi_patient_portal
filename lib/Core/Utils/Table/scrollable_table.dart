@@ -5,11 +5,11 @@ class TableLabel {
   final IconData? icon;
   final Widget? customWidget; // 🔥 NAYA: Custom widget ke liye
 
-  const TableLabel({
-    this.text,
-    this.icon,
-    this.customWidget,
-  }) : assert(text != null || customWidget != null, 'Ya toh text pass karein ya customWidget');
+  const TableLabel({this.text, this.icon, this.customWidget})
+    : assert(
+        text != null || customWidget != null,
+        'Ya toh text pass karein ya customWidget',
+      );
 }
 
 class ScrollableDataTable extends StatefulWidget {
@@ -33,7 +33,8 @@ class ScrollableDataTable extends StatefulWidget {
     this.leftColumnWidth = 140.0,
     this.dataColumnWidth = 160.0,
     this.showPagination = false,
-    this.isFirstRowHeader = false, // Default false, taaki baaki jagah effect na ho
+    this.isFirstRowHeader =
+        false, // Default false, taaki baaki jagah effect na ho
   });
 
   @override
@@ -78,14 +79,13 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
                 // 1. LEFT FIXED COLUMN
                 // ==========================================
                 // ==========================================
-// 1. LEFT FIXED COLUMN
-// ==========================================
+                // 1. LEFT FIXED COLUMN
+                // ==========================================
                 Container(
                   width: widget.leftColumnWidth,
                   decoration: const BoxDecoration(color: Color(0xFFF0F8F8)),
                   child: Column(
                     children: List.generate(currentLabels.length, (index) {
-
                       // 🔥 Check agar ye first row hai aur flag true hai
                       bool isHeader = widget.isFirstRowHeader && index == 0;
                       final currentLabel = currentLabels[index];
@@ -94,36 +94,42 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
                         width: widget.leftColumnWidth,
                         isLastRow: index == currentLabels.length - 1,
                         bgColor: isHeader ? const Color(0xFF117A7A) : null,
-                        borderColor: isHeader ? Colors.white : Colors.grey.shade300,
+                        borderColor: isHeader
+                            ? Colors.white
+                            : Colors.grey.shade300,
                         child: currentLabel.customWidget != null
-                        // 🔥 AGAR CUSTOM WIDGET HAI TOH DIRECT USKO DIKHAO
+                            // 🔥 AGAR CUSTOM WIDGET HAI TOH DIRECT USKO DIKHAO
                             ? currentLabel.customWidget!
-                        // 🔥 WARNA PURANA TEXT + ICON LOGIC DIKHAO
+                            // 🔥 WARNA PURANA TEXT + ICON LOGIC DIKHAO
                             : Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Flexible(
-                              child: Text(
-                                currentLabel.text ?? '',
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 13,        
-                                  color: isHeader ? Colors.white : Colors.black87,
-                                ),
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      currentLabel.text ?? '',
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13,
+                                        color: isHeader
+                                            ? Colors.white
+                                            : Colors.black87,
+                                      ),
+                                    ),
+                                  ),
+                                  if (currentLabel.icon != null) ...[
+                                    const SizedBox(width: 4),
+                                    Icon(
+                                      currentLabel.icon,
+                                      size: 16,
+                                      color: isHeader
+                                          ? Colors.white
+                                          : Colors.black87,
+                                    ),
+                                  ],
+                                ],
                               ),
-                            ),
-                            if (currentLabel.icon != null) ...[
-                              const SizedBox(width: 4),
-                              Icon(
-                                currentLabel.icon,
-                                size: 16,
-                                color: isHeader ? Colors.white : Colors.black87,
-                              ),
-                            ],
-                          ],
-                        ),
                       );
                     }),
                   ),
@@ -140,29 +146,33 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Stack(
-                          alignment: Alignment.bottomLeft,
+                        alignment: Alignment.bottomLeft,
                         children: [
                           SingleChildScrollView(
-                          controller: _scrollController,
-                          scrollDirection: Axis.horizontal,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ...List.generate(currentLabels.length, (rowIndex) {
-                                bool isHeader = widget.isFirstRowHeader && rowIndex == 0;
+                            controller: _scrollController,
+                            scrollDirection: Axis.horizontal,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ...List.generate(currentLabels.length, (
+                                  rowIndex,
+                                ) {
+                                  bool isHeader =
+                                      widget.isFirstRowHeader && rowIndex == 0;
 
-                                return Row(
-                                  children: List.generate(
+                                  return Row(
+                                    children: List.generate(
                                       widget.rowValues[rowIndex].length,
-                                          (colIndex) {
-
+                                      (colIndex) {
                                         // 🔥 NAYA LOGIC WIDGET KO UNWRAP KARNE KE LIYE
-                                        Widget cellWidget = widget.rowValues[rowIndex][colIndex];
+                                        Widget cellWidget = widget
+                                            .rowValues[rowIndex][colIndex];
                                         bool shouldRemovePadding = false;
                                         bool shouldRemoveRightBorder = false;
 
                                         // While loop check karega agar wrapper nested hain
-                                        while (cellWidget is NoPaddingCell || cellWidget is NoRightBorderCell) {
+                                        while (cellWidget is NoPaddingCell ||
+                                            cellWidget is NoRightBorderCell) {
                                           if (cellWidget is NoPaddingCell) {
                                             shouldRemovePadding = true;
                                             cellWidget = cellWidget.child;
@@ -173,29 +183,41 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
                                           }
                                         }
 
-                                        bool isLastColOfThisRow = colIndex == widget.rowValues[rowIndex].length - 1;
+                                        bool isLastColOfThisRow =
+                                            colIndex ==
+                                            widget.rowValues[rowIndex].length -
+                                                1;
 
                                         return _buildCell(
                                           width: widget.dataColumnWidth,
-                                          isLastRow: rowIndex == currentLabels.length - 1,
+                                          isLastRow:
+                                              rowIndex ==
+                                              currentLabels.length - 1,
                                           isLastCol: isLastColOfThisRow,
                                           removePadding: shouldRemovePadding,
-                                          forceNoRightBorder: shouldRemoveRightBorder, // 🔥 FLAG PASS KIYA
-                                          bgColor: isHeader ? const Color(0xFF117A7A) : Colors.white,
-                                          borderColor: isHeader ? Colors.white : Colors.grey.shade300,
-                                          child: cellWidget, // Unwrap kiya hua actual widget
+                                          forceNoRightBorder:
+                                              shouldRemoveRightBorder, // 🔥 FLAG PASS KIYA
+                                          bgColor: isHeader
+                                              ? const Color(0xFF117A7A)
+                                              : Colors.white,
+                                          borderColor: isHeader
+                                              ? Colors.white
+                                              : Colors.grey.shade300,
+                                          child:
+                                              cellWidget, // Unwrap kiya hua actual widget
                                         );
-                                      }),
-                                );
-                              }),
-                            ],
+                                      },
+                                    ),
+                                  );
+                                }),
+                              ],
+                            ),
                           ),
-                        ),
                           SizedBox(
-                            height: 20.0, // Scrollbar container height
+                            height: 10.0, // Scrollbar container height
                             child: _buildCustomDraggableScrollbar(),
                           ),
-                        ]
+                        ],
                       ),
                     ],
                   ),
@@ -227,7 +249,10 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
     return Container(
       height: widget.rowHeight,
       width: width,
-      padding: EdgeInsets.symmetric(horizontal: removePadding ? 0 : 16, vertical: 0),
+      padding: EdgeInsets.symmetric(
+        horizontal: removePadding ? 0 : 16,
+        vertical: 0,
+      ),
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
         color: bgColor,
@@ -235,9 +260,13 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
           bottom: isLastRow
               ? BorderSide.none
               : BorderSide(color: Colors.grey.shade300, width: 2),
-          right: hideRightBorder // 🔥 Yahan logic change hua
+          right:
+              hideRightBorder // 🔥 Yahan logic change hua
               ? BorderSide.none
-              : BorderSide(color: borderColor ?? Colors.grey.shade300, width: 2),
+              : BorderSide(
+                  color: borderColor ?? Colors.grey.shade300,
+                  width: 2,
+                ),
         ),
       ),
       child: child,
@@ -280,7 +309,10 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
       ),
       child: Text(
         number,
-        style: TextStyle(color: Colors.black87, fontWeight: isActive ? FontWeight.w600 : FontWeight.normal),
+        style: TextStyle(
+          color: Colors.black87,
+          fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
+        ),
       ),
     );
   }
@@ -289,8 +321,15 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
     return Container(
       width: 32,
       height: 32,
-      decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: Colors.grey.shade300)),
-      child: Icon(icon, size: 20, color: isDisabled ? Colors.grey.shade400 : Colors.black87),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: Icon(
+        icon,
+        size: 20,
+        color: isDisabled ? Colors.grey.shade400 : Colors.black87,
+      ),
     );
   }
 
@@ -302,20 +341,27 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
         double currentScroll = 0;
 
         // 🔥 FIX: 'hasContentDimensions' add kiya taaki null dimensions par crash na ho
-        if (_scrollController.hasClients && _scrollController.position.hasContentDimensions) {
+        if (_scrollController.hasClients &&
+            _scrollController.position.hasContentDimensions) {
           maxScroll = _scrollController.position.maxScrollExtent;
           currentScroll = _scrollController.offset;
         }
 
         // Percentage calculate karein, 0 se 1 ke beech
-        double scrollFraction = maxScroll > 0 ? (currentScroll / maxScroll).clamp(0.0, 1.0) : 0.0;
+        double scrollFraction = maxScroll > 0
+            ? (currentScroll / maxScroll).clamp(0.0, 1.0)
+            : 0.0;
 
         return LayoutBuilder(
           builder: (context, constraints) {
             double trackWidth = constraints.maxWidth;
             double thumbWidth = 60.0; // Scrollbar thumb ki lambai
-            double maxThumbOffset = (trackWidth - thumbWidth).clamp(0.0, double.infinity);
-            double thumbOffset = scrollFraction * maxThumbOffset; // X-axis par shift
+            double maxThumbOffset = (trackWidth - thumbWidth).clamp(
+              0.0,
+              double.infinity,
+            );
+            double thumbOffset =
+                scrollFraction * maxThumbOffset; // X-axis par shift
 
             return GestureDetector(
               behavior: HitTestBehavior.opaque,
@@ -323,7 +369,8 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
                 if (maxScroll <= 0) return;
 
                 double dragFraction = details.delta.dx / maxThumbOffset;
-                double newScroll = _scrollController.offset + (dragFraction * maxScroll);
+                double newScroll =
+                    _scrollController.offset + (dragFraction * maxScroll);
                 _scrollController.jumpTo(newScroll.clamp(0.0, maxScroll));
               },
               child: Container(
@@ -334,7 +381,7 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
                 child: Transform.translate(
                   offset: Offset(thumbOffset, 0),
                   child: Container(
-                    height: 6.0,
+                    height: 4.0,
                     width: thumbWidth,
                     decoration: BoxDecoration(
                       color: Colors.grey.shade300,
@@ -361,6 +408,7 @@ class NoPaddingCell extends StatelessWidget {
     return child;
   }
 }
+
 class NoRightBorderCell extends StatelessWidget {
   final Widget child;
 
