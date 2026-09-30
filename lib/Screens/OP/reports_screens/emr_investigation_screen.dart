@@ -33,6 +33,8 @@ class EmrInvestigationScreen extends StatefulWidget {
 class _EmrInvestigationScreenState extends State<EmrInvestigationScreen> {
   int _bottomNavIndex = 1;
   int _activeTabIndex = 0; // 0: Lab, 1: Old HIS, 2: PACS, 3: Proc
+  final ScrollController _tabScrollController = ScrollController();
+  final List<GlobalKey> _tabKeys = List.generate(4, (_) => GlobalKey());
 
   final List<String> _tabs = [
     "Lab Reports",
@@ -99,40 +101,112 @@ class _EmrInvestigationScreenState extends State<EmrInvestigationScreen> {
     }
   }
 
+  // Widget _buildTabs() {
+  //   return Container(
+  //     decoration: const BoxDecoration(
+  //       border: Border(bottom: BorderSide(color: Color(0xFFE0E0E0))),
+  //     ),
+  //     child: SingleChildScrollView(
+  //       scrollDirection: Axis.horizontal,
+  //       child: Row(
+  //         children: _tabs.asMap().entries.map((entry) {
+  //           int idx = entry.key;
+  //           String title = entry.value;
+  //           bool isActive = _activeTabIndex == idx;
+  //           return GestureDetector(
+  //             onTap: () => setState(() => _activeTabIndex = idx),
+  //             child: Container(
+  //               padding: const EdgeInsets.only(bottom: 12, right: 16, left: 16),
+  //               decoration: BoxDecoration(
+  //                 border: isActive
+  //                     ? const Border(
+  //                         bottom: BorderSide(
+  //                           color: Color(0xFF117A7A),
+  //                           width: 2,
+  //                         ),
+  //                       )
+  //                     : null,
+  //               ),
+  //               child: Text(
+  //                 title,
+  //                 style: TextStyle(
+  //                   fontSize: 14,
+  //                   fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
+  //                   color: isActive
+  //                       ? const Color(0xFF117A7A)
+  //                       : Colors.grey.shade600,
+  //                 ),
+  //               ),
+  //             ),
+  //           );
+  //         }).toList(),
+  //       ),
+  //     ),
+  //   );
+  // }
+
   Widget _buildTabs() {
     return Container(
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: Color(0xFFE0E0E0))),
       ),
       child: SingleChildScrollView(
+        controller: _tabScrollController,
         scrollDirection: Axis.horizontal,
         child: Row(
           children: _tabs.asMap().entries.map((entry) {
-            int idx = entry.key;
-            String title = entry.value;
-            bool isActive = _activeTabIndex == idx;
-            return GestureDetector(
-              onTap: () => setState(() => _activeTabIndex = idx),
-              child: Container(
-                padding: const EdgeInsets.only(bottom: 12, right: 16, left: 16),
-                decoration: BoxDecoration(
-                  border: isActive
-                      ? const Border(
-                          bottom: BorderSide(
-                            color: Color(0xFF117A7A),
-                            width: 2,
-                          ),
-                        )
-                      : null,
-                ),
-                child: Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
-                    color: isActive
-                        ? const Color(0xFF117A7A)
-                        : Colors.grey.shade600,
+            final int idx = entry.key;
+            final String title = entry.value;
+            final bool isActive = _activeTabIndex == idx;
+
+            return Container(
+              key: _tabKeys[idx],
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _activeTabIndex = idx;
+                  });
+
+                  // Make the selected tab fully visible.
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    final context = _tabKeys[idx].currentContext;
+
+                    if (context != null) {
+                      Scrollable.ensureVisible(
+                        context,
+                        alignment: 0.5,
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                        alignmentPolicy: ScrollPositionAlignmentPolicy.explicit,
+                      );
+                    }
+                  });
+                },
+                child: Container(
+                  padding: const EdgeInsets.only(
+                    bottom: 12,
+                    right: 16,
+                    left: 16,
+                  ),
+                  decoration: BoxDecoration(
+                    border: isActive
+                        ? const Border(
+                            bottom: BorderSide(
+                              color: Color(0xFF117A7A),
+                              width: 2,
+                            ),
+                          )
+                        : null,
+                  ),
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
+                      color: isActive
+                          ? const Color(0xFF117A7A)
+                          : Colors.grey.shade600,
+                    ),
                   ),
                 ),
               ),
@@ -253,7 +327,7 @@ class _EmrInvestigationScreenState extends State<EmrInvestigationScreen> {
     TextEditingController remarkscontroller,
   ) {
     return SizedBox(
-      width: 250, // Slightly wider for this data
+      // width: 180, // Slightly wider for this data
       child: Column(
         children: [
           _buildRightTextCell(inv, 55),
@@ -438,7 +512,7 @@ class _EmrInvestigationScreenState extends State<EmrInvestigationScreen> {
     bool showPdf,
   ) {
     return SizedBox(
-      width: 250,
+      // width: 250,
       child: Column(
         children: [
           _buildRightTextCell(name, 60),
@@ -507,7 +581,7 @@ class _EmrInvestigationScreenState extends State<EmrInvestigationScreen> {
     bool showPdf,
   ) {
     return SizedBox(
-      width: 250,
+      // width: 250,
       child: Column(
         children: [
           _buildRightTextCell(name, 60),
@@ -536,6 +610,65 @@ class _EmrInvestigationScreenState extends State<EmrInvestigationScreen> {
   // ==========================================
   // CORE SYNCHRONIZED TABLE LOGIC
   // ==========================================
+  // Widget _buildSyncedTable({
+  //   required double leftWidth,
+  //   required double rowHeight,
+  //   required List<String> labels,
+  //   required List<Widget> rightCols,
+  // }) {
+  //   return Container(
+  //     decoration: BoxDecoration(
+  //       color: Colors.white,
+  //       borderRadius: BorderRadius.circular(8),
+  //       border: Border.all(color: Colors.grey.shade300),
+  //     ),
+  //     child: ClipRRect(
+  //       borderRadius: BorderRadius.circular(8),
+  //       child: Row(
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           // Left Fixed Column
+  //           Container(
+  //             width: leftWidth,
+  //             decoration: BoxDecoration(
+  //               color: const Color(0xFFEAF9F9),
+  //               border: Border(right: BorderSide(color: Colors.grey.shade300)),
+  //             ),
+  //             child: Column(
+  //               children: labels.map((label) {
+  //                 return Column(
+  //                   children: [
+  //                     _buildLeftCell(label, rowHeight),
+  //                     if (label != labels.last) _buildDivider(),
+  //                   ],
+  //                 );
+  //               }).toList(),
+  //             ),
+  //           ),
+  //           // Right Scrollable Column
+  //           Expanded(
+  //             child: SingleChildScrollView(
+  //               scrollDirection: Axis.horizontal,
+  //               child: IntrinsicWidth(
+  //                 child: Row(
+  //                   children: rightCols.map((col) {
+  //                     return Row(
+  //                       children: [
+  //                         col,
+  //                         if (col != rightCols.last)
+  //                           Container(width: 1, color: Colors.grey.shade300),
+  //                       ],
+  //                     );
+  //                   }).toList(),
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
   Widget _buildSyncedTable({
     required double leftWidth,
     required double rowHeight,
@@ -553,41 +686,61 @@ class _EmrInvestigationScreenState extends State<EmrInvestigationScreen> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Left Fixed Column
-            Container(
+            // LEFT COLUMN
+            SizedBox(
               width: leftWidth,
-              decoration: BoxDecoration(
-                color: const Color(0xFFEAF9F9),
-                border: Border(right: BorderSide(color: Colors.grey.shade300)),
-              ),
-              child: Column(
-                children: labels.map((label) {
-                  return Column(
-                    children: [
-                      _buildLeftCell(label, rowHeight),
-                      if (label != labels.last) _buildDivider(),
-                    ],
-                  );
-                }).toList(),
-              ),
-            ),
-            // Right Scrollable Column
-            Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: IntrinsicWidth(
-                  child: Row(
-                    children: rightCols.map((col) {
-                      return Row(
-                        children: [
-                          col,
-                          if (col != rightCols.last)
-                            Container(width: 1, color: Colors.grey.shade300),
-                        ],
-                      );
-                    }).toList(),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFFEAF9F9),
+                  border: Border(
+                    right: BorderSide(color: Colors.grey.shade300),
                   ),
                 ),
+                child: Column(
+                  children: labels.map((label) {
+                    return Column(
+                      children: [
+                        _buildLeftCell(label, rowHeight),
+                        if (label != labels.last) _buildDivider(),
+                      ],
+                    );
+                  }).toList(),
+                ),
+              ),
+            ),
+
+            // RIGHT SIDE
+            Expanded(
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final availableWidth = constraints.maxWidth;
+
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: SizedBox(
+                      width: availableWidth,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: rightCols.map((col) {
+                          return Expanded(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(child: col),
+
+                                if (col != rightCols.last)
+                                  Container(
+                                    width: 1,
+                                    color: Colors.grey.shade300,
+                                  ),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           ],

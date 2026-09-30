@@ -2437,7 +2437,7 @@ class _CirculatorySystemScreenState extends State<CirculatorySystemScreen> {
           _buildFormTile(
             "Circulatory Examination 1",
             ScrollableDataTable(
-              dataColumnWidth: 950.0,
+              dataColumnWidth: 795.0,
               tableLabels: [
                 TableLabel(text: 'Peripheral Pulse'),
                 TableLabel(text: 'Rhythm'),
@@ -2468,6 +2468,7 @@ class _CirculatorySystemScreenState extends State<CirculatorySystemScreen> {
                       setState(() => perPulse = v);
                     },
                     controller: _perPulseCtrl,
+                    optionsWidth: 570.0,
                   ),
                 ],
 
@@ -2480,6 +2481,7 @@ class _CirculatorySystemScreenState extends State<CirculatorySystemScreen> {
                       setState(() => rhythm = v);
                     },
                     controller: _rhythmCtrl,
+                    optionsWidth: 570.0,
                   ),
                 ],
 
@@ -2497,6 +2499,7 @@ class _CirculatorySystemScreenState extends State<CirculatorySystemScreen> {
                       setState(() => apex = v);
                     },
                     controller: _apexCtrl,
+                    optionsWidth: 570.0,
                   ),
                 ],
 
@@ -2509,6 +2512,7 @@ class _CirculatorySystemScreenState extends State<CirculatorySystemScreen> {
                       setState(() => rfDelay = v);
                     },
                     controller: _rfDelayCtrl,
+                    optionsWidth: 570.0,
                   ),
                 ],
 
@@ -2521,6 +2525,7 @@ class _CirculatorySystemScreenState extends State<CirculatorySystemScreen> {
                       setState(() => allPulses = v);
                     },
                     controller: _allPulsesCtrl,
+                    optionsWidth: 570.0,
                   ),
                 ],
 
@@ -2533,6 +2538,7 @@ class _CirculatorySystemScreenState extends State<CirculatorySystemScreen> {
                       setState(() => cardio = v);
                     },
                     controller: _cardioCtrl,
+                    optionsWidth: 570.0,
                   ),
                 ],
 
@@ -2545,6 +2551,7 @@ class _CirculatorySystemScreenState extends State<CirculatorySystemScreen> {
                       setState(() => s1 = v);
                     },
                     controller: _s1Ctrl,
+                    optionsWidth: 570.0,
                   ),
                 ],
 
@@ -2557,6 +2564,7 @@ class _CirculatorySystemScreenState extends State<CirculatorySystemScreen> {
                       setState(() => s2 = v);
                     },
                     controller: _s2Ctrl,
+                    optionsWidth: 570.0,
                   ),
                 ],
 
@@ -2575,6 +2583,7 @@ class _CirculatorySystemScreenState extends State<CirculatorySystemScreen> {
                       setState(() => s2Split = v);
                     },
                     controller: _s2SplitCtrl,
+                    optionsWidth: 570.0,
                   ),
                 ],
 
@@ -2587,6 +2596,7 @@ class _CirculatorySystemScreenState extends State<CirculatorySystemScreen> {
                       setState(() => s3 = v);
                     },
                     controller: _s3Ctrl,
+                    optionsWidth: 570.0,
                   ),
                 ],
 
@@ -2599,6 +2609,7 @@ class _CirculatorySystemScreenState extends State<CirculatorySystemScreen> {
                       setState(() => s4 = v);
                     },
                     controller: _s4Ctrl,
+                    optionsWidth: 570.0,
                   ),
                 ],
 
@@ -2611,6 +2622,7 @@ class _CirculatorySystemScreenState extends State<CirculatorySystemScreen> {
                       setState(() => rub = v);
                     },
                     controller: _rubCtrl,
+                    optionsWidth: 570.0,
                   ),
                 ],
               ],
@@ -2879,14 +2891,18 @@ class _CirculatorySystemScreenState extends State<CirculatorySystemScreen> {
             readOnly: true,
             controller: controller,
             style: const TextStyle(fontSize: 13, color: Colors.grey),
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               filled: true,
               fillColor: const Color(0xFFF8F9FA),
-              contentPadding: EdgeInsets.symmetric(
+              contentPadding: const EdgeInsets.symmetric(
                 horizontal: 12,
                 vertical: 10,
               ),
-              border: InputBorder.none,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(6),
+                borderSide: BorderSide.none,
+              ),
+
               isDense: true,
             ),
           ),
@@ -3021,7 +3037,7 @@ class _DigestiveSystemScreenState extends State<DigestiveSystemScreen> {
           _buildFormTile(
             "Digestive Examination 1",
             ScrollableDataTable(
-              dataColumnWidth: 950.0,
+              dataColumnWidth: 445.0,
               tableLabels: [
                 TableLabel(text: "Liver"),
                 TableLabel(text: "Spleen"),
@@ -3532,7 +3548,7 @@ class _ReproductiveSystemScreenState extends State<ReproductiveSystemScreen> {
           _buildFormTile(
             "Urinary / Reproductive Examination",
             ScrollableDataTable(
-              dataColumnWidth: 950.0,
+              dataColumnWidth: 445.0,
               tableLabels: [
                 TableLabel(text: "Abdominal Lump"),
                 TableLabel(text: "Renal Angle Tenderness"),
@@ -3604,54 +3620,77 @@ class _ReproductiveSystemScreenState extends State<ReproductiveSystemScreen> {
           ),
           const SizedBox(height: 16),
 
+          // _buildFormTile(
+          //   "Rectal Exam",
+          //   ScrollableDataTable(
+          //     dataColumnWidth: 200.0,
+          //     tableLabels: [
+          //       TableLabel(text: "Anal Tone"),
+          //       TableLabel(text: "Perineal Sensation"),
+          //       TableLabel(text: "BCR"),
+          //       TableLabel(text: "Rectal Growth"),
+          //       TableLabel(text: "Others"),
+          //     ],
+          //     rowValues: [
+          //       [_buildScrollableTextField(_recAnalToneCtrl)],
+          //       [_buildScrollableTextField(_recPerinealCtrl)],
+          //       [_buildScrollableTextField(_recBcrCtrl)],
+          //       [_buildScrollableTextField(_recGrowthCtrl)],
+          //       [_buildScrollableTextField(_recOthersCtrl)],
+          //     ],
+          //   ),
+          // ),
+          // const SizedBox(height: 16),
+
+          // _buildFormTile(
+          //   "Prostate",
+          //   ScrollableDataTable(
+          //     dataColumnWidth: 200.0,
+          //     tableLabels: [
+          //       TableLabel(text: "Consistency"),
+          //       TableLabel(text: "Nodularity"),
+          //       TableLabel(text: "Size"),
+          //       TableLabel(text: "Tenderness"),
+          //       TableLabel(text: "Rectal Mucosa"),
+          //     ],
+          //     rowValues: [
+          //       [_buildScrollableTextField(_prosConsistencyCtrl)],
+          //       [_buildScrollableTextField(_prosNodularityCtrl)],
+          //       [_buildScrollableTextField(_prosSizeCtrl)],
+          //       [_buildScrollableTextField(_prosTendernessCtrl)],
+          //       [_buildScrollableTextField(_prosMucosaCtrl)],
+          //     ],
+          //   ),
+          // ),
+          // const SizedBox(height: 16),
           _buildFormTile(
             "Rectal Exam",
-            ScrollableDataTable(
-              dataColumnWidth: 700.0,
-              tableLabels: [
-                TableLabel(text: "Anal Tone"),
-                TableLabel(text: "Perineal Sensation"),
-                TableLabel(text: "BCR"),
-                TableLabel(text: "Rectal Growth"),
-                TableLabel(text: "Others"),
-              ],
-              rowValues: [
-                [_buildScrollableTextField(_recAnalToneCtrl)],
-                [_buildScrollableTextField(_recPerinealCtrl)],
-                [_buildScrollableTextField(_recBcrCtrl)],
-                [_buildScrollableTextField(_recGrowthCtrl)],
-                [_buildScrollableTextField(_recOthersCtrl)],
-              ],
-            ),
+            _buildTextTable([
+              _TData("Anal Tone", _recAnalToneCtrl),
+              _TData("Perineal Sensation", _recPerinealCtrl),
+              _TData("BCR", _recBcrCtrl),
+              _TData("Rectal Growth", _recGrowthCtrl),
+              _TData("Others", _recOthersCtrl),
+            ]),
           ),
           const SizedBox(height: 16),
 
           _buildFormTile(
             "Prostate",
-            ScrollableDataTable(
-              dataColumnWidth: 700.0,
-              tableLabels: [
-                TableLabel(text: "Consistency"),
-                TableLabel(text: "Nodularity"),
-                TableLabel(text: "Size"),
-                TableLabel(text: "Tenderness"),
-                TableLabel(text: "Rectal Mucosa"),
-              ],
-              rowValues: [
-                [_buildScrollableTextField(_prosConsistencyCtrl)],
-                [_buildScrollableTextField(_prosNodularityCtrl)],
-                [_buildScrollableTextField(_prosSizeCtrl)],
-                [_buildScrollableTextField(_prosTendernessCtrl)],
-                [_buildScrollableTextField(_prosMucosaCtrl)],
-              ],
-            ),
+            _buildTextTable([
+              _TData("Consistency", _prosConsistencyCtrl),
+              _TData("Nodularity", _prosNodularityCtrl),
+              _TData("Size", _prosSizeCtrl),
+              _TData("Tenderness", _prosTendernessCtrl),
+              _TData("Rectal Mucosa", _prosMucosaCtrl),
+            ]),
           ),
           const SizedBox(height: 16),
 
           _buildFormTile(
             "Gait & Limb Deformity",
             ScrollableDataTable(
-              dataColumnWidth: 700.0,
+              dataColumnWidth: 445.0,
               tableLabels: [
                 TableLabel(text: "Gait Deformity"),
                 TableLabel(text: "Limb Deformity"),
@@ -3690,7 +3729,7 @@ class _ReproductiveSystemScreenState extends State<ReproductiveSystemScreen> {
           _buildFormTile(
             "Genital Examination",
             ScrollableDataTable(
-              dataColumnWidth: 700.0,
+              dataColumnWidth: 445.0,
               tableLabels: [
                 TableLabel(text: "Prepuce"),
                 TableLabel(text: "Testis"),
@@ -3756,7 +3795,7 @@ class _ReproductiveSystemScreenState extends State<ReproductiveSystemScreen> {
           _buildFormTile(
             "Vascular Access",
             ScrollableDataTable(
-              dataColumnWidth: 700.0,
+              dataColumnWidth: 445.0,
               tableLabels: [
                 TableLabel(text: "AVF"),
                 TableLabel(text: "CAPD"),
@@ -3989,7 +4028,7 @@ class _EyeSystemScreenState extends State<EyeSystemScreen> {
           _buildFormTile(
             "Eye Examination 1",
             ScrollableDataTable(
-              dataColumnWidth: 700.0,
+              dataColumnWidth: 400.0,
               tableLabels: [
                 TableLabel(text: "Head Posture"),
                 TableLabel(text: "Position of Eye"),
@@ -4181,119 +4220,261 @@ Widget _buildFormTile(String title, Widget tableContent) {
 // -----------------------------------------------------------------------------
 // UPDATED: Fixed-Left, Scrollable-Right Standard Text Table
 // -----------------------------------------------------------------------------
+// Widget _buildTextTable(List<_TData> rows) {
+//     const double rowHeight = 64.0;
+//   const double leftWidth = 150.0;
+
+//   return Container(
+//     decoration: BoxDecoration(
+//       border: Border(top: BorderSide(color: Colors.grey.shade300)),
+//     ),
+//     child: Row(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//         // FIXED LEFT COLUMN
+//         Container(
+//           width: 150,
+//           decoration: BoxDecoration(
+//             color: const Color(0xFFEAF9F9),
+//             border: Border(right: BorderSide(color: Colors.grey.shade300)),
+//           ),
+//           child: Column(
+//             children: rows
+//                 .map(
+//                   (data) => Container(
+//                     height: rowHeight,
+//                     padding: const EdgeInsets.symmetric(horizontal: 16),
+//                     alignment: Alignment.centerLeft,
+//                     decoration: BoxDecoration(
+//                       border: Border(
+//                         bottom: rows.last == data
+//                             ? BorderSide.none
+//                             : BorderSide(color: Colors.grey.shade300),
+//                       ),
+//                     ),
+//                     child: Text(
+//                       data.label,
+//                       style: const TextStyle(
+//                         fontWeight: FontWeight.w600,
+//                         fontSize: 13,
+//                         color: Colors.black87,
+//                       ),
+//                     ),
+//                   ),
+//                 )
+//                 .toList(),
+//           ),
+//         ),
+
+//         // SCROLLABLE RIGHT COLUMN
+//         Expanded(
+//           child: SingleChildScrollView(
+//             scrollDirection: Axis.horizontal,
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: rows
+//                   .map(
+//                     (data) => Container(
+//                       height: rowHeight,
+//                       width:
+//                           320, // Forces inputs to maintain nice width while allowing scroll
+//                       padding: const EdgeInsets.symmetric(
+//                         horizontal: 12,
+//                         vertical: 12,
+//                       ),
+//                       alignment: Alignment.centerLeft,
+//                       decoration: BoxDecoration(
+//                         border: Border(
+//                           bottom: rows.last == data
+//                               ? BorderSide.none
+//                               : BorderSide(color: Colors.grey.shade300),
+//                         ),
+//                       ),
+//                       child:
+//                           data.customWidget ??
+//                           Container(
+//                             height: 40,
+//                             decoration: BoxDecoration(
+//                               borderRadius: BorderRadius.circular(6),
+//                               border: Border.all(color: Colors.grey.shade300),
+//                             ),
+//                             child: TextField(
+//                               readOnly: true,
+
+//                               controller: data.controller,
+//                               style: const TextStyle(fontSize: 13),
+//                               decoration: InputDecoration(
+//                                 border: OutlineInputBorder(
+//                                   borderRadius: BorderRadius.circular(8),
+//                                   borderSide: BorderSide.none,
+//                                 ),
+//                                 enabledBorder: OutlineInputBorder(
+//                                   borderRadius: BorderRadius.circular(8),
+//                                   borderSide: BorderSide.none,
+//                                 ),
+//                                 focusedBorder: OutlineInputBorder(
+//                                   borderRadius: BorderRadius.circular(8),
+//                                   borderSide: BorderSide.none,
+//                                 ),
+//                                 filled: true,
+//                                 fillColor: const Color(0xFFF8F9FA),
+//                                 contentPadding: EdgeInsets.symmetric(
+//                                   horizontal: 12,
+//                                   vertical: 10,
+//                                 ),
+//                                 // border: InputBorder.none,
+//                                 isDense: true,
+//                               ),
+//                             ),
+//                           ),
+//                     ),
+//                   )
+//                   .toList(),
+//             ),
+//           ),
+//         ),
+//       ],
+//     ),
+//   );
+// }
+
 Widget _buildTextTable(List<_TData> rows) {
   const double rowHeight = 64.0;
+  const double leftWidth = 150.0;
 
   return Container(
     decoration: BoxDecoration(
-      border: Border(top: BorderSide(color: Colors.grey.shade300)),
+      border: Border.all(color: Colors.grey.shade300),
+      borderRadius: BorderRadius.circular(8),
     ),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // FIXED LEFT COLUMN
-        Container(
-          width: 150,
-          decoration: BoxDecoration(
-            color: const Color(0xFFEAF9F9),
-            border: Border(right: BorderSide(color: Colors.grey.shade300)),
-          ),
-          child: Column(
-            children: rows
-                .map(
-                  (data) => Container(
-                    height: rowHeight,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: rows.last == data
-                            ? BorderSide.none
-                            : BorderSide(color: Colors.grey.shade300),
-                      ),
-                    ),
-                    child: Text(
-                      data.label,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 13,
-                        color: Colors.black87,
-                      ),
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final double availableRightWidth = constraints.maxWidth - leftWidth;
+
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // FIXED LEFT COLUMN
+              SizedBox(
+                width: leftWidth,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFEAF9F9),
+                    border: Border(
+                      right: BorderSide(color: Colors.grey.shade300),
                     ),
                   ),
-                )
-                .toList(),
-          ),
-        ),
-
-        // SCROLLABLE RIGHT COLUMN
-        Expanded(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: rows
-                  .map(
-                    (data) => Container(
-                      height: rowHeight,
-                      width:
-                          320, // Forces inputs to maintain nice width while allowing scroll
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 12,
-                      ),
-                      alignment: Alignment.centerLeft,
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: rows.last == data
-                              ? BorderSide.none
-                              : BorderSide(color: Colors.grey.shade300),
+                  child: Column(
+                    children: rows.map((data) {
+                      return Container(
+                        height: rowHeight,
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        alignment: Alignment.centerLeft,
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: rows.last == data
+                                ? BorderSide.none
+                                : BorderSide(color: Colors.grey.shade300),
+                          ),
                         ),
-                      ),
-                      child:
-                          data.customWidget ??
-                          Container(
-                            height: 40,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6),
-                              border: Border.all(color: Colors.grey.shade300),
-                            ),
-                            child: TextField(
-                              readOnly: true,
+                        child: Text(
+                          data.label,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
 
-                              controller: data.controller,
-                              style: const TextStyle(fontSize: 13),
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide.none,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide.none,
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide.none,
-                                ),
-                                filled: true,
-                                fillColor: const Color(0xFFF8F9FA),
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 10,
-                                ),
-                                // border: InputBorder.none,
-                                isDense: true,
-                              ),
+              // RIGHT SIDE
+              Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(minWidth: availableRightWidth),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: rows.map((data) {
+                        return Container(
+                          height: rowHeight,
+
+                          // Don't force 320 here.
+                          // It will use the available width unless
+                          // the custom widget itself needs more.
+                          width: availableRightWidth,
+
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 12,
+                          ),
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: rows.last == data
+                                  ? BorderSide.none
+                                  : BorderSide(color: Colors.grey.shade300),
                             ),
                           ),
+                          child: SizedBox(
+                            width: double.infinity,
+                            child:
+                                data.customWidget ??
+                                Container(
+                                  height: 40,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(6),
+                                    border: Border.all(
+                                      color: Colors.grey.shade300,
+                                    ),
+                                  ),
+                                  child: TextField(
+                                    readOnly: true,
+
+                                    controller: data.controller,
+                                    style: const TextStyle(fontSize: 13),
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(6),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(6),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(6),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      filled: true,
+                                      fillColor: const Color(0xFFF8F9FA),
+                                      contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 12,
+                                        vertical: 10,
+                                      ),
+                                      // border: InputBorder.none,
+                                      isDense: true,
+                                    ),
+                                  ),
+                                ),
+                          ),
+                        );
+                      }).toList(),
                     ),
-                  )
-                  .toList(),
-            ),
-          ),
-        ),
-      ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     ),
   );
 }
@@ -4545,6 +4726,7 @@ Widget _buildScrollableTextField(TextEditingController controller) {
     height: 64,
     alignment: Alignment.centerLeft,
     child: Container(
+      width: 160,
       // width: 100,
       height: 40,
       decoration: BoxDecoration(
@@ -4557,15 +4739,15 @@ Widget _buildScrollableTextField(TextEditingController controller) {
         style: const TextStyle(fontSize: 13, color: Colors.grey),
         decoration: InputDecoration(
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(6),
             borderSide: BorderSide.none,
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(6),
             borderSide: BorderSide.none,
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(6),
             borderSide: BorderSide.none,
           ),
           filled: true,

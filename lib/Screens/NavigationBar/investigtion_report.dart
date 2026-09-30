@@ -47,7 +47,6 @@ class InvestigtionReport extends StatefulWidget {
 }
 
 class _OpConsultationState extends State<InvestigtionReport> {
-
   final fromController = TextEditingController();
   final toController = TextEditingController();
 
@@ -62,13 +61,11 @@ class _OpConsultationState extends State<InvestigtionReport> {
 
   bool isSelected = false;
 
-  bool _action_a = true ;
-  bool _action_b = false ;
-  bool _action_c = false ;
-  bool _action_d = false ;
-  bool _action_e = true ;
-
-
+  bool _action_a = true;
+  bool _action_b = false;
+  bool _action_c = false;
+  bool _action_d = false;
+  bool _action_e = true;
 
   String formatDate(DateTime date) {
     return "${date.day.toString().padLeft(2, '0')}-"
@@ -83,7 +80,11 @@ class _OpConsultationState extends State<InvestigtionReport> {
 
     // 2. AppBar, SafeArea (notch/status bar) aur Bottom Nav ke hisaab se height minus karein.
     // (Approx 160-180 pixels top aur bottom ke UI elements le lete hain)
-    double availableHeight = screenHeight - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom - 160;
+    double availableHeight =
+        screenHeight -
+        MediaQuery.of(context).padding.top -
+        MediaQuery.of(context).padding.bottom -
+        160;
 
     return ClinicalBaseScaffold(
       title: "Investigation Reports",
@@ -96,10 +97,8 @@ class _OpConsultationState extends State<InvestigtionReport> {
       // 3. Yahan humne ek fixed height de di hai, ab koi RenderFlex error nahi aayega!
       child: Column(
         children: [
-
           // 4. Upar ka content Expanded + Scrollable rahega
-
-           Expanded(
+          Expanded(
             child: SingleChildScrollView(
               // padding: const EdgeInsets.only(bottom: 20), // Thodi bottom padding taaki content button se na chipke
               child: Column(
@@ -118,26 +117,21 @@ class _OpConsultationState extends State<InvestigtionReport> {
               ),
             ),
           ),
-            // 5. Ye button Column ke end me, yani available height ke bottom me fix rahega
-            Container(
-              color: Colors.transparent,
-              padding:  EdgeInsets.only(bottom: screenHeight * 0.16,top: 16 ),
-              child: AppSaveButton(text: 'Print',onPressed: () {},),
-            ),
-
+          // 5. Ye button Column ke end me, yani available height ke bottom me fix rahega
+          Container(
+            color: Colors.transparent,
+            padding: EdgeInsets.only(bottom: screenHeight * 0.18),
+            child: AppSaveButton(text: 'Print', onPressed: () {}),
+          ),
         ],
       ),
     );
   }
 
-
-
   Widget _buildSearchOrder() {
     return CustomExpansionFrame(
       title: 'Search Orders',
       children: [
-
-
         SharedComponents.buildFormLabel('From Date'),
         const SizedBox(height: 8),
         AppDateField(
@@ -176,7 +170,7 @@ class _OpConsultationState extends State<InvestigtionReport> {
         ),
         const SizedBox(height: 16),
 
-        SharedComponents.buildFormLabel('Department',),
+        SharedComponents.buildFormLabel('Department'),
         const SizedBox(height: 8),
         FunctionalDropdown(
           value: _department,
@@ -186,25 +180,22 @@ class _OpConsultationState extends State<InvestigtionReport> {
         ),
         const SizedBox(height: 16),
 
-        SharedComponents.buildFormLabel('Service Center', ),
+        SharedComponents.buildFormLabel('Service Center'),
         const SizedBox(height: 8),
         FunctionalDropdown(
           value: _service,
           hint: '--Select--',
-          items: ['--Select--','All','Few'],
+          items: ['--Select--', 'All', 'Few'],
           onChanged: (val) => setState(() => _service = val),
         ),
         const SizedBox(height: 24),
 
         SizedBox(
-            width: 120,
-            height: 40,
-            child: AppSaveButton(text: 'Search',onPressed: (){},)),
+          width: 120,
+          height: 40,
+          child: AppSaveButton(text: 'Search', onPressed: () {}),
+        ),
         const SizedBox(height: 16),
-
-
-
-
       ],
     );
   }
@@ -237,7 +228,7 @@ class _OpConsultationState extends State<InvestigtionReport> {
             ),
           ],
         ),
-        const SizedBox(height: 16,),
+        const SizedBox(height: 16),
       ],
     );
   }
@@ -262,19 +253,11 @@ class _OpConsultationState extends State<InvestigtionReport> {
             DetailRow(label: 'Req. Date', text: '08-06-2025'),
             DetailRow(label: 'Service Center', text: 'Clinical Chemistry'),
             DetailRow(label: 'Service Department', text: 'Pathology'),
-            DetailRow(
-              isLast: true,
-              label: 'Requested By',
-              text: 'Admin',
-            ),
+            DetailRow(isLast: true, label: 'Requested By', text: 'Admin'),
           ],
         ),
-        const SizedBox(height: 16,),
+        const SizedBox(height: 16),
       ],
     );
   }
-
-
 }
-
-

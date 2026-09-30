@@ -467,7 +467,8 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
       initiallyExpanded: true,
       children: [
         ScrollableDataTable(
-          dataColumnWidth: 950.0,
+          dataColumnWidth: 545.0,
+
           tableLabels: [
             TableLabel(text: 'General\nAppearance'),
             TableLabel(text: 'Nutritional Status'),
@@ -490,6 +491,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                   setState(() => genApp = val);
                 },
                 controller: _genAppRemController,
+                optionsWidth: 320.0,
               ),
             ],
 
@@ -502,6 +504,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                   setState(() => nutStatus = val);
                 },
                 controller: _nutStatusRemController,
+                optionsWidth: 320.0,
               ),
             ],
 
@@ -514,6 +517,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                   setState(() => ent = val);
                 },
                 controller: _entRemController,
+                optionsWidth: 320.0,
               ),
             ],
 
@@ -526,6 +530,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                   setState(() => pallor = val);
                 },
                 controller: _pallorRemController,
+                optionsWidth: 320.0,
               ),
             ],
 
@@ -538,6 +543,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                   setState(() => jaundice = val);
                 },
                 controller: _jaundiceRemController,
+                optionsWidth: 320.0,
               ),
             ],
 
@@ -550,6 +556,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                   setState(() => cyanosis = val);
                 },
                 controller: _cyanosisRemController,
+                optionsWidth: 320.0,
               ),
             ],
 
@@ -562,6 +569,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                   setState(() => clubbing = val);
                 },
                 controller: _clubbingRemController,
+                optionsWidth: 320.0,
               ),
             ],
 
@@ -574,6 +582,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                   setState(() => jvp = val);
                 },
                 controller: _jvpRemController,
+                optionsWidth: 320.0,
               ),
             ],
 
@@ -586,6 +595,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                   setState(() => edema = val);
                 },
                 controller: _edemaRemController,
+                optionsWidth: 320.0,
               ),
             ],
 
@@ -598,6 +608,7 @@ class _EmrExaminationScreenState extends State<EmrExaminationScreen> {
                   setState(() => lymphNode = val);
                 },
                 controller: _lymphNodeRemController,
+                optionsWidth: 320.0,
               ),
             ],
           ],

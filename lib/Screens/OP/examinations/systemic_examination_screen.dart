@@ -193,7 +193,7 @@ class _SystemicExaminationScreenState extends State<SystemicExaminationScreen> {
           const TableText('Endicrine System'),
           const TableText('Immune System'),
           const TableText('Muscloskeletel System'),
-          const TableText('Unary/Reproductive System'),
+          const TableText('Urinary/Reproductive System'),
           const TableText('Eye'),
         ],
 
