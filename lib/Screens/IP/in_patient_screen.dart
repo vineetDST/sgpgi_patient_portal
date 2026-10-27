@@ -659,15 +659,21 @@ class _InPatientScreenState extends State<InPatientScreen> {
                                 width: 60,
                                 alignment: Alignment.center,
                                 child: AnimatedContainer(
-                                  duration: const Duration(milliseconds: 200), // स्मूथ ट्रांजिशन के लिए
+                                  duration: const Duration(
+                                    milliseconds: 200,
+                                  ), // स्मूथ ट्रांजिशन के लिए
                                   height: 20,
                                   width: 20,
-                                  padding: const EdgeInsets.all(3.5), // ये पैडिंग बीच के व्हाइट गैप को कंट्रोल करेगी
+                                  padding: const EdgeInsets.all(
+                                    3.5,
+                                  ), // ये पैडिंग बीच के व्हाइट गैप को कंट्रोल करेगी
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     // सिलेक्ट होने पर बाहरी बॉर्डर ग्रीन होगा, अनसिलेक्ट होने पर ग्रे
                                     border: Border.all(
-                                      color: row['selected'] == true ? const Color(0xFF117A7A) : Colors.grey.shade400,
+                                      color: row['selected'] == true
+                                          ? const Color(0xFF117A7A)
+                                          : Colors.grey.shade400,
                                       width: 2,
                                     ),
                                     // बाहरी सर्कल का बैकग्राउंड कलर हमेशा व्हाइट रहेगा
@@ -675,11 +681,13 @@ class _InPatientScreenState extends State<InPatientScreen> {
                                   ),
                                   child: row['selected'] == true
                                       ? Container(
-                                    decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color(0xFF117A7A), // सिलेक्ट होने पर अंदर का छोटा डॉट ग्रीन होगा
-                                    ),
-                                  )
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Color(
+                                              0xFF117A7A,
+                                            ), // सिलेक्ट होने पर अंदर का छोटा डॉट ग्रीन होगा
+                                          ),
+                                        )
                                       : null, // अनसिलेक्ट होने पर अंदर कुछ नहीं दिखेगा (सिर्फ़ खाली ग्रे बॉर्डर वाला सर्कल)
                                 ),
                               ),
@@ -791,7 +799,10 @@ class _InPatientScreenState extends State<InPatientScreen> {
                     alignment: Alignment.centerLeft,
                     child: const Text(
                       "Action",
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                      ),
                     ),
                   ),
                 ),
@@ -875,9 +886,6 @@ class _InPatientScreenState extends State<InPatientScreen> {
   }
 
   void _showFilterSidebarAdmittedPateint() {
-
-
-
     AppFilterDialog.show(
       context: context,
       title: "Search Crieteria",
@@ -885,11 +893,9 @@ class _InPatientScreenState extends State<InPatientScreen> {
 
       child: _FilterSidebar1(),
     );
-
   }
 
   void _showFilterSidebarReferal() {
-
     AppFilterDialog.show(
       context: context,
       title: "Search Crieteria",
@@ -897,7 +903,6 @@ class _InPatientScreenState extends State<InPatientScreen> {
 
       child: _FilterSidebar2(),
     );
-
   }
 
   void _showBlockBedModal() {
@@ -1055,7 +1060,7 @@ class _InPatientScreenState extends State<InPatientScreen> {
                           rootNavigator: true,
                         ).pop(); // ✅ sirf dialog close
 
-                        await Future.delayed(const Duration(milliseconds: 100));
+                        // await Future.delayed(const Duration(milliseconds: 100));
 
                         _showPendingRequestDialog(parentContext);
                       },
@@ -1128,7 +1133,6 @@ class _InPatientScreenState extends State<InPatientScreen> {
                               size: 20,
                             ),
                           ),
-
 
                           // --- UPDATED: Wrapped in GestureDetector to trigger the modal ---
                           GestureDetector(
@@ -1232,7 +1236,6 @@ class _FilterSidebar1 extends StatefulWidget {
 }
 
 class _OrderSetFilterSidebarState1 extends State<_FilterSidebar1> {
-
   String? _patientStatus = 'Patient Status';
   String? _ls1 = 'Is';
   String? _ipcare = 'Under IP Care';
@@ -1244,25 +1247,15 @@ class _OrderSetFilterSidebarState1 extends State<_FilterSidebar1> {
   String? _crno_value = '2025000653';
   String activeLabel = '';
 
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min, // Hugs content
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         Align(
           alignment: Alignment.centerRight,
-          child: const Icon(
-            Icons.remove_circle,
-            color: Colors.red,
-            size: 20,
-          ),
+          child: const Icon(Icons.remove_circle, color: Colors.red, size: 20),
         ),
         const SizedBox(height: 8),
 
@@ -1272,14 +1265,8 @@ class _OrderSetFilterSidebarState1 extends State<_FilterSidebar1> {
               flex: 2,
               child: ExpandedDropdown(
                 value: _patientStatus,
-                items: [
-                  "Status 1",
-                  "Status 2",
-                  "Status 3",
-                  "Status 4",
-                ],
-                onChanged: (v) =>
-                    setState(() => _patientStatus = v),
+                items: ["Status 1", "Status 2", "Status 3", "Status 4"],
+                onChanged: (v) => setState(() => _patientStatus = v),
               ),
             ),
             const SizedBox(width: 16),
@@ -1289,8 +1276,7 @@ class _OrderSetFilterSidebarState1 extends State<_FilterSidebar1> {
               child: ExpandedDropdown(
                 value: _ls1,
                 items: ["LS 1", "LS 2", "LS 3", "LS 4"],
-                onChanged: (v) =>
-                    setState(() => _ls1 = v),
+                onChanged: (v) => setState(() => _ls1 = v),
               ),
             ),
           ],
@@ -1307,18 +1293,13 @@ class _OrderSetFilterSidebarState1 extends State<_FilterSidebar1> {
             "Under IP Care",
             "Waiting For Admission",
           ],
-          onChanged: (val) =>
-              setState(() => _ipcare = val),
+          onChanged: (val) => setState(() => _ipcare = val),
         ),
         const SizedBox(height: 24),
         // Second Block
         Align(
           alignment: Alignment.centerRight,
-          child: const Icon(
-            Icons.remove_circle,
-            color: Colors.red,
-            size: 20,
-          ),
+          child: const Icon(Icons.remove_circle, color: Colors.red, size: 20),
         ),
         const SizedBox(height: 8),
         Row(
@@ -1333,8 +1314,7 @@ class _OrderSetFilterSidebarState1 extends State<_FilterSidebar1> {
                   "Department 3",
                   "Department 4",
                 ],
-                onChanged: (v) =>
-                    setState(() => _department = v),
+                onChanged: (v) => setState(() => _department = v),
               ),
             ),
             const SizedBox(width: 16),
@@ -1343,8 +1323,7 @@ class _OrderSetFilterSidebarState1 extends State<_FilterSidebar1> {
               child: ExpandedDropdown(
                 value: _ls2,
                 items: ["LS 1", "LS 2", "LS 3", "LS 4"],
-                onChanged: (v) =>
-                    setState(() => _ls2 = v),
+                onChanged: (v) => setState(() => _ls2 = v),
               ),
             ),
           ],
@@ -1360,19 +1339,14 @@ class _OrderSetFilterSidebarState1 extends State<_FilterSidebar1> {
             "cardiology 3",
             "cardiology 4",
           ],
-          onChanged: (val) =>
-              setState(() => _cardiology = val),
+          onChanged: (val) => setState(() => _cardiology = val),
         ),
         const SizedBox(height: 24),
 
         // Third Block
         Align(
           alignment: Alignment.centerRight,
-          child: const Icon(
-            Icons.add_circle,
-            color: Colors.green,
-            size: 20,
-          ),
+          child: const Icon(Icons.add_circle, color: Colors.green, size: 20),
         ),
         const SizedBox(height: 8),
         Row(
@@ -1381,14 +1355,8 @@ class _OrderSetFilterSidebarState1 extends State<_FilterSidebar1> {
               flex: 2,
               child: ExpandedDropdown(
                 value: _crno,
-                items: [
-                  "CRNo 1",
-                  "CRNo 2",
-                  "CRNo 3",
-                  "CRNo 4",
-                ],
-                onChanged: (v) =>
-                    setState(() => _crno = v),
+                items: ["CRNo 1", "CRNo 2", "CRNo 3", "CRNo 4"],
+                onChanged: (v) => setState(() => _crno = v),
               ),
             ),
             const SizedBox(width: 16),
@@ -1396,14 +1364,8 @@ class _OrderSetFilterSidebarState1 extends State<_FilterSidebar1> {
               flex: 1,
               child: ExpandedDropdown(
                 value: _like,
-                items: [
-                  "Like 1",
-                  "Like 2",
-                  "Like 3",
-                  "Like 4",
-                ],
-                onChanged: (v) =>
-                    setState(() => _like = v),
+                items: ["Like 1", "Like 2", "Like 3", "Like 4"],
+                onChanged: (v) => setState(() => _like = v),
               ),
             ),
           ],
@@ -1419,19 +1381,13 @@ class _OrderSetFilterSidebarState1 extends State<_FilterSidebar1> {
             "20250006533",
             "2025000653",
           ],
-          onChanged: (val) =>
-              setState(() => _crno_value = val),
+          onChanged: (val) => setState(() => _crno_value = val),
         ),
         const SizedBox(height: 16),
-
-
       ],
     );
   }
-
-
 }
-
 
 class _FilterSidebar2 extends StatefulWidget {
   const _FilterSidebar2();
@@ -1440,8 +1396,6 @@ class _FilterSidebar2 extends StatefulWidget {
 }
 
 class _OrderSetFilterSidebarState2 extends State<_FilterSidebar2> {
-
-
   String? _crno = 'CRNO';
 
   String? _crno2 = 'CRNO';
@@ -1451,7 +1405,6 @@ class _OrderSetFilterSidebarState2 extends State<_FilterSidebar2> {
   String? _crno_value = '2025000653';
   String activeLabel = '';
 
-
   final toController = TextEditingController();
   DateTime? toDate;
   String formatDate(DateTime date) {
@@ -1460,22 +1413,15 @@ class _OrderSetFilterSidebarState2 extends State<_FilterSidebar2> {
         "${date.year.toString().substring(2)}";
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min, // Hugs content
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         Align(
           alignment: Alignment.centerRight,
-          child: const Icon(
-            Icons.remove_circle,
-            color: Colors.red,
-            size: 20,
-          ),
+          child: const Icon(Icons.remove_circle, color: Colors.red, size: 20),
         ),
         const SizedBox(height: 8),
         Row(
@@ -1484,14 +1430,8 @@ class _OrderSetFilterSidebarState2 extends State<_FilterSidebar2> {
               flex: 2,
               child: ExpandedDropdown(
                 value: _crno,
-                items: [
-                  "CRNo 1",
-                  "CRNo 2",
-                  "CRNo 3",
-                  "CRNo 4",
-                ],
-                onChanged: (v) =>
-                    setState(() => _crno = v),
+                items: ["CRNo 1", "CRNo 2", "CRNo 3", "CRNo 4"],
+                onChanged: (v) => setState(() => _crno = v),
               ),
             ),
             const SizedBox(width: 16),
@@ -1499,14 +1439,8 @@ class _OrderSetFilterSidebarState2 extends State<_FilterSidebar2> {
               flex: 1,
               child: ExpandedDropdown(
                 value: _like,
-                items: [
-                  "Like 1",
-                  "Like 2",
-                  "Like 3",
-                  "Like 4",
-                ],
-                onChanged: (v) =>
-                    setState(() => _like = v),
+                items: ["Like 1", "Like 2", "Like 3", "Like 4"],
+                onChanged: (v) => setState(() => _like = v),
               ),
             ),
           ],
@@ -1522,18 +1456,13 @@ class _OrderSetFilterSidebarState2 extends State<_FilterSidebar2> {
             "20250006533",
             "2025000653",
           ],
-          onChanged: (val) =>
-              setState(() => _crno_value = val),
+          onChanged: (val) => setState(() => _crno_value = val),
         ),
         const SizedBox(height: 12),
 
         Align(
           alignment: Alignment.centerRight,
-          child: const Icon(
-            Icons.add_circle,
-            color: Colors.green,
-            size: 20,
-          ),
+          child: const Icon(Icons.add_circle, color: Colors.green, size: 20),
         ),
         const SizedBox(height: 8),
         Row(
@@ -1542,14 +1471,8 @@ class _OrderSetFilterSidebarState2 extends State<_FilterSidebar2> {
               flex: 2,
               child: ExpandedDropdown(
                 value: _crno2,
-                items: [
-                  "CRNo 1",
-                  "CRNo 2",
-                  "CRNo 3",
-                  "CRNo 4",
-                ],
-                onChanged: (v) =>
-                    setState(() => _crno2 = v),
+                items: ["CRNo 1", "CRNo 2", "CRNo 3", "CRNo 4"],
+                onChanged: (v) => setState(() => _crno2 = v),
               ),
             ),
             const SizedBox(width: 16),
@@ -1557,14 +1480,8 @@ class _OrderSetFilterSidebarState2 extends State<_FilterSidebar2> {
               flex: 1,
               child: ExpandedDropdown(
                 value: _like2,
-                items: [
-                  "Like 1",
-                  "Like 2",
-                  "Like 3",
-                  "Like 4",
-                ],
-                onChanged: (v) =>
-                    setState(() => _like2 = v),
+                items: ["Like 1", "Like 2", "Like 3", "Like 4"],
+                onChanged: (v) => setState(() => _like2 = v),
               ),
             ),
           ],
@@ -1574,8 +1491,7 @@ class _OrderSetFilterSidebarState2 extends State<_FilterSidebar2> {
         AppDateField(
           controller: toController,
           onTap: () async {
-            DateTime? pickedDate =
-            await CustomCalendarDialog.show(
+            DateTime? pickedDate = await CustomCalendarDialog.show(
               context,
               initialDate: toDate ?? DateTime.now(),
             );
@@ -1587,13 +1503,9 @@ class _OrderSetFilterSidebarState2 extends State<_FilterSidebar2> {
             }
             ;
           },
-
         ),
         const SizedBox(height: 16),
-
       ],
     );
   }
-
-
 }

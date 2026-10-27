@@ -53,15 +53,39 @@ class BloodComponentSeperation extends StatefulWidget {
 }
 
 class _BloodBankHomeState extends State<BloodComponentSeperation> {
-
   String? selectedDropdownValue1 = null;
 
   final List<Map<String, dynamic>> componentsData = [
-    {'name': 'Whole Blood', 'days': '35', 'expiry': '04-11-2025', 'isChecked': false},
-    {'name': 'Leuco-poor Red Cells', 'days': '46', 'expiry': '04-11-2025', 'isChecked': false},
-    {'name': 'Platelets', 'days': '20', 'expiry': '04-11-2025', 'isChecked': false},
-    {'name': 'Cryoprecipitate', 'days': '40', 'expiry': '04-11-2025', 'isChecked': false},
-    {'name': 'Packed Red Cells', 'days': '35', 'expiry': '04-11-2025', 'isChecked': false},
+    {
+      'name': 'Whole Blood',
+      'days': '35',
+      'expiry': '04-11-2025',
+      'isChecked': false,
+    },
+    {
+      'name': 'Leuco-poor Red Cells',
+      'days': '46',
+      'expiry': '04-11-2025',
+      'isChecked': false,
+    },
+    {
+      'name': 'Platelets',
+      'days': '20',
+      'expiry': '04-11-2025',
+      'isChecked': false,
+    },
+    {
+      'name': 'Cryoprecipitate',
+      'days': '40',
+      'expiry': '04-11-2025',
+      'isChecked': false,
+    },
+    {
+      'name': 'Packed Red Cells',
+      'days': '35',
+      'expiry': '04-11-2025',
+      'isChecked': false,
+    },
   ];
 
   @override
@@ -73,17 +97,13 @@ class _BloodBankHomeState extends State<BloodComponentSeperation> {
       showDrawer: true,
       child: Column(
         children: [
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
                 child: Text(
                   'Blood Component Seperation',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                 ),
               ),
               GestureDetector(
@@ -108,16 +128,16 @@ class _BloodBankHomeState extends State<BloodComponentSeperation> {
             ],
           ),
 
-          const SizedBox(height: 8,),
+          const SizedBox(height: 8),
           Text.rich(
             TextSpan(
               children: [
                 TextSpan(
                   text: 'Blood Bag No:',
-                  style:  TextStyle(
+                  style: TextStyle(
                     color: Colors.black87,
                     fontSize: 16,
-                    fontWeight: FontWeight.w500
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 const TextSpan(
@@ -131,62 +151,66 @@ class _BloodBankHomeState extends State<BloodComponentSeperation> {
               ],
             ),
           ),
-          const SizedBox(height: 16,),
+          const SizedBox(height: 16),
 
           _buildBagDetails(),
-          const SizedBox(height: 16,),
+          const SizedBox(height: 16),
 
           _buildListOfCompanies(context),
-          const SizedBox(height: 16,),
+          const SizedBox(height: 16),
 
           DetailTableWrapper(
-              children: [
-                 DetailRow(label: 'Blood Reg No.',text: '2025091900001',),
-                DetailRow(label: 'Component Name',text: 'Whole Blood',),
-                DetailRow(label: 'Expiry Date',text: '04-11-2025',),
-                DetailRow(label: 'Store',customWidget: InnnerDropdown(
+            children: [
+              DetailRow(label: 'Blood Reg No.', text: '2025091900001'),
+              DetailRow(label: 'Component Name', text: 'Whole Blood'),
+              DetailRow(label: 'Expiry Date', text: '04-11-2025'),
+              DetailRow(
+                label: 'Store',
+                customWidget: InnnerDropdown(
                   value: selectedDropdownValue1,
-                  items: ['--Select--',"Elective", "Emergency", "Immediate"],
+                  items: ['--Select--', "Elective", "Emergency", "Immediate"],
                   onChanged: (newValue) {
                     setState(() {
                       selectedDropdownValue1 = newValue;
                     });
                   },
-                )),
-                DetailRow(label: 'Bag Status',text: 'In Process',isLast: true,),
-              ]
+                ),
+              ),
+              DetailRow(label: 'Bag Status', text: 'In Process', isLast: true),
+            ],
           ),
-          const SizedBox(height: 16,),
+          const SizedBox(height: 16),
           AppSaveButton(),
-          const SizedBox(height: 16,),
-
-
+          const SizedBox(height: 16),
         ],
       ),
-      // bottomNavigationBar: BloodBankCollectionNavigationBar(index: 2,page: 2,onTap : _navigateToPage),
 
+      // bottomNavigationBar: BloodBankCollectionNavigationBar(index: 2,page: 2,onTap : _navigateToPage),
     );
   }
 
   Widget _buildBagDetails() {
     return CustomExpansionFrame(
-        title: 'Bag Details',
-        children: [
-          Align(
-              alignment: Alignment.centerLeft,
-              child: SharedComponents.buildFormLabel('Search')),
-          const SizedBox(height: 8,),
-          SharedComponents.buildTextField(hintText: 'Bag No',suffix: const Icon(Icons.search, color: Colors.black, size: 20)),
-          const SizedBox(height: 16,), // Thoda space table ke upar
-
-          // Niche diye gaye functions yahan call honge
-          _buildBagTableAndPagination(),
-          const SizedBox(height: 16,),
-        ]
+      title: 'Bag Details',
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: SharedComponents.buildFormLabel('Search'),
+        ),
+        const SizedBox(height: 8),
+        SharedComponents.buildTextField(
+          hintText: 'Bag No',
+          suffix: const Icon(Icons.search, color: Colors.black, size: 20),
+        ),
+        const SizedBox(height: 16), // Thoda space table ke upar
+        // Niche diye gaye functions yahan call honge
+        _buildBagTableAndPagination(),
+        const SizedBox(height: 16),
+      ],
     );
   }
 
-// Table aur Pagination ko banane wala main widget
+  // Table aur Pagination ko banane wala main widget
   Widget _buildBagTableAndPagination() {
     // Dummy data jaisa aapki image me hai
     final List<Map<String, String>> bagData = [
@@ -199,7 +223,9 @@ class _BloodBankHomeState extends State<BloodComponentSeperation> {
 
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300), // Table ka outer border
+        border: Border.all(
+          color: Colors.grey.shade300,
+        ), // Table ka outer border
         borderRadius: BorderRadius.circular(8),
       ),
       child: ClipRRect(
@@ -219,39 +245,54 @@ class _BloodBankHomeState extends State<BloodComponentSeperation> {
               children: [
                 // Header Row (Light Teal Background)
                 TableRow(
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFEEF7F7),
-                  ),
+                  decoration: const BoxDecoration(color: Color(0xFFEEF7F7)),
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: Text('Bag Number', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey.shade900)),
+                      child: Text(
+                        'Bag Number',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey.shade900,
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: Text('Collection Date', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey.shade900)),
+                      child: Text(
+                        'Collection Date',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey.shade900,
+                        ),
+                      ),
                     ),
                   ],
                 ),
                 // Data Rows Generation
-                ...bagData.map((data) => TableRow(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        data['bagNo']!,
-                        style: const TextStyle(color: Color(0xFF2A8B8B), fontWeight: FontWeight.w500), // Teal text color
+                ...bagData.map(
+                  (data) => TableRow(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          data['bagNo']!,
+                          style: const TextStyle(
+                            color: Color(0xFF2A8B8B),
+                            fontWeight: FontWeight.w500,
+                          ), // Teal text color
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        data['date']!,
-                        style: const TextStyle(color: Colors.black87),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          data['date']!,
+                          style: const TextStyle(color: Colors.black87),
+                        ),
                       ),
-                    ),
-                  ],
-                )),
+                    ],
+                  ),
+                ),
               ],
             ),
 
@@ -262,7 +303,8 @@ class _BloodBankHomeState extends State<BloodComponentSeperation> {
               ),
               padding: const EdgeInsets.symmetric(vertical: 12.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.end, // Right side align karne ke liye
+                mainAxisAlignment:
+                    MainAxisAlignment.end, // Right side align karne ke liye
                 children: [
                   _buildPaginationArrow(Icons.chevron_left, isDisabled: true),
                   const SizedBox(width: 8),
@@ -281,7 +323,7 @@ class _BloodBankHomeState extends State<BloodComponentSeperation> {
     );
   }
 
-// Page numbers (01, 02) design karne ka helper function
+  // Page numbers (01, 02) design karne ka helper function
   Widget _buildPageNumber(String number, {required bool isActive}) {
     return Container(
       width: 32,
@@ -302,7 +344,7 @@ class _BloodBankHomeState extends State<BloodComponentSeperation> {
     );
   }
 
-// Arrows (Left, Right) design karne ka helper function
+  // Arrows (Left, Right) design karne ka helper function
   Widget _buildPaginationArrow(IconData icon, {required bool isDisabled}) {
     return Container(
       width: 32,
@@ -322,18 +364,17 @@ class _BloodBankHomeState extends State<BloodComponentSeperation> {
   // Dhyan de: Function me BuildContext pass kiya gaya hai taaki dialog open ho sake
   Widget _buildListOfCompanies(BuildContext context) {
     return CustomExpansionFrame(
-        title: 'List of Components', // Image ke hisaab se title
-        children: [
-          _buildComponentsTableAndPagination(context),
-          const SizedBox(height: 16,),
-        ]
+      title: 'List of Components', // Image ke hisaab se title
+      children: [
+        _buildComponentsTableAndPagination(context),
+        const SizedBox(height: 16),
+      ],
     );
   }
 
-// Table aur Pagination banane ka function
+  // Table aur Pagination banane ka function
   Widget _buildComponentsTableAndPagination(BuildContext context) {
     // Dummy data jaisa image me hai
-
 
     return Container(
       decoration: BoxDecoration(
@@ -351,91 +392,120 @@ class _BloodBankHomeState extends State<BloodComponentSeperation> {
                 verticalInside: BorderSide(color: Colors.grey.shade300),
               ),
               columnWidths: const {
-                0: FlexColumnWidth(2.5), // Component Name column thoda bada hoga
+                0: FlexColumnWidth(
+                  2.5,
+                ), // Component Name column thoda bada hoga
                 1: FlexColumnWidth(1.0), // Life Days chota
                 2: FlexColumnWidth(1.5), // Expiry Date medium
               },
               children: [
                 // Header Row
                 TableRow(
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFEEF7F7),
-                  ),
+                  decoration: const BoxDecoration(color: Color(0xFFEEF7F7)),
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(12.0),
-                      child: Text('Component Name', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey.shade900)),
+                      child: Text(
+                        'Component Name',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey.shade900,
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(12.0),
-                      child: Text('Life\nDays', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey.shade900)),
+                      child: Text(
+                        'Life\nDays',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey.shade900,
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(12.0),
-                      child: Text('Expiry Date', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey.shade900)),
+                      child: Text(
+                        'Expiry Date',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey.shade900,
+                        ),
+                      ),
                     ),
                   ],
                 ),
                 // Data Rows
-                ...componentsData.map((data) => TableRow(
-                  children: [
-                    // 1. Component Name (Checkbox + Clickable Text)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                      child: Row(
-                        children: [
-                          // Checkbox Box UI (Jaise image me square box hai)
-                          GlobalCheckbox(
-                            label: '', // Label blank hai kyunki hum text par alag action chahte hain
-                            value: data['isChecked'] ?? false,
-                            onChanged: (bool newValue) {
-                              setState(() {
-                                print("$newValue");
-                                data['isChecked'] = newValue; // Checkbox ka state update
-                              });
-                            },
-                          ),
-                          const SizedBox(width: 0),
-                          // Clickable Text
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: () {
-                                _showAdmittedPatientDialog(context); // Dialog call hoga
+                ...componentsData.map(
+                  (data) => TableRow(
+                    children: [
+                      // 1. Component Name (Checkbox + Clickable Text)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0,
+                          vertical: 12.0,
+                        ),
+                        child: Row(
+                          children: [
+                            // Checkbox Box UI (Jaise image me square box hai)
+                            GlobalCheckbox(
+                              label:
+                                  '', // Label blank hai kyunki hum text par alag action chahte hain
+                              value: data['isChecked'] ?? false,
+                              onChanged: (bool newValue) {
+                                setState(() {
+                                  print("$newValue");
+                                  data['isChecked'] =
+                                      newValue; // Checkbox ka state update
+                                });
                               },
-                              child: Text(
-                                data['name'],
-                                style: const TextStyle(color: Colors.black87),
+                            ),
+                            const SizedBox(width: 0),
+                            // Clickable Text
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  _showAdmittedPatientDialog(
+                                    context,
+                                  ); // Dialog call hoga
+                                },
+                                child: Text(
+                                  data['name'],
+                                  style: const TextStyle(color: Colors.black87),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
 
-                    // 2. Life Days (Clickable Text)
-                    GestureDetector(
-                      onTap: () {
-                        _showAdmittedPatientDialog(context); // Dialog call hoga
-                      },
-                      child: Padding(
+                      // 2. Life Days (Clickable Text)
+                      GestureDetector(
+                        onTap: () {
+                          _showAdmittedPatientDialog(
+                            context,
+                          ); // Dialog call hoga
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Text(
+                            data['days'],
+                            style: const TextStyle(color: Colors.black87),
+                          ),
+                        ),
+                      ),
+
+                      // 3. Expiry Date (Non-clickable)
+                      Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: Text(
-                          data['days'],
+                          data['expiry'],
                           style: const TextStyle(color: Colors.black87),
                         ),
                       ),
-                    ),
-
-                    // 3. Expiry Date (Non-clickable)
-                    Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Text(
-                        data['expiry'],
-                        style: const TextStyle(color: Colors.black87),
-                      ),
-                    ),
-                  ],
-                )),
+                    ],
+                  ),
+                ),
               ],
             ),
 
@@ -464,11 +534,6 @@ class _BloodBankHomeState extends State<BloodComponentSeperation> {
       ),
     );
   }
-
-
-
-
-
 
   void _showAdmittedPatientDialog(BuildContext parentContext) {
     AppDialog.show(
@@ -531,7 +596,7 @@ class _BloodBankHomeState extends State<BloodComponentSeperation> {
                           rootNavigator: true,
                         ).pop(); // ✅ sirf dialog close
 
-                        await Future.delayed(const Duration(milliseconds: 100));
+                        // await Future.delayed(const Duration(milliseconds: 100));
 
                         _showPendingRequestDialog(parentContext);
                       },
@@ -605,8 +670,7 @@ class _BloodBankHomeState extends State<BloodComponentSeperation> {
                             ),
                           ),
 
-
-                          AppDeleteIcon(parentContext: parentContext,)
+                          AppDeleteIcon(parentContext: parentContext),
                         ],
                       ),
                     ),
@@ -689,8 +753,8 @@ class _OrderSetFilterSidebarState extends State<_FilterSidebar> {
   DateTime? fromDate;
   DateTime? toDate;
 
-  String? _donorType = null ;
-  String? _donationType =  null;
+  String? _donorType = null;
+  String? _donationType = null;
 
   String formatDate(DateTime date) {
     return "${date.day.toString().padLeft(2, '0')}-"
@@ -698,28 +762,25 @@ class _OrderSetFilterSidebarState extends State<_FilterSidebar> {
         "${date.year.toString().substring(2)}";
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         Row(
           children: [
             Expanded(
               child: Column(
                 children: [
                   Align(
-                      alignment: Alignment.centerLeft,
-                      child: SharedComponents.buildFormLabel("From Date")),
+                    alignment: Alignment.centerLeft,
+                    child: SharedComponents.buildFormLabel("From Date"),
+                  ),
                   const SizedBox(height: 8),
                   AppDateField(
                     controller: fromController,
                     onTap: () async {
-                      DateTime? pickedDate =
-                      await CustomCalendarDialog.show(
+                      DateTime? pickedDate = await CustomCalendarDialog.show(
                         context,
                         initialDate: fromDate ?? DateTime.now(),
                       );
@@ -731,25 +792,24 @@ class _OrderSetFilterSidebarState extends State<_FilterSidebar> {
                       }
                       ;
                     },
-
                   ),
                   const SizedBox(height: 16),
                 ],
               ),
             ),
-            const SizedBox(width: 16,),
+            const SizedBox(width: 16),
             Expanded(
               child: Column(
                 children: [
                   Align(
-                      alignment: Alignment.centerLeft,
-                      child: SharedComponents.buildFormLabel("To Date")),
+                    alignment: Alignment.centerLeft,
+                    child: SharedComponents.buildFormLabel("To Date"),
+                  ),
                   const SizedBox(height: 8),
                   AppDateField(
                     controller: toController,
                     onTap: () async {
-                      DateTime? pickedDate =
-                      await CustomCalendarDialog.show(
+                      DateTime? pickedDate = await CustomCalendarDialog.show(
                         context,
                         initialDate: toDate ?? DateTime.now(),
                       );
@@ -761,12 +821,11 @@ class _OrderSetFilterSidebarState extends State<_FilterSidebar> {
                       }
                       ;
                     },
-
                   ),
                   const SizedBox(height: 16),
                 ],
               ),
-            )
+            ),
           ],
         ),
 
@@ -775,19 +834,12 @@ class _OrderSetFilterSidebarState extends State<_FilterSidebar> {
           child: GlobalCheckboxGroup(
             items: const ['Override'],
             onSelectionChanged: (selectedList) {
-
               print("Selected Items: $selectedList");
-
             },
           ),
         ),
-        const SizedBox(height: 16,)
-
-
-
+        const SizedBox(height: 16),
       ],
     );
   }
 }
-
-

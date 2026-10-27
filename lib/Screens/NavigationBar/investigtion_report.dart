@@ -95,35 +95,39 @@ class _OpConsultationState extends State<InvestigtionReport> {
       isScroll: false,
 
       // 3. Yahan humne ek fixed height de di hai, ab koi RenderFlex error nahi aayega!
-      child: Column(
-        children: [
-          // 4. Upar ka content Expanded + Scrollable rahega
-          Expanded(
-            child: SingleChildScrollView(
-              // padding: const EdgeInsets.only(bottom: 20), // Thodi bottom padding taaki content button se na chipke
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 70),
-                  _buildSearchOrder(),
-                  const SizedBox(height: 16),
+      child: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
 
-                  _buildRequistionDetails(),
-                  const SizedBox(height: 16),
+          children: [
+            // 4. Upar ka content Expanded + Scrollable rahega
+            Expanded(
+              child: SingleChildScrollView(
+                // padding: const EdgeInsets.only(bottom: 20), // Thodi bottom padding taaki content button se na chipke
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 40),
+                    _buildSearchOrder(),
+                    const SizedBox(height: 16),
 
-                  _buildTestDetails(),
-                  const SizedBox(height: 16),
-                ],
+                    _buildRequistionDetails(),
+                    const SizedBox(height: 16),
+
+                    _buildTestDetails(),
+                    const SizedBox(height: 16),
+                  ],
+                ),
               ),
             ),
-          ),
-          // 5. Ye button Column ke end me, yani available height ke bottom me fix rahega
-          Container(
-            color: Colors.transparent,
-            padding: EdgeInsets.only(bottom: screenHeight * 0.18),
-            child: AppSaveButton(text: 'Print', onPressed: () {}),
-          ),
-        ],
+            // 5. Ye button Column ke end me, yani available height ke bottom me fix rahega
+            Container(
+              color: Colors.transparent,
+              padding: EdgeInsets.only(bottom: 16),
+              child: AppSaveButton(text: 'Print', onPressed: () {}),
+            ),
+          ],
+        ),
       ),
     );
   }

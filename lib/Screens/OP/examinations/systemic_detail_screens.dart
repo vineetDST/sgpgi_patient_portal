@@ -3947,7 +3947,7 @@ class _EyeSystemScreenState extends State<EyeSystemScreen> {
   final _bloodVesselsCtrl = TextEditingController();
   final _mascularAreaCtrl = TextEditingController();
   final _restOfFundusCtrl = TextEditingController();
-  String? fieldsRadioValue;
+  String? fieldsRadioValue = "Goldmann";
 
   // Cranial Nerves Controllers
   final _cn1Ctrl = TextEditingController();
@@ -4146,7 +4146,8 @@ class _EyeSystemScreenState extends State<EyeSystemScreen> {
                         horizontal: -4,
                         vertical: -4,
                       ),
-                      onChanged: onChanged,
+                      // onChanged: onChanged,
+                      onChanged: null,
                     ),
                     const SizedBox(width: 4),
                     Text(

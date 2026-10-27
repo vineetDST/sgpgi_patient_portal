@@ -489,6 +489,10 @@ class _OpConsultationState extends State<OnlinePayment> {
           ),
           child: StatefulBuilder(
             builder: (dialogContext, setDialogState) {
+              final int totalAmount = payments.fold(
+                0,
+                (sum, payment) => sum + payment.totalAmount,
+              );
               return SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -538,14 +542,14 @@ class _OpConsultationState extends State<OnlinePayment> {
                       ),
                       child: ScrollableDataTable(
                         leftColumnWidth: 150,
-                        dataColumnWidth: 180,
+                        dataColumnWidth: 240,
                         rowHeight: 64,
                         tableLabels: const [
                           TableLabel(text: 'Transaction From'),
                           TableLabel(text: 'Payment Mode'),
                           TableLabel(text: 'Payable Now'),
                           TableLabel(text: 'Action'),
-                          TableLabel(text: 'Amount(Rs.)'),
+                          TableLabel(text: 'Total Amount(Rs.)'),
                         ],
                         rowValues: [
                           // ------------------------------------------------
@@ -660,25 +664,52 @@ class _OpConsultationState extends State<OnlinePayment> {
                           // ------------------------------------------------
                           // AMOUNT
                           // ------------------------------------------------
+                          // --------------------------------------------------
+                          // AMOUNT (TOTAL - FULL ROW)
+                          // --------------------------------------------------
                           [
-                            for (final payment in payments)
-                              NoPaddingCell(
-                                child: Container(
-                                  padding: const EdgeInsets.only(left: 16),
-                                  alignment: Alignment.centerLeft,
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                  color: Colors.yellow,
-                                  child: Text(
-                                    '${payment.totalAmount}.00',
-                                    style: const TextStyle(
-                                      color: Colors.black87,
-                                      fontSize: 14,
-                                    ),
+                            for (int i = 0; i < payments.length; i++)
+                              NoRightBorderCell(
+                                child: NoPaddingCell(
+                                  child: Container(
+                                    padding: const EdgeInsets.only(left: 16),
+                                    alignment: Alignment.centerLeft,
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    color: Colors.yellow,
+                                    child: i == 0
+                                        ? Text(
+                                            totalAmount.toStringAsFixed(2),
+                                            style: const TextStyle(
+                                              color: Colors.black87,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          )
+                                        : const SizedBox.shrink(),
                                   ),
                                 ),
                               ),
                           ],
+                          // [
+                          //   for (final payment in payments)
+                          //     NoPaddingCell(
+                          //       child: Container(
+                          //         padding: const EdgeInsets.only(left: 16),
+                          //         alignment: Alignment.centerLeft,
+                          //         width: double.infinity,
+                          //         height: double.infinity,
+                          //         color: Colors.yellow,
+                          //         child: Text(
+                          //           '${payment.totalAmount}.00',
+                          //           style: const TextStyle(
+                          //             color: Colors.black87,
+                          //             fontSize: 14,
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ),
+                          // ],
                         ],
                       ),
                     ),
@@ -730,7 +761,17 @@ class _OpConsultationState extends State<OnlinePayment> {
 
           const SizedBox(height: 16),
 
-          IndexedStack(index: _currentTabIndex, children: _tabViews),
+          // IndexedStack(index: _currentTabIndex, children: _tabViews),
+          ...List.generate(
+            _tabViews.length,
+            (index) => Visibility(
+              visible: _currentTabIndex == index,
+              maintainState: true,
+              maintainAnimation: true,
+              maintainSize: false,
+              child: _tabViews[index],
+            ),
+          ),
           // DynamicHeightIndexedStack(
           //   index: _currentTabIndex,
           //   children: _tabViews,
@@ -1105,7 +1146,7 @@ class _GeneralTariffState extends State<GeneralTariff> {
           },
         ),
 
-        const SizedBox(height: 16),
+        const SizedBox(height: 20),
       ],
     );
   }
@@ -1624,7 +1665,7 @@ class _InvestigationState extends State<Investigation> {
           },
         ),
 
-        const SizedBox(height: 16),
+        const SizedBox(height: 20),
       ],
     );
   }
@@ -1935,7 +1976,7 @@ class _PartPaymentState extends State<PartPayment> {
           },
         ),
 
-        const SizedBox(height: 40),
+        const SizedBox(height: 20),
       ],
     );
   }

@@ -34,22 +34,28 @@ class DoctorModuleShell extends StatefulWidget {
 class DoctorModuleShellState extends State<DoctorModuleShell> {
   int _currentIndex = 0;
 
-int _bottomNavIndex = 0;
+  int _bottomNavIndex = 0;
 
   // 1. Create a Navigator key for each of the 4 Doctor tabs
-  final List<GlobalKey<NavigatorState>> _navigatorKeys = [
+  List<GlobalKey<NavigatorState>> _navigatorKeys = [
     GlobalKey<NavigatorState>(),
     GlobalKey<NavigatorState>(),
     GlobalKey<NavigatorState>(),
     GlobalKey<NavigatorState>(),
   ];
 
-
   // 2. Define the 4 Root Screens for the Doctor tabs
   final List<Widget> _rootScreens = [
     const DashboardVisitsScreen(),
-    const OnlinePayment(patientName: 'Ram Sharma', crn: "2025000653",initialTabIndex: 0,), // Default empty OP root
-    const InvestigtionReport(patientName: "Ram Sharma", crn: "2025000653"), // Default empty OP root
+    const OnlinePayment(
+      patientName: 'Ram Sharma',
+      crn: "2025000653",
+      initialTabIndex: 0,
+    ), // Default empty OP root
+    const InvestigtionReport(
+      patientName: "Ram Sharma",
+      crn: "2025000653",
+    ), // Default empty OP root
     const EmrScreen(
       patientName: "Ram Sharma",
       crn: "2025000653",
@@ -65,18 +71,17 @@ int _bottomNavIndex = 0;
   }
 
   // Helper to push screens INSIDE the active tab
-  void pushToCurrentTab(Widget screen,  [int index = 100]) {
-  //    setState(() {
-  //   _bottomNavIndex = -1;
-  // });
-  print("Pushing to current tab: $index");
+  void pushToCurrentTab(Widget screen, [int index = 100]) {
+    //    setState(() {
+    //   _bottomNavIndex = -1;
+    // });
+    print("Pushing to current tab: $index");
 
-  if(index == 100) {
+    if (index == 100) {
       setState(() {
         _bottomNavIndex = -1;
       });
-    }
-    else{
+    } else {
       setState(() {
         _bottomNavIndex = _currentIndex;
       });
@@ -106,10 +111,7 @@ int _bottomNavIndex = 0;
 
   // Dynamic Drawer based on the active tab
   Widget _getActiveDrawer() {
-
-      return const OpDrawer();
-
-
+    return const OpDrawer();
   }
 
   @override
@@ -143,54 +145,63 @@ int _bottomNavIndex = 0;
         // The Doctor-specific footer (Now visible across all screens)
         // The Doctor-specific footer
         bottomNavigationBar: SafeArea(
-  top: false,
-  left: false,
-  right: false,
-  maintainBottomViewPadding: true,
-  child: HospitalBottomNavigationBar(
-          currentIndex: _bottomNavIndex,
-          backgroundColor: Colors.transparent,
-          notificationBadge: 2,
-          // onTap: (index) {
-          //   if (index == _currentIndex) {
-          //     // Same tab click: Reset to root
-          //     _navigatorKeys[index].currentState?.popUntil(
-          //           (route) => route.isFirst,
-          //     );
-          //   } else {
-          //     // 👉 NEW LOGIC FOR TESTER:
-          //     // Doosre tab par jaane se pehle, current tab ki history clear kar do.
-          //     // Isse agar Tab 3 me 'Ped Balance' khula tha, toh wo close ho jayega aur
-          //     // tester ko wapas Tab 3 par aane par fresh EMR Screen milegi.
-          //     _navigatorKeys[_currentIndex].currentState?.popUntil(
-          //           (route) => route.isFirst,
-          //     );
+          top: false,
+          left: false,
+          right: false,
+          maintainBottomViewPadding: true,
+          child: HospitalBottomNavigationBar(
+            currentIndex: _bottomNavIndex,
+            backgroundColor: Colors.transparent,
+            notificationBadge: 2,
+            // onTap: (index) {
+            //   if (index == _currentIndex) {
+            //     // Same tab click: Reset to root
+            //     _navigatorKeys[index].currentState?.popUntil(
+            //           (route) => route.isFirst,
+            //     );
+            //   } else {
+            //     // 👉 NEW LOGIC FOR TESTER:
+            //     // Doosre tab par jaane se pehle, current tab ki history clear kar do.
+            //     // Isse agar Tab 3 me 'Ped Balance' khula tha, toh wo close ho jayega aur
+            //     // tester ko wapas Tab 3 par aane par fresh EMR Screen milegi.
+            //     _navigatorKeys[_currentIndex].currentState?.popUntil(
+            //           (route) => route.isFirst,
+            //     );
 
-          //     // Ab naye tab par switch karein
-          //     setState(() => _currentIndex = index);
-          //   }
-          // },
-          onTap: (index) {
-  if (index == _currentIndex) {
-    _navigatorKeys[index]
-        .currentState
-        ?.popUntil((route) => route.isFirst);
+            //     // Ab naye tab par switch karein
+            //     setState(() => _currentIndex = index);
+            //   }
+            // },
+            onTap: (index) {
+              if (index == _currentIndex) {
+                _navigatorKeys[index].currentState?.popUntil(
+                  (route) => route.isFirst,
+                );
 
-    setState(() {
-      _bottomNavIndex = index;
-    });
-  } else {
-    _navigatorKeys[_currentIndex]
-        .currentState
-        ?.popUntil((route) => route.isFirst);
+                setState(() {
+                  _bottomNavIndex = index;
+                });
+                return;
+              }
+              final previousIndex = _currentIndex;
 
-    setState(() {
-      _currentIndex = index;
-      _bottomNavIndex = index;
-    });
-  }
-},
-        ),
+              setState(() {
+                _navigatorKeys[previousIndex] = GlobalKey<NavigatorState>();
+                _currentIndex = index;
+                _bottomNavIndex = index;
+              });
+              // else {
+              //   _navigatorKeys[_currentIndex]
+              //       .currentState
+              //       ?.popUntil((route) => route.isFirst);
+
+              //   setState(() {
+              //     _currentIndex = index;
+              //     _bottomNavIndex = index;
+              //   });
+              // }
+            },
+          ),
         ),
       ),
     );

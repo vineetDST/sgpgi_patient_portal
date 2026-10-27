@@ -112,6 +112,7 @@ class PatientProfileScreen extends StatelessWidget {
               ),
             ],
           ),
+          const SizedBox(height: 20), // Bottom padding
         ],
       ),
     );

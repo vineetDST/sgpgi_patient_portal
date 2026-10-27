@@ -199,7 +199,7 @@ class _DynamicExpansionTableState extends State<DynamicExpansionTable> {
                           rootNavigator: true,
                         ).pop(); // ✅ sirf dialog close
 
-                        await Future.delayed(const Duration(milliseconds: 100));
+                        // await Future.delayed(const Duration(milliseconds: 100));
 
                         _showPendingRequestDialog(parentContext);
                       },
@@ -272,7 +272,6 @@ class _DynamicExpansionTableState extends State<DynamicExpansionTable> {
                               size: 20,
                             ),
                           ),
-
 
                           // --- UPDATED: Wrapped in GestureDetector to trigger the modal ---
                           GestureDetector(
