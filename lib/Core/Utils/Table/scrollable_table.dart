@@ -23,6 +23,7 @@ class ScrollableDataTable extends StatefulWidget {
 
   // 🔥 NAYA FLAG: First row ko header ki tarah style karne ke liye
   final bool isFirstRowHeader;
+  final bool expandSingleColumn;
 
   const ScrollableDataTable({
     super.key,
@@ -35,6 +36,7 @@ class ScrollableDataTable extends StatefulWidget {
     this.showPagination = false,
     this.isFirstRowHeader =
         false, // Default false, taaki baaki jagah effect na ho
+    this.expandSingleColumn = false, // NEW
   });
 
   @override
@@ -142,84 +144,96 @@ class _ScrollableDataTableState extends State<ScrollableDataTable> {
                 // 2. RIGHT SCROLLABLE AREA
                 // ==========================================
                 Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Stack(
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      final double availableWidth = constraints.maxWidth;
+
+                      return Stack(
                         alignment: Alignment.bottomLeft,
                         children: [
                           SingleChildScrollView(
                             controller: _scrollController,
                             scrollDirection: Axis.horizontal,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ...List.generate(currentLabels.length, (
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                minWidth: availableWidth,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: List.generate(currentLabels.length, (
                                   rowIndex,
                                 ) {
-                                  bool isHeader =
+                                  final bool isHeader =
                                       widget.isFirstRowHeader && rowIndex == 0;
 
-                                  return Row(
-                                    children: List.generate(
-                                      widget.rowValues[rowIndex].length,
-                                      (colIndex) {
-                                        // 🔥 NAYA LOGIC WIDGET KO UNWRAP KARNE KE LIYE
-                                        Widget cellWidget = widget
-                                            .rowValues[rowIndex][colIndex];
-                                        bool shouldRemovePadding = false;
-                                        bool shouldRemoveRightBorder = false;
+                                  final row = widget.rowValues[rowIndex];
+                                  final bool shouldExpand =
+                                      widget.expandSingleColumn &&
+                                      row.length == 1;
 
-                                        // While loop check karega agar wrapper nested hain
+                                  return SizedBox(
+                                    width: shouldExpand ? availableWidth : null,
+                                    child: Row(
+                                      children: List.generate(row.length, (
+                                        colIndex,
+                                      ) {
+                                        Widget cellWidget = row[colIndex];
+
+                                        bool removePadding = false;
+                                        bool removeRightBorder = false;
+
                                         while (cellWidget is NoPaddingCell ||
                                             cellWidget is NoRightBorderCell) {
                                           if (cellWidget is NoPaddingCell) {
-                                            shouldRemovePadding = true;
+                                            removePadding = true;
                                             cellWidget = cellWidget.child;
                                           }
+
                                           if (cellWidget is NoRightBorderCell) {
-                                            shouldRemoveRightBorder = true;
+                                            removeRightBorder = true;
                                             cellWidget = cellWidget.child;
                                           }
                                         }
 
-                                        bool isLastColOfThisRow =
-                                            colIndex ==
-                                            widget.rowValues[rowIndex].length -
-                                                1;
+                                        final bool isLastCol =
+                                            colIndex == row.length - 1;
 
-                                        return _buildCell(
-                                          width: widget.dataColumnWidth,
+                                        final cell = _buildCell(
+                                          width: shouldExpand
+                                              ? availableWidth
+                                              : widget.dataColumnWidth,
                                           isLastRow:
                                               rowIndex ==
                                               currentLabels.length - 1,
-                                          isLastCol: isLastColOfThisRow,
-                                          removePadding: shouldRemovePadding,
-                                          forceNoRightBorder:
-                                              shouldRemoveRightBorder, // 🔥 FLAG PASS KIYA
+                                          isLastCol: isLastCol,
+                                          removePadding: removePadding,
+                                          forceNoRightBorder: removeRightBorder,
                                           bgColor: isHeader
                                               ? const Color(0xFF117A7A)
                                               : Colors.white,
                                           borderColor: isHeader
                                               ? Colors.white
                                               : Colors.grey.shade300,
-                                          child:
-                                              cellWidget, // Unwrap kiya hua actual widget
+                                          child: cellWidget,
                                         );
-                                      },
+
+                                        return cell;
+                                      }),
                                     ),
                                   );
                                 }),
-                              ],
+                              ),
                             ),
                           ),
+
                           SizedBox(
-                            height: 10.0, // Scrollbar container height
+                            height: 10,
                             child: _buildCustomDraggableScrollbar(),
                           ),
                         ],
-                      ),
-                    ],
+                      );
+                    },
                   ),
                 ),
               ],

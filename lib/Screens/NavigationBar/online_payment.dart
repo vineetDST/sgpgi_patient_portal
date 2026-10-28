@@ -541,8 +541,9 @@ class _OpConsultationState extends State<OnlinePayment> {
                         vertical: 16,
                       ),
                       child: ScrollableDataTable(
+                        expandSingleColumn: true, // Only enabled here
                         leftColumnWidth: 150,
-                        dataColumnWidth: 240,
+                        dataColumnWidth: 180,
                         rowHeight: 64,
                         tableLabels: const [
                           TableLabel(text: 'Transaction From'),
